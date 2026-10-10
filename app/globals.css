@@ -705,3 +705,20 @@ button, a {
     transition-duration: .01ms !important;
   }
 }
+
+
+/* Checklist interativo do módulo 07 */
+.checklist-progress-row{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:18px;color:#a2a8ae;font-size:11px}
+.checklist-progress-track{height:4px;width:min(220px,45%);overflow:hidden;border-radius:99px;background:#292d32}
+.checklist-progress-track span{display:block;height:100%;border-radius:inherit;background:var(--accent);transition:width .2s ease}
+.checklist-item{cursor:pointer;transition:background .18s,border-color .18s}
+.checklist-item:hover{background:#151719}
+.checklist-item.is-complete{border-color:#63303a;background:#1b1114}
+.checklist-item.is-complete .checklist-item-copy h3{color:#a6aaa9;text-decoration:line-through;text-decoration-color:#777}
+.checklist-item-copy{min-width:0;flex:1}
+.module-checklist-checkbox{appearance:none;-webkit-appearance:none;display:grid;place-items:center;flex-shrink:0;width:20px;height:20px;margin:0 2px 0 12px;border:1px solid #555d65;border-radius:5px;background:#0b0d0f;cursor:pointer;transition:background .18s,border-color .18s}
+.module-checklist-checkbox::after{content:"";width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg) scale(0);transition:transform .15s}
+.module-checklist-checkbox:checked{background:var(--accent);border-color:var(--accent)}
+.module-checklist-checkbox:checked::after{transform:rotate(45deg) scale(1)}
+.module-checklist-checkbox:focus-visible{outline:2px solid #ff7786;outline-offset:3px}
+@media(max-width:520px){.checklist-progress-row{align-items:flex-start;flex-direction:column;gap:9px}.checklist-progress-track{width:100%}.module-checklist-checkbox{width:22px;height:22px}}
