@@ -31,7 +31,7 @@ export default function ModuleProgress({ modules }) {
   return <>
     <section className="stats-grid" id="progresso">
       <div className="stat-card"><span className="stat-label">SEU PROGRESSO</span><div className="stat-main">{loaded ? percent : 0}<span>%</span></div><div className="stat-foot"><span className="mini-track"><i style={{width: (loaded ? percent : 0) + "%"}} /></span>{completed.length} de {modules.length} módulos concluídos</div></div>
-      <div className="stat-card"><span className="stat-label">TRILHA DE APRENDIZADO</span><div className="stat-main">06<span className="stat-unit"> módulos</span></div><div className="stat-foot">Do básico ao primeiro teste</div></div>
+      <div className="stat-card"><span className="stat-label">TRILHA DE APRENDIZADO</span><div className="stat-main">07<span className="stat-unit"> módulos</span></div><div className="stat-foot">Do básico ao primeiro teste</div></div>
       <div className="stat-card"><span className="stat-label">MATERIAIS PRÁTICOS</span><div className="stat-main">06</div><div className="stat-foot">Roteiros e exercícios para aplicar</div></div>
     </section>
     <div className="module-list">{modules.map((module) => {
