@@ -123,8 +123,8 @@ Estas são possibilidades, não funcionalidades confirmadas.
 | Navegação entre módulos | Em ajuste | A trilha deve conectar o módulo 6 ao módulo 7 e permitir retorno ao painel |
 | Responsividade mobile | Ajustes implementados | CSS revisado para telas pequenas; falta validação visual em aparelhos reais |
 | Progresso do aluno | Básico implementado | Marcação de módulos concluídos salva no armazenamento local do navegador; ainda não sincroniza entre dispositivos nem entre contas |
-| Autenticação e acesso pago | Não implementados | A interface ainda não protege os módulos. O endpoint de webhook Cakto foi criado, mas depende da migração aplicada, produto configurado no banco e variáveis de ambiente; não libera acesso utilizável enquanto não houver autenticação e bloqueio de conteúdo no servidor |
-| Integração de checkout e entrega | Em implementação | Endpoint Cakto criado com validação HMAC, tolerância de timestamp, deduplicação e registro de pedidos/permissões; ainda não configurado nem validado com eventos reais. SyncPay não integrado |
+| Autenticação e acesso pago | Código inicial implementado; operação pendente | Login, ativação por link de uso único, sessão HttpOnly e bloqueio server-side existem no código. Ainda dependem das migrações aplicadas, variáveis corretas e teste de ponta a ponta |
+| Integração de checkout e entrega | Endpoints iniciais implementados; validação pendente | Cakto e SyncPay têm handlers de webhook e mapeamento de produto; formatos reais, assinaturas, variáveis, banco e eventos ainda precisam ser validados antes de vendas |
 | Identidade visual | Primeira versão aplicada | Revisar consistência visual e acessibilidade após validar desktop e mobile |
 | Página de vendas e checkout do próprio produto | Não concluídos | Definir oferta, preço, checkout e entrega antes do lançamento |
 | Gravações e materiais complementares | Não concluídos | Planejar gravações de tela, modelos e arquivos de apoio |
@@ -150,7 +150,12 @@ Estas são possibilidades, não funcionalidades confirmadas.
 - [ ] Revisar e aplicar a migração no banco escolhido, com backup e credenciais restritas; cadastrar o produto com provider_product_id e definir is_active somente após a configuração comercial.
 - [ ] Configurar as variáveis Cakto na Vercel e cadastrar a URL /api/webhooks/cakto no painel Cakto.
 - [ ] Testar eventos assinados de aprovação, reembolso, chargeback, duplicação e produto incorreto antes de produção.
-- [ ] Implementar e testar autenticação e controle de acesso; bloquear conteúdo pago no servidor.
+- [x] Implementar a primeira versão de autenticação e bloqueio server-side do conteúdo pago.
+- [ ] Aplicar as migrações `001_paid_access.sql` e `002_auth_and_payment_providers.sql` no banco correto, após revisar o destino e confirmar credenciais.
+- [ ] Cadastrar o produto ativo e os mapeamentos exatos de produto para Cakto e SyncPay em `product_provider_mappings`.
+- [ ] Confirmar o formato de assinatura e payload do webhook SyncPay com a documentação/painel atual; o handler ainda não deve ser considerado validado para produção.
+- [ ] Configurar variáveis de ambiente na Vercel e testar ativação, login, compra aprovada, duplicidade, falha, reembolso e chargeback.
+- [ ] Implementar e testar logout e recuperação de senha antes do lançamento.
 - [ ] Testar a jornada completa antes de lançar e registrar o feedback inicial.
 
 ## 11. Registro de decisões e novas ideias
