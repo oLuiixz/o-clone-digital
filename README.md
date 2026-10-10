@@ -123,7 +123,7 @@ Estas são possibilidades, não funcionalidades confirmadas.
 | Navegação entre módulos | Em ajuste | A trilha deve conectar o módulo 6 ao módulo 7 e permitir retorno ao painel |
 | Responsividade mobile | Ajustes implementados | CSS revisado para telas pequenas; falta validação visual em aparelhos reais |
 | Progresso do aluno | Básico implementado | Marcação de módulos concluídos salva no armazenamento local do navegador; ainda não sincroniza entre dispositivos nem entre contas |
-| Autenticação e acesso pago | Não implementados | A interface atual não deve ser tratada como sistema de login, cobrança ou controle de acesso pronto |
+| Autenticação e acesso pago | Não implementados | A interface atual ainda não protege os módulos; foi adicionada uma migração SQL inicial de referência, ainda não aplicada nem conectada a um provedor |
 | Integração de checkout e entrega | Planejamento educacional | O módulo 7 inclui ficha de operação local; ainda não representa integração real com provedor de pagamento nem liberação automática de acesso |
 | Identidade visual | Primeira versão aplicada | Revisar consistência visual e acessibilidade após validar desktop e mobile |
 | Página de vendas e checkout do próprio produto | Não concluídos | Definir oferta, preço, checkout e entrega antes do lançamento |
@@ -145,7 +145,10 @@ Estas são possibilidades, não funcionalidades confirmadas.
 - [ ] Separar o conteúdo essencial do conteúdo avançado.
 - [ ] Preparar roteiros e gravações de tela, além de modelos e materiais para download.
 - [ ] Definir a oferta comercial, preço, página de vendas, checkout e processo real de entrega.
-- [ ] Implementar e testar autenticação e controle de acesso, se fizerem parte do modelo escolhido.
+- [ ] Confirmar o provedor inicial (Cakto ou SyncPay) e implementar o webhook conforme a documentação oficial.
+- [x] Preparar uma migração SQL inicial para produtos, pedidos, eventos de pagamento e permissões de acesso (somente arquivo no repositório; ainda não aplicada).
+- [ ] Revisar e aplicar a migração no banco escolhido, com backup e credenciais restritas.
+- [ ] Implementar e testar autenticação e controle de acesso; bloquear conteúdo pago no servidor.
 - [ ] Testar a jornada completa antes de lançar e registrar o feedback inicial.
 
 ## 11. Registro de decisões e novas ideias
