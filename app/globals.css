@@ -291,7 +291,12 @@ a.module-row:focus-visible{
 .brand-logo{display:block;width:58px;height:58px;object-fit:contain;flex:0 0 auto;border-radius:10px}
 .brand{gap:12px}
 .hero{isolation:isolate}
-.hero-banner-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.27;pointer-events:none;z-index:0}
+.hero-banner-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:1;pointer-events:none;z-index:0}
 .hero-copy{z-index:2}
 .hero-art{z-index:1}
-@media(max-width:780px){.brand-logo{width:48px;height:48px}.hero-banner-image{opacity:.22}}
+@media(max-width:780px){.brand-logo{width:48px;height:48px}.hero-banner-image{opacity:1}}
+
+/* O banner enviado é a arte principal, sem textos ou ilustrações sobrepostos */
+.hero-copy,.hero-art,.hero-index{display:none!important}
+.hero{min-height:clamp(220px,35vw,420px);padding:0;background:#0b090b;border-color:#542027}
+.hero-banner-image{object-fit:cover}
