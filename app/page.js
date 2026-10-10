@@ -14,10 +14,10 @@ const quickLinks = [
 ];
 
 const navigation = [
-  { icon: "⌂", label: "Início", href: "#inicio" },
-  { icon: "▤", label: "Módulos", href: "#modulos" },
-  { icon: "⌕", label: "Pesquisar", href: "#atalhos" },
-  { icon: "↗", label: "Progresso", href: "#progresso" },
+  { icon: "home", label: "Início", href: "#inicio" },
+  { icon: "modules", label: "Módulos", href: "#modulos" },
+  { icon: "files", label: "Documentos", href: "#atalhos" },
+  { icon: "settings", label: "Configurações", href: "#progresso" },
 ];
 
 export default function Home() {
@@ -45,7 +45,12 @@ export default function Home() {
       <nav className="mobile-nav" aria-label="Navegação mobile">
         {navigation.map((item, index) => (
           <a className={index === 0 ? "mobile-nav-item active" : "mobile-nav-item"} href={item.href} key={item.label}>
-            <span className="mobile-nav-icon" aria-hidden="true">{item.icon}</span>
+            <span className={`mobile-nav-icon icon-${item.icon}`} aria-hidden="true">
+              {item.icon === "home" && <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3.2 2.8 11a1 1 0 0 0 1.3 1.5l.9-.8v7A2.3 2.3 0 0 0 7.3 21h3.1v-5.5h3.2V21h3.1a2.3 2.3 0 0 0 2.3-2.3v-7l.9.8a1 1 0 0 0 1.3-1.5L12 3.2Z"/></svg>}
+              {item.icon === "modules" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>}
+              {item.icon === "files" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H10l2 2h5.5A2.5 2.5 0 0 1 20 9.5v8a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 17.5Z"/><path d="M4 10h16"/></svg>}
+              {item.icon === "settings" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="m19.4 15 .1.1 1.1.9-1.1 1.9-1.4-.5a7.7 7.7 0 0 1-1.5.9l-.2 1.5h-2.2l-.4-1.4a7.7 7.7 0 0 1-1.8 0l-.8 1.2-2-.9.3-1.5a7.7 7.7 0 0 1-1.3-1.3l-1.5.3-.9-2 1.2-.8a7.7 7.7 0 0 1 0-1.8l-1.2-.8.9-2 1.5.3a7.7 7.7 0 0 1 1.3-1.3l-.3-1.5 2-.9.8 1.2a7.7 7.7 0 0 1 1.8 0l.4-1.4h2.2l.2 1.5a7.7 7.7 0 0 1 1.5.9l1.4-.5 1.1 1.9-1.1.9a7.7 7.7 0 0 1 0 1.8Z"/></svg>}
+            </span>
             <span>{item.label}</span>
           </a>
         ))}
