@@ -76,14 +76,14 @@ Esta estrutura reflete a ideia explicada em 10/10/2026. É uma **proposta inicia
 
 **Direção desejada:** webapp com conteúdo separado por módulos, inspirado na experiência prática que já foi explorada no DarkMotion.
 
-Possíveis componentes, ainda sujeitos a definição:
-- Área organizada por módulos e aulas.
-- Tutoriais passo a passo, incluindo gravações de tela.
-- Checklists, prompts e materiais de apoio.
-- Ferramentas e links úteis.
-- Espaço para atualizar e acrescentar conteúdo.
+Componentes já presentes na primeira versão:
+- Área web organizada por sete módulos.
+- Conteúdo em texto, exercícios e navegação sequencial.
+- Progresso básico salvo localmente no navegador.
+- Fichas práticas de mineração, análise de oferta, estruturação de produto, página/VSL, teste de anúncios e operação de entrega.
+- Ferramentas para salvar várias fichas no navegador, reabri-las, copiar o conteúdo e excluí-las.
 
-A plataforma ainda não foi construída e os recursos finais não foram definidos. A prioridade é consolidar a jornada de aprendizagem antes de desenvolver.
+Ainda faltam demonstrações gravadas, revisão final e validação visual completa em aparelhos reais. O progresso e as fichas ainda não sincronizam entre dispositivos ou contas.
 
 ## 6. Faixa de preço em consideração
 
@@ -119,12 +119,12 @@ Estas são possibilidades, não funcionalidades confirmadas.
 | Nome e direção do produto | Definidos inicialmente | O Clone Digital; webapp educacional modular |
 | Aplicação web | Em desenvolvimento ativo | Projeto Next.js conectado ao GitHub e à Vercel |
 | Trilha de aprendizagem | Estruturada em 7 módulos | Processo, mineração, análise, estrutura/produto, página/VSL, primeiro anúncio e integração/entrega |
-| Conteúdo dos módulos | Primeira versão escrita | Aulas em texto, orientações práticas, exercícios e checklists; ainda faltam demonstrações gravadas e revisão final |
+| Conteúdo dos módulos | Primeira versão escrita | Aulas em texto, orientações práticas, exercícios, checklists e fichas práticas; ainda faltam demonstrações gravadas e revisão final |
 | Navegação entre módulos | Em ajuste | A trilha deve conectar o módulo 6 ao módulo 7 e permitir retorno ao painel |
 | Responsividade mobile | Ajustes implementados | CSS revisado para telas pequenas; falta validação visual em aparelhos reais |
 | Progresso do aluno | Básico implementado | Marcação de módulos concluídos salva no armazenamento local do navegador; ainda não sincroniza entre dispositivos nem entre contas |
 | Autenticação e acesso pago | Não implementados | A interface atual não deve ser tratada como sistema de login, cobrança ou controle de acesso pronto |
-| Integração de checkout e entrega | Conteúdo educacional | O módulo 7 ensina a planejar a operação; não representa integração real com um provedor |
+| Integração de checkout e entrega | Planejamento educacional | O módulo 7 inclui ficha de operação local; ainda não representa integração real com provedor de pagamento nem liberação automática de acesso |
 | Identidade visual | Primeira versão aplicada | Revisar consistência visual e acessibilidade após validar desktop e mobile |
 | Página de vendas e checkout do próprio produto | Não concluídos | Definir oferta, preço, checkout e entrega antes do lançamento |
 | Gravações e materiais complementares | Não concluídos | Planejar gravações de tela, modelos e arquivos de apoio |
@@ -138,6 +138,8 @@ Estas são possibilidades, não funcionalidades confirmadas.
 - [x] Implementar uma marcação básica de progresso local.
 - [ ] Validar o deploy mais recente e a navegação sequencial entre os sete módulos.
 - [ ] Revisar a experiência visual em desktop e celular, incluindo rolagem horizontal e navegação inferior.
+- [x] Criar fichas práticas locais para mineração, análise de oferta, estruturação de produto, página/VSL, primeiro anúncio e operação de entrega.
+- [ ] Validar em produção todas as fichas práticas, salvamento, cópia e navegação sequencial.
 - [ ] Revisar os conteúdos de ponta a ponta para remover lacunas, repetições e orientações inconsistentes.
 - [ ] Definir a promessa principal e o perfil prioritário de aluno.
 - [ ] Separar o conteúdo essencial do conteúdo avançado.
