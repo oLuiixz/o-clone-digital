@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import nodemailer from "nodemailer";
 import { createOpaqueToken, getDatabase, hashToken, normalizeEmail, hasActiveAccess, getAppBaseUrl } from "../../../../lib/member-auth";
 
 export const runtime = "nodejs";
@@ -8,7 +9,7 @@ export async function POST(request) {
   let body;
   try { body = await request.json(); } catch { return NextResponse.json({ error: "Requisição inválida." }, { status: 400 }); }
   const email = normalizeEmail(body?.email);
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 320) {
+  if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email) || email.length > 320) {
     return NextResponse.json({ error: "Informe um e-mail válido." }, { status: 400 });
   }
 
@@ -28,28 +29,36 @@ export async function POST(request) {
     await sql`INSERT INTO member_activation_tokens (email, token_hash, expires_at)
       VALUES (${email}, ${tokenHash}, ${expiresAt})`;
 
-    const apiKey = process.env.RESEND_API_KEY;
-    const from = process.env.RESEND_FROM_EMAIL;
+    const smtpUser = process.env.SMTP_USER?.trim();
+    const smtpPassword = process.env.SMTP_APP_PASSWORD?.replace(/\\s/g, "");
+    const from = process.env.SMTP_FROM_EMAIL?.trim() || smtpUser;
     const baseUrl = getAppBaseUrl();
-    if (!apiKey || !from || !baseUrl) {
+    if (!smtpUser || !smtpPassword || !from || !baseUrl) {
       console.error("Activation email is not configured.");
       return NextResponse.json({ error: "O envio de e-mail ainda não está configurado. Tente novamente mais tarde." }, { status: 503 });
     }
+
     const activationUrl = new URL("/ativar", baseUrl);
     activationUrl.searchParams.set("token", token);
-    const response = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        from,
-        to: [email],
-        subject: "Ative seu acesso ao O Clone Digital",
-        html: `<div style="font-family:Arial,sans-serif;max-width:560px;margin:auto;color:#171717"><h1>Seu acesso está pronto</h1><p>Confirme seu acesso ao O Clone Digital e crie sua senha pessoal.</p><p><a href="${activationUrl.toString()}" style="display:inline-block;padding:13px 20px;background:#ff3045;color:#fff;text-decoration:none;border-radius:6px">Ativar minha conta</a></p><p>O link expira em 30 minutos e só pode ser usado uma vez. Se você não solicitou isso, ignore esta mensagem.</p></div>`,
-      }),
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+      auth: { user: smtpUser, pass: smtpPassword },
+      connectionTimeout: 10000,
+      greetingTimeout: 10000,
+      socketTimeout: 15000,
     });
-    if (!response.ok) {
-      console.error("Resend activation email failed", { status: response.status });
-      return NextResponse.json({ error: "Não foi possível enviar o e-mail agora." }, { status: 502 });
+    try {
+      await transporter.sendMail({
+        from: { name: "O Clone Digital", address: from },
+        to: email,
+        subject: "Ative seu acesso ao O Clone Digital",
+        text: `Seu acesso ao O Clone Digital está pronto. Acesse este link para criar sua senha: ${activationUrl.toString()}\n\nO link expira em 30 minutos e só pode ser usado uma vez. Se você não solicitou isso, ignore esta mensagem.`,
+        html: `<div style="font-family:Arial,sans-serif;max-width:560px;margin:auto;color:#171717"><h1>Seu acesso está pronto</h1><p>Confirme seu acesso ao O Clone Digital e crie sua senha pessoal.</p><p><a href="${activationUrl.toString()}" style="display:inline-block;padding:13px 20px;background:#ff3045;color:#fff;text-decoration:none;border-radius:6px">Ativar minha conta</a></p><p>O link expira em 30 minutos e só pode ser usado uma vez. Se você não solicitou isso, ignore esta mensagem.</p></div>`,
+      });
+    } finally {
+      transporter.close();
     }
     return NextResponse.json(generic);
   } catch (error) {
