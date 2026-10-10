@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import DeliveryOperationsWorksheet from "../../components/DeliveryOperationsWorksheet";
 
 const lessons = [
   ["01", "O caminho completo da compra", "Desenhe a jornada real: anúncio ou conteúdo → página de vendas → checkout → confirmação do pagamento → entrega → suporte. Para cada etapa, anote quem é responsável, qual ferramenta participa e como você verificará se funcionou. Não prometa acesso imediato se houver uma etapa manual."],
@@ -142,6 +143,8 @@ export default function IntegracaoEntregaPage() {
           </div>
           <div className="module-objective"><span>✓</span><div><b>Critério de conclusão</b><p>Você consegue demonstrar, em teste, o que acontece desde a compra até o acesso e explicar o que fará se o pagamento ou a entrega falhar.</p></div></div>
         </section>
+
+        <DeliveryOperationsWorksheet />
 
         <nav className="module-pager">
           <Link className="module-pager-link" href="/modulos/primeiro-anuncio"><span>← MÓDULO ANTERIOR</span><b>06 · Primeiro anúncio</b></Link>
