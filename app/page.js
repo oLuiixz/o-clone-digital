@@ -59,7 +59,7 @@ export default function Home() {
       <section className="main-panel" id="inicio">
         <header className="topbar"><div className="breadcrumb">Área do aluno <span>/</span> <b>Visão geral</b></div><div className="top-actions"><span className="status-dot"></span><span>Plataforma em construção</span><button className="user-button" aria-label="Perfil">CD</button></div></header>
         <div className="content">
-          <section className="hero">\n            <img className="hero-banner-image" src="/imagens/banner-clone-digital.svg" alt="O Clone Digital — Encontre, analise, estruture e teste" />
+          <section className="hero">\n            <img className="hero-banner-image" src="/imagens/banner.webp" alt="O Clone Digital — Encontre, analise, estruture e teste" />
             <div className="hero-copy">
               <div className="eyebrow"><span className="eyebrow-line"></span> SUA JORNADA COMEÇA AQUI</div>
               <h1>Da pesquisa à<br /><em>primeira oferta.</em></h1>
