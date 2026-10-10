@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 const lessons = [
@@ -23,6 +26,36 @@ const checklist = [
 ];
 
 export default function IntegracaoEntregaPage() {
+  const [checkedItems, setCheckedItems] = useState([]);
+  const [checklistLoaded, setChecklistLoaded] = useState(false);
+
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem("clone-digital-module-07-checklist") || "[]");
+      if (Array.isArray(saved)) {
+        setCheckedItems([...new Set(saved.filter((item) => Number.isInteger(item) && item >= 0 && item < checklist.length))]);
+      }
+    } catch {
+      setCheckedItems([]);
+    }
+    setChecklistLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (!checklistLoaded) return;
+    try {
+      localStorage.setItem("clone-digital-module-07-checklist", JSON.stringify(checkedItems));
+    } catch {
+      // O checklist segue utilizável durante a sessão se o armazenamento estiver indisponível.
+    }
+  }, [checkedItems, checklistLoaded]);
+
+  function toggleChecklistItem(index) {
+    setCheckedItems((current) => current.includes(index)
+      ? current.filter((item) => item !== index)
+      : [...current, index]);
+  }
+
   return (
     <main className="module-page-shell">
       <header className="module-page-topbar">
@@ -75,8 +108,21 @@ export default function IntegracaoEntregaPage() {
           <div className="module-section-eyebrow">MATERIAL DE APOIO</div>
           <h2>Checklist antes de abrir as vendas</h2>
           <p className="module-intro">Marque cada item apenas depois de verificar na prática. Se uma etapa essencial falhar, corrija antes de aumentar o tráfego ou anunciar que o acesso é automático.</p>
+          <div className="checklist-progress-row" aria-live="polite">
+            <span>{checklistLoaded ? checkedItems.length : 0} de {checklist.length} itens verificados</span>
+            <div className="checklist-progress-track" role="progressbar" aria-label="Progresso do checklist" aria-valuemin={0} aria-valuemax={checklist.length} aria-valuenow={checklistLoaded ? checkedItems.length : 0}>
+              <span style={{width: ((checklistLoaded ? checkedItems.length : 0) / checklist.length * 100) + "%"}} />
+            </div>
+          </div>
           <div className="module-lesson-list" style={{marginTop: 14}}>
-            {checklist.map((item, i) => <div className="module-lesson" key={item}><span className="module-lesson-number">{String(i + 1).padStart(2, "0")}</span><div><h3>{item}</h3></div><span className="module-lesson-state">□</span></div>)}
+            {checklist.map((item, i) => {
+              const checked = checkedItems.includes(i);
+              return <label className={checked ? "module-lesson checklist-item is-complete" : "module-lesson checklist-item"} key={item} htmlFor={`module-07-check-${i}`}>
+                <span className="module-lesson-number">{String(i + 1).padStart(2, "0")}</span>
+                <span className="checklist-item-copy"><h3>{item}</h3></span>
+                <input id={`module-07-check-${i}`} className="module-checklist-checkbox" type="checkbox" checked={checked} onChange={() => toggleChecklistItem(i)} />
+              </label>;
+            })}
           </div>
         </section>
 
