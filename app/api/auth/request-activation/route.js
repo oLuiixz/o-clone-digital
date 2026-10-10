@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createOpaqueToken, getDatabase, hashToken, normalizeEmail, hasActiveAccess } from "../../../../lib/member-auth";
+import { createOpaqueToken, getDatabase, hashToken, normalizeEmail, hasActiveAccess, getAppBaseUrl } from "../../../../lib/member-auth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -30,7 +30,7 @@ export async function POST(request) {
 
     const apiKey = process.env.RESEND_API_KEY;
     const from = process.env.RESEND_FROM_EMAIL;
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
+    const baseUrl = getAppBaseUrl();
     if (!apiKey || !from || !baseUrl) {
       console.error("Activation email is not configured.");
       return NextResponse.json({ error: "O envio de e-mail ainda não está configurado. Tente novamente mais tarde." }, { status: 503 });
