@@ -13,16 +13,23 @@ const quickLinks = [
   { icon: "✳", title: "Montar minha estrutura", text: "Organizar produto e comunicação", module: "MÓDULO 04" },
 ];
 
+const navigation = [
+  { icon: "⌂", label: "Início", href: "#inicio" },
+  { icon: "▤", label: "Módulos", href: "#modulos" },
+  { icon: "⌕", label: "Pesquisar", href: "#atalhos" },
+  { icon: "↗", label: "Progresso", href: "#progresso" },
+];
+
 export default function Home() {
   return (
     <main className="app-shell">
       <aside className="sidebar">
-        <a className="brand" href="#" aria-label="O Clone Digital início">
+        <a className="brand" href="#inicio" aria-label="O Clone Digital início">
           <span className="brand-mark">C<span>.</span></span>
           <span className="brand-name">O CLONE <b>DIGITAL</b><small>LABORATÓRIO DE OFERTAS</small></span>
         </a>
         <div className="side-label">ESPAÇO DE TRABALHO</div>
-        <nav className="navigation">
+        <nav className="navigation" aria-label="Navegação principal">
           <a className="nav-item active" href="#inicio"><span>⌂</span> Visão geral</a>
           <a className="nav-item" href="#modulos"><span>▤</span> Módulos e aulas</a>
           <a className="nav-item" href="#atalhos"><span>⌕</span> Pesquisa de ofertas</a>
@@ -34,6 +41,15 @@ export default function Home() {
           <div className="profile"><div className="avatar">CD</div><div className="profile-copy"><b>Minha jornada</b><span>Área do aluno</span></div><span className="profile-menu">···</span></div>
         </div>
       </aside>
+
+      <nav className="mobile-nav" aria-label="Navegação mobile">
+        {navigation.map((item, index) => (
+          <a className={index === 0 ? "mobile-nav-item active" : "mobile-nav-item"} href={item.href} key={item.label}>
+            <span className="mobile-nav-icon" aria-hidden="true">{item.icon}</span>
+            <span>{item.label}</span>
+          </a>
+        ))}
+      </nav>
 
       <section className="main-panel" id="inicio">
         <header className="topbar"><div className="breadcrumb">Área do aluno <span>/</span> <b>Visão geral</b></div><div className="top-actions"><span className="status-dot"></span><span>Plataforma em construção</span><button className="user-button" aria-label="Perfil">CD</button></div></header>
