@@ -62,7 +62,8 @@ export default function Home() {
       <section className="main-panel" id="inicio">
         <header className="topbar"><div className="breadcrumb">Área do aluno <span>/</span> <b>Visão geral</b></div><div className="top-actions"><span className="status-dot"></span><span>Plataforma em construção</span><button className="user-button" aria-label="Perfil">CD</button></div></header>
         <div className="content">
-          <section className="hero">\n            <img className="hero-banner-image" src="/imagens/banner.webp" alt="O Clone Digital — Encontre, analise, estruture e teste" />
+          <section className="hero">
+            <img className="hero-banner-image" src="/imagens/banner.webp" alt="O Clone Digital — Encontre, analise, estruture e teste" />
             <div className="hero-copy">
               <div className="eyebrow"><span className="eyebrow-line"></span> SUA JORNADA COMEÇA AQUI</div>
               <h1>Da pesquisa à<br /><em>primeira oferta.</em></h1>
@@ -88,7 +89,7 @@ export default function Home() {
 
           <section className="section-block modules-section" id="modulos">
             <div className="section-heading"><div><div className="eyebrow muted">TRILHA DE APRENDIZADO</div><h2>Seus módulos</h2></div><span className="section-note">07 ETAPAS PLANEJADAS</span></div>
-            <div className="module-list">{modules.map((module) => <a className="module-row" href={`/modulos/${module.slug}`} key={module.number} aria-label={`Abrir módulo ${module.number}: ${module.title}`}><div className="module-number">{module.number}</div><div className="module-info"><h3>{module.title}</h3><p>{module.description}</p><span className="lesson-meta">{module.lessons}</span></div><div className="module-state"><span className={module.number === "01" ? "state-pill soon" : "state-pill"}><i></i>{module.status}</span><div className="module-progress"><span style={{ width: module.progress + "%" }}></span></div></div><span className="module-arrow">↗</span></a>)}</div>
+            <div className="module-list">{modules.map((module) => <a className="module-row" href={`/modulos/${module.slug}`} key={module.number} aria-label={`Abrir módulo ${module.number}: ${module.title}`}><div className="module-number">{module.number}</div><div className="module-info"><h3>{module.title}</h3><p>{module.description}</p><span className="lesson-meta">{module.lessons}</span></div><div className="module-state"><span className="state-pill"><i></i>{module.status}</span><div className="module-progress"><span style={{ width: module.progress + "%" }}></span></div></div><span className="module-arrow">↗</span></a>)}</div>
           </section>
           <footer className="footer"><span>O CLONE DIGITAL <b>© 2026</b></span><span>ENCONTRE. ANALISE. ESTRUTURE. TESTE.</span></footer>
         </div>
