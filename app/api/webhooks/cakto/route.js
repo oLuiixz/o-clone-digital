@@ -138,8 +138,13 @@ export async function POST(request) {
       }
 
       const products = await sql`
-        SELECT id, is_active FROM products
-        WHERE provider_product_id = ${productId} LIMIT 1
+        SELECT p.id, p.is_active
+        FROM product_provider_mappings m
+        JOIN products p ON p.id = m.product_id
+        WHERE m.provider = ${PROVIDER}
+          AND m.provider_product_id = ${productId}
+          AND m.is_active = true
+        LIMIT 1
       `;
       if (!products.length || (nextStatus === "approved" && !products[0].is_active)) {
         await sql`UPDATE payment_events SET processing_status = 'ignored',
@@ -178,7 +183,8 @@ export async function POST(request) {
           provider_checkout_id = EXCLUDED.provider_checkout_id,
           status = CASE
             WHEN orders.status IN ('refunded', 'chargeback') THEN orders.status
-            WHEN EXCLUDED.status = 'pending' AND orders.status = 'approved' THEN orders.status
+            WHEN orders.status = 'approved'
+              AND EXCLUDED.status IN ('pending', 'failed', 'cancelled', 'expired') THEN orders.status
             ELSE EXCLUDED.status
           END,
           amount = EXCLUDED.amount,
