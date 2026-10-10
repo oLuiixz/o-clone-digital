@@ -9,7 +9,7 @@ export async function POST(request) {
   let body;
   try { body = await request.json(); } catch { return NextResponse.json({ error: "Requisição inválida." }, { status: 400 }); }
   const email = normalizeEmail(body?.email);
-  if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email) || email.length > 320) {
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 320) {
     return NextResponse.json({ error: "Informe um e-mail válido." }, { status: 400 });
   }
 
@@ -30,7 +30,7 @@ export async function POST(request) {
       VALUES (${email}, ${tokenHash}, ${expiresAt})`;
 
     const smtpUser = process.env.SMTP_USER?.trim();
-    const smtpPassword = process.env.SMTP_APP_PASSWORD?.replace(/\\s/g, "");
+    const smtpPassword = process.env.SMTP_APP_PASSWORD?.replace(/\s/g, "");
     const from = process.env.SMTP_FROM_EMAIL?.trim() || smtpUser;
     const baseUrl = getAppBaseUrl();
     if (!smtpUser || !smtpPassword || !from || !baseUrl) {
