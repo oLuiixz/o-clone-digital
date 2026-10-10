@@ -15,11 +15,13 @@ export async function POST(request) {
 
   try {
     const sql = getDatabase();
-    const rows = await sql`SELECT id, email FROM member_activation_tokens
+    // Claim the token atomically so two concurrent requests cannot reuse it.
+    const claimed = await sql`UPDATE member_activation_tokens
+      SET used_at = now()
       WHERE token_hash = ${hashToken(token)} AND used_at IS NULL AND expires_at > now()
-      ORDER BY created_at DESC LIMIT 1`;
-    if (!rows.length) return NextResponse.json({ error: "Link inválido, expirado ou já utilizado. Solicite um novo." }, { status: 400 });
-    const activation = rows[0];
+      RETURNING id, email`;
+    if (!claimed.length) return NextResponse.json({ error: "Link inválido, expirado ou já utilizado. Solicite um novo." }, { status: 400 });
+    const activation = claimed[0];
     const email = normalizeEmail(activation.email);
     if (!(await hasActiveAccess(email))) return NextResponse.json({ error: "Não encontramos uma compra aprovada ativa para esse e-mail." }, { status: 403 });
 
@@ -29,7 +31,6 @@ export async function POST(request) {
       ON CONFLICT (email) DO UPDATE SET password_hash = EXCLUDED.password_hash,
         email_verified_at = COALESCE(member_accounts.email_verified_at, now()), updated_at = now()
       RETURNING id`;
-    await sql`UPDATE member_activation_tokens SET used_at = now() WHERE id = ${activation.id} AND used_at IS NULL`;
     await createSession(accounts[0].id);
     return NextResponse.json({ ok: true, redirect: "/" });
   } catch (error) {
