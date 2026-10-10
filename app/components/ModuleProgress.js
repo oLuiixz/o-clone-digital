@@ -34,7 +34,9 @@ export default function ModuleProgress({ modules }) {
       <div className="stat-card"><span className="stat-label">TRILHA DE APRENDIZADO</span><div className="stat-main">07<span className="stat-unit"> módulos</span></div><div className="stat-foot">Do básico ao primeiro teste</div></div>
       <div className="stat-card"><span className="stat-label">MATERIAIS PRÁTICOS</span><div className="stat-main">06</div><div className="stat-foot">Roteiros e exercícios para aplicar</div></div>
     </section>
-    <div className="module-list">{modules.map((module) => {
+    <section className="section-block modules-section" id="modulos">
+      <div className="section-heading"><div><div className="eyebrow muted">TRILHA DE APRENDIZADO</div><h2>Seus módulos</h2></div><span className="section-note">07 ETAPAS PLANEJADAS</span></div>
+      <div className="module-list">{modules.map((module) => {
       const done = completed.includes(module.number);
       return <div className="module-row" key={module.number}>
         <div className="module-number">{module.number}</div>
@@ -42,6 +44,7 @@ export default function ModuleProgress({ modules }) {
         <div className="module-state"><span className={done ? "state-pill completed" : "state-pill"}><i></i>{done ? "Concluído" : "Disponível"}</span><div className="module-progress"><span style={{width: done ? "100%" : "0%"}} /></div><button type="button" className="module-complete-button" onClick={() => toggle(module.number)}>{done ? "Desmarcar conclusão" : "Marcar como concluído"}</button></div>
         <a className="module-arrow" href={`/modulos/${module.slug}`} aria-label={`Abrir módulo ${module.number}`}>↗</a>
       </div>;
-    })}</div>
+      })}</div>
+    </section>
   </>;
 }
