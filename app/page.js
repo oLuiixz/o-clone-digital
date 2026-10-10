@@ -87,10 +87,6 @@ export default function Home() {
             <div className="quick-grid">{quickLinks.map((item) => <a className="quick-card" href="#modulos" key={item.title}><div className="quick-top"><span className="quick-icon">{item.icon}</span><span className="arrow">↗</span></div><span className="quick-module">{item.module}</span><h3>{item.title}</h3><p>{item.text}</p></a>)}</div>
           </section>
 
-          <section className="section-block modules-section" id="modulos">
-            <div className="section-heading"><div><div className="eyebrow muted">TRILHA DE APRENDIZADO</div><h2>Seus módulos</h2></div><span className="section-note">07 ETAPAS PLANEJADAS</span></div>
-            <div className="module-list">{modules.map((module) => <a className="module-row" href={`/modulos/${module.slug}`} key={module.number} aria-label={`Abrir módulo ${module.number}: ${module.title}`}><div className="module-number">{module.number}</div><div className="module-info"><h3>{module.title}</h3><p>{module.description}</p><span className="lesson-meta">{module.lessons}</span></div><div className="module-state"><span className="state-pill"><i></i>{module.status}</span><div className="module-progress"><span style={{ width: module.progress + "%" }}></span></div></div><span className="module-arrow">↗</span></a>)}</div>
-          </section>
           <footer className="footer"><span>O CLONE DIGITAL <b>© 2026</b></span><span>ENCONTRE. ANALISE. ESTRUTURE. TESTE.</span></footer>
         </div>
       </section>
