@@ -25,9 +25,7 @@ function validSignature(rawBody, signatureHeader, secret) {
     return false;
   }
 
-  const expected = createHmac("sha256", secret)
-    .update(`${timestamp}.${rawBody}`)
-    .digest("hex");
+  const expected = createHmac("sha256", secret).update(`${timestamp}.${rawBody}`).digest("hex");
   const suppliedBuffer = Buffer.from(signature, "hex");
   const expectedBuffer = Buffer.from(expected, "hex");
 
@@ -45,11 +43,16 @@ export async function POST(request) {
     return NextResponse.json({ received: false, error: "JSON inválido." }, { status: 400 });
   }
 
-  // The SyncPay dashboard's synthetic test payload is not a real payment event.
-  // Acknowledge it without storing or processing it; real events still require HMAC.
+  // The dashboard's synthetic test is not a payment. Match its exact marker
+  // regardless of which field contains it, but never treat a real transaction
+  // payload as a test.
+  const serializedPayload = JSON.stringify(payload);
   const isDashboardTest =
-    payload?.event === "transaction" &&
-    payload?.message === "This is a test webhook payload.";
+    serializedPayload.includes("This is a test webhook payload.") &&
+    !payload?.transaction &&
+    !payload?.transaction_id &&
+    !payload?.payment &&
+    !payload?.payment_id;
 
   if (isDashboardTest) {
     return NextResponse.json({ received: true, test: true, processed: false });
@@ -65,7 +68,6 @@ export async function POST(request) {
 
   const signature = request.headers.get("x-syncpay-signature");
   if (!validSignature(rawBody, signature, secret)) {
-    // Log only diagnostic metadata. Never log the secret, signature, or full payload.
     console.warn("SyncPay webhook rejected: missing/invalid signature", {
       hasSignatureHeader: Boolean(signature),
       hasSecret: Boolean(secret),
@@ -105,7 +107,5 @@ export async function POST(request) {
     return NextResponse.json({ received: false, error: "Falha ao registrar evento." }, { status: 500 });
   }
 
-  // Verified events are recorded only; access is not released until payment
-  // status and product ownership handling are implemented and verified.
   return NextResponse.json({ received: true, processed: false });
 }
