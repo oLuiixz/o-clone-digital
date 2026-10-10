@@ -1,10 +1,10 @@
 const modules = [
-  { number: "01", slug: "entendendo-o-processo", title: "Entendendo o processo", description: "Conheça o caminho da pesquisa ao primeiro teste.", lessons: "Introdução e mapa do método", status: "Disponível em breve", progress: 0 },
-  { number: "02", slug: "mineracao-de-ofertas", title: "Mineração de ofertas", description: "Aprenda a pesquisar anúncios e encontrar referências.", lessons: "Biblioteca de Anúncios · Pesquisa · Organização", status: "Em planejamento", progress: 0 },
-  { number: "03", slug: "analise-da-oferta", title: "Análise da oferta", description: "Entenda a promessa, o público, os criativos e a estrutura.", lessons: "Anúncios · Página · VSL · Diferenciais", status: "Em planejamento", progress: 0 },
-  { number: "04", slug: "estrutura-e-produto", title: "Estrutura e produto", description: "Planeje uma oferta própria a partir das referências estudadas.", lessons: "Produto · Entregável · Posicionamento", status: "Em planejamento", progress: 0 },
-  { number: "05", slug: "pagina-de-vendas-e-vsl", title: "Página de vendas e VSL", description: "Estruture sua comunicação e apresente a oferta com clareza.", lessons: "Roteiro · Página · Revisão", status: "Em planejamento", progress: 0 },
-  { number: "06", slug: "primeiro-anuncio", title: "Primeiro anúncio", description: "Prepare a campanha inicial e entenda como testar com responsabilidade.", lessons: "Criativo · Configuração · Métricas", status: "Em planejamento", progress: 0 },
+  { number: "01", slug: "entendendo-o-processo", title: "Entendendo o processo", description: "Conheça o caminho da pesquisa ao primeiro teste.", lessons: "Introdução e mapa do método", status: "Disponível", progress: 0 },
+  { number: "02", slug: "mineracao-de-ofertas", title: "Mineração de ofertas", description: "Aprenda a pesquisar anúncios e encontrar referências.", lessons: "Biblioteca de Anúncios · Pesquisa · Organização", status: "Disponível", progress: 0 },
+  { number: "03", slug: "analise-da-oferta", title: "Análise da oferta", description: "Entenda a promessa, o público, os criativos e a estrutura.", lessons: "Anúncios · Página · VSL · Diferenciais", status: "Disponível", progress: 0 },
+  { number: "04", slug: "estrutura-e-produto", title: "Estrutura e produto", description: "Planeje uma oferta própria a partir das referências estudadas.", lessons: "Produto · Entregável · Posicionamento", status: "Disponível", progress: 0 },
+  { number: "05", slug: "pagina-de-vendas-e-vsl", title: "Página de vendas e VSL", description: "Estruture sua comunicação e apresente a oferta com clareza.", lessons: "Roteiro · Página · Revisão", status: "Disponível", progress: 0 },
+  { number: "06", slug: "primeiro-anuncio", title: "Primeiro anúncio", description: "Prepare a campanha inicial e entenda como testar com responsabilidade.", lessons: "Criativo · Configuração · Métricas", status: "Disponível", progress: 0 },
 ];
 
 const quickLinks = [
@@ -19,6 +19,8 @@ const navigation = [
   { icon: "files", label: "Documentos", href: "#atalhos" },
   { icon: "settings", label: "Configurações", href: "#progresso" },
 ];
+
+import ModuleProgress from "./components/ModuleProgress";
 
 export default function Home() {
   return (
@@ -76,11 +78,7 @@ export default function Home() {
             <div className="hero-index">OCD / 001</div>
           </section>
 
-          <section className="stats-grid" id="progresso">
-            <div className="stat-card"><span className="stat-label">SEU PROGRESSO</span><div className="stat-main">0<span>%</span></div><div className="stat-foot"><span className="mini-track"><i></i></span> Sua jornada começa agora</div></div>
-            <div className="stat-card"><span className="stat-label">TRILHA DE APRENDIZADO</span><div className="stat-main">06<span className="stat-unit"> módulos</span></div><div className="stat-foot">Do básico ao primeiro teste</div></div>
-            <div className="stat-card"><span className="stat-label">MATERIAIS PRÁTICOS</span><div className="stat-main">—</div><div className="stat-foot">Checklists e ferramentas em preparação</div></div>
-          </section>
+          <ModuleProgress modules={modules} />
 
           <section className="section-block" id="atalhos">
             <div className="section-heading"><div><div className="eyebrow muted">COMECE POR AQUI</div><h2>O que você quer construir hoje?</h2></div><span className="section-note">ATALHOS DA JORNADA</span></div>
