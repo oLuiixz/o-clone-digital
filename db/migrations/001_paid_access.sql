@@ -6,6 +6,8 @@ CREATE TABLE IF NOT EXISTS products (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   slug text NOT NULL UNIQUE,
   name text NOT NULL,
+  -- Provider-side product ID used to map verified webhook events to this product.
+  provider_product_id text,
   description text,
   price_amount integer NOT NULL CHECK (price_amount >= 0),
   currency char(3) NOT NULL DEFAULT 'BRL',
@@ -13,6 +15,9 @@ CREATE TABLE IF NOT EXISTS products (
   created_at timestamptz NOT NULL DEFAULT now(),
   updated_at timestamptz NOT NULL DEFAULT now()
 );
+
+CREATE UNIQUE INDEX IF NOT EXISTS products_provider_product_id_idx
+  ON products (provider_product_id) WHERE provider_product_id IS NOT NULL;
 
 CREATE TABLE IF NOT EXISTS orders (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -44,7 +49,7 @@ CREATE TABLE IF NOT EXISTS payment_events (
   event_type text NOT NULL,
   order_id uuid REFERENCES orders(id),
   processing_status text NOT NULL DEFAULT 'received'
-    CHECK (processing_status IN ('received', 'processed', 'ignored', 'failed')),
+    CHECK (processing_status IN ('received', 'processing', 'processed', 'ignored', 'failed')),
   received_at timestamptz NOT NULL DEFAULT now(),
   processed_at timestamptz,
   error_code text,
