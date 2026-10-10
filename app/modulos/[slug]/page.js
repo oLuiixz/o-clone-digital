@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { getCurrentMember } from "../../../lib/member-auth";
 import MiningWorksheet from "../../components/MiningWorksheet";
 import { OfferAnalysisWorksheet, ProductBuilderWorksheet } from "../../components/OfferAndProductWorksheets";
 import SalesPageBuilderWorksheet from "../../components/SalesPageBuilderWorksheet";
@@ -15,6 +16,8 @@ const modules = [
 export function generateStaticParams(){return modules.map(({slug})=>({slug}));}
 
 export default async function ModulePage({params}){
+  const member = await getCurrentMember();
+  if (!member) redirect("/login");
   const {slug}=await params;
   const module=modules.find(item=>item.slug===slug);
   if(!module) notFound();
