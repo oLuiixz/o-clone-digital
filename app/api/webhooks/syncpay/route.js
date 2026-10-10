@@ -1,5 +1,6 @@
 import crypto from "node:crypto";
 import { neon } from "@neondatabase/serverless";
+import { sendMemberAccessEmail } from "../../../../lib/activation-email";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -180,6 +181,7 @@ export async function POST(request) {
         ON CONFLICT (order_id) DO UPDATE SET customer_email = EXCLUDED.customer_email,
           status = 'active', revoked_at = NULL, revocation_reason = NULL, updated_at = now()
       `;
+      await sendMemberAccessEmail(email);
     } else if (["refunded", "chargeback"].includes(order.status)) {
       await sql`UPDATE entitlements SET status = 'revoked',
         revoked_at = COALESCE(revoked_at, now()), revocation_reason = ${order.status}, updated_at = now()
