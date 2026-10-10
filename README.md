@@ -85,9 +85,11 @@ Componentes já presentes na primeira versão:
 
 Ainda faltam demonstrações gravadas, revisão final e validação visual completa em aparelhos reais. O progresso e as fichas ainda não sincronizam entre dispositivos ou contas.
 
-## 6. Faixa de preço em consideração
+## 6. Preço e modelo de cobrança
 
-O criador mencionou uma faixa inicial acessível de **R$ 17 a R$ 47**, considerando valores como R$ 29,90. **Nenhum preço foi definido.** A faixa deve ser avaliada em conjunto com o escopo, a entrega e os custos da operação.
+**Regra confirmada: O Clone Digital será vendido por pagamento único, sem assinatura recorrente, mensalidade ou renovação automática.** O acesso é concedido após a confirmação da compra. Reembolso ou chargeback pode levar à revogação do acesso conforme as regras aplicáveis.
+
+O criador mencionou uma faixa inicial acessível de **R$ 17 a R$ 47**, considerando valores como R$ 29,90. **O preço final ainda não foi definido.** A faixa deve ser avaliada em conjunto com o escopo, a entrega e os custos da operação.
 
 ## 7. Posicionamento e limites
 
@@ -124,7 +126,7 @@ Estas são possibilidades, não funcionalidades confirmadas.
 | Responsividade mobile | Ajustes implementados | CSS revisado para telas pequenas; falta validação visual em aparelhos reais |
 | Progresso do aluno | Básico implementado | Marcação de módulos concluídos salva no armazenamento local do navegador; ainda não sincroniza entre dispositivos nem entre contas |
 | Autenticação e acesso pago | Código inicial implementado; operação pendente | Login, ativação por link de uso único, sessão HttpOnly e bloqueio server-side existem no código. Ainda dependem das migrações aplicadas, variáveis corretas e teste de ponta a ponta |
-| Integração de checkout e entrega | Endpoints iniciais implementados; validação pendente | Cakto e SyncPay têm handlers de webhook e mapeamento de produto; formatos reais, assinaturas, variáveis, banco e eventos ainda precisam ser validados antes de vendas |
+| Integração de checkout e entrega | Endpoints iniciais implementados; validação pendente | Venda por pagamento único. Cakto e SyncPay têm handlers de webhook; é necessário validar a assinatura digital/autenticidade das notificações, os formatos dos eventos, variáveis e banco antes de vender |
 | Identidade visual | Primeira versão aplicada | Revisar consistência visual e acessibilidade após validar desktop e mobile |
 | Página de vendas e checkout do próprio produto | Não concluídos | Definir oferta, preço, checkout e entrega antes do lançamento |
 | Gravações e materiais complementares | Não concluídos | Planejar gravações de tela, modelos e arquivos de apoio |
@@ -153,7 +155,7 @@ Estas são possibilidades, não funcionalidades confirmadas.
 - [x] Implementar a primeira versão de autenticação e bloqueio server-side do conteúdo pago.
 - [ ] Aplicar as migrações `001_paid_access.sql` e `002_auth_and_payment_providers.sql` no banco correto, após revisar o destino e confirmar credenciais.
 - [ ] Cadastrar o produto ativo e os mapeamentos exatos de produto para Cakto e SyncPay em `product_provider_mappings`.
-- [ ] Confirmar o formato de assinatura e payload do webhook SyncPay com a documentação/painel atual; o handler ainda não deve ser considerado validado para produção.
+- [ ] Confirmar o formato de assinatura digital (HMAC) e o payload do webhook SyncPay com a documentação/painel atual; isso é segurança da notificação, não assinatura recorrente do cliente.
 - [ ] Configurar variáveis de ambiente na Vercel e testar ativação, login, compra aprovada, duplicidade, falha, reembolso e chargeback.
 - [ ] Implementar e testar logout e recuperação de senha antes do lançamento.
 - [ ] Testar a jornada completa antes de lançar e registrar o feedback inicial.
