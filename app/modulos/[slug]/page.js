@@ -15,7 +15,7 @@ export default async function ModulePage({params}){
   const module=modules.find(item=>item.slug===slug);
   if(!module) notFound();
   const index=modules.findIndex(item=>item.slug===slug);
-  const previous=modules[index-1], next=modules[index+1];
+  const previous=modules[index-1], next=modules[index+1] || (module.slug === "primeiro-anuncio" ? {slug:"integracao-e-entrega",title:"Integração e entrega"} : null);
   return <main className="module-page-shell">
     <header className="module-page-topbar"><Link href="/" className="module-back-link">← Voltar ao painel</Link><div className="module-page-brand"><span className="brand-mark">C<span>.</span></span><span>O CLONE <b>DIGITAL</b></span></div></header>
     <div className="module-page-content">
