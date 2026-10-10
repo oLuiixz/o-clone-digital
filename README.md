@@ -116,31 +116,35 @@ Estas são possibilidades, não funcionalidades confirmadas.
 
 | Área | Status | Observações |
 |---|---|---|
-| Nome do produto | Definido inicialmente | O Clone Digital |
-| Formato desejado | Direção definida | Webapp educacional separado por módulos |
-| Público-alvo | Rascunho | Iniciantes com orçamento limitado |
-| Jornada principal | Rascunho mais claro | Da mineração de ofertas ao primeiro anúncio |
-| Conteúdo dos módulos | Em discussão | Grade inicial registrada acima |
-| Faixa de preço | Ideia registrada | R$ 17 a R$ 47; preço final não definido |
-| Identidade visual | A definir | Não decidida |
-| Plataforma e funcionalidades | A definir | Ainda não desenvolvidas |
-| Gravação das aulas | Não iniciado | Definir roteiros e sequência antes de gravar |
-| Página de vendas | Não iniciado | Definir após consolidar oferta e conteúdo |
-| Checkout e entrega | Não iniciado | Escolher quando o modelo estiver mais claro |
+| Nome e direção do produto | Definidos inicialmente | O Clone Digital; webapp educacional modular |
+| Aplicação web | Em desenvolvimento ativo | Projeto Next.js conectado ao GitHub e à Vercel |
+| Trilha de aprendizagem | Estruturada em 7 módulos | Processo, mineração, análise, estrutura/produto, página/VSL, primeiro anúncio e integração/entrega |
+| Conteúdo dos módulos | Primeira versão escrita | Aulas em texto, orientações práticas, exercícios e checklists; ainda faltam demonstrações gravadas e revisão final |
+| Navegação entre módulos | Em ajuste | A trilha deve conectar o módulo 6 ao módulo 7 e permitir retorno ao painel |
+| Responsividade mobile | Ajustes implementados | CSS revisado para telas pequenas; falta validação visual em aparelhos reais |
+| Progresso do aluno | Básico implementado | Marcação de módulos concluídos salva no armazenamento local do navegador; ainda não sincroniza entre dispositivos nem entre contas |
+| Autenticação e acesso pago | Não implementados | A interface atual não deve ser tratada como sistema de login, cobrança ou controle de acesso pronto |
+| Integração de checkout e entrega | Conteúdo educacional | O módulo 7 ensina a planejar a operação; não representa integração real com um provedor |
+| Identidade visual | Primeira versão aplicada | Revisar consistência visual e acessibilidade após validar desktop e mobile |
+| Página de vendas e checkout do próprio produto | Não concluídos | Definir oferta, preço, checkout e entrega antes do lançamento |
+| Gravações e materiais complementares | Não concluídos | Planejar gravações de tela, modelos e arquivos de apoio |
+| Teste de ponta a ponta | Pendente | Validar links, navegação, progresso, responsividade e jornada completa antes de lançar |
 
 ## 10. Próximas etapas
 
-- [ ] Refinar a promessa principal e o resultado realista para o aluno.
-- [ ] Definir o perfil prioritário de aluno.
-- [ ] Revisar e fechar a sequência de módulos da primeira versão.
-- [ ] Separar conteúdo essencial do conteúdo avançado.
-- [ ] Definir o que o webapp precisa ter no lançamento e o que pode ficar para depois.
-- [ ] Avaliar a faixa de preço e o que será entregue.
-- [ ] Escrever os roteiros das aulas em ordem de execução.
-- [ ] Produzir os primeiros tutoriais e materiais de apoio.
-- [ ] Preparar a página de vendas e o fluxo de compra e entrega.
-- [ ] Testar a experiência completa antes de lançar.
-- [ ] Registrar feedbacks e atualizar o produto após o lançamento.
+- [x] Criar a aplicação web com a trilha organizada por módulos.
+- [x] Escrever uma primeira versão prática dos sete módulos.
+- [x] Ajustar a responsividade do painel e das páginas dos módulos.
+- [x] Implementar uma marcação básica de progresso local.
+- [ ] Validar o deploy mais recente e a navegação sequencial entre os sete módulos.
+- [ ] Revisar a experiência visual em desktop e celular, incluindo rolagem horizontal e navegação inferior.
+- [ ] Revisar os conteúdos de ponta a ponta para remover lacunas, repetições e orientações inconsistentes.
+- [ ] Definir a promessa principal e o perfil prioritário de aluno.
+- [ ] Separar o conteúdo essencial do conteúdo avançado.
+- [ ] Preparar roteiros e gravações de tela, além de modelos e materiais para download.
+- [ ] Definir a oferta comercial, preço, página de vendas, checkout e processo real de entrega.
+- [ ] Implementar e testar autenticação e controle de acesso, se fizerem parte do modelo escolhido.
+- [ ] Testar a jornada completa antes de lançar e registrar o feedback inicial.
 
 ## 11. Registro de decisões e novas ideias
 
