@@ -722,3 +722,33 @@ button, a {
 .module-checklist-checkbox:checked::after{transform:rotate(45deg) scale(1)}
 .module-checklist-checkbox:focus-visible{outline:2px solid #ff7786;outline-offset:3px}
 @media(max-width:520px){.checklist-progress-row{align-items:flex-start;flex-direction:column;gap:9px}.checklist-progress-track{width:100%}.module-checklist-checkbox{width:22px;height:22px}}
+
+
+/* Ferramenta prática: ficha reutilizável de mineração */
+.worksheet-card{margin-top:20px;padding:clamp(20px,4vw,34px);border:1px solid #393039;border-radius:16px;background:linear-gradient(145deg,#151316,#0f1113);min-width:0}
+.worksheet-header{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:24px}
+.worksheet-header h2{margin:10px 0;font-size:clamp(20px,3vw,27px);letter-spacing:-.7px}
+.worksheet-header p{max-width:670px;margin:0;color:#aeb4bc;font-size:12px;line-height:1.8}
+.worksheet-count{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;color:var(--accent);font:700 19px 'DM Mono',monospace}
+.worksheet-count span{margin-top:4px;color:#81878d;font:10px inherit;white-space:nowrap}
+.worksheet-saved-list{display:grid;gap:8px;margin-bottom:20px}
+.worksheet-saved-list>label,.worksheet-field>span{color:#c4c8cc;font-size:11px;font-weight:700}
+.worksheet-saved-controls{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:9px}
+.worksheet-card input,.worksheet-card textarea,.worksheet-card select{width:100%;min-width:0;border:1px solid #34383d;border-radius:8px;background:#0b0d0f;color:#f0f1f2;padding:11px 12px;font:12px inherit;outline:none}
+.worksheet-card input:focus,.worksheet-card textarea:focus,.worksheet-card select:focus{border-color:#ff5268;box-shadow:0 0 0 2px #ff30451c}
+.worksheet-card input::placeholder,.worksheet-card textarea::placeholder{color:#666e76}
+.worksheet-card textarea{resize:vertical;line-height:1.65}
+.worksheet-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.worksheet-field{display:grid;align-content:start;gap:8px;min-width:0}
+.worksheet-field-wide{grid-column:1/-1}
+.worksheet-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}
+.worksheet-primary-button,.worksheet-secondary-button,.worksheet-delete-button{min-height:40px;padding:10px 14px;border:1px solid #4b333b;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;transition:background .2s,border-color .2s}
+.worksheet-primary-button{background:var(--accent);border-color:var(--accent);color:#fff}
+.worksheet-primary-button:hover{background:#df273d}
+.worksheet-secondary-button{background:#1a1b1f;color:#e5e7e9}
+.worksheet-secondary-button:hover{border-color:#777}
+.worksheet-delete-button{margin-left:auto;background:transparent;color:#e89aa5;border-color:#503039}
+.worksheet-delete-button:hover{border-color:#e65b70;background:#251116}
+.worksheet-notice{margin:12px 0 0;color:#a9e2bf;font-size:11px;line-height:1.6}
+.worksheet-disclaimer{margin:18px 0 0;padding-top:14px;border-top:1px solid #ffffff0d;color:#858b92;font-size:10px;line-height:1.75}
+@media(max-width:600px){.worksheet-card{padding:19px 14px}.worksheet-header{flex-direction:column}.worksheet-count{align-items:flex-start}.worksheet-form-grid{grid-template-columns:minmax(0,1fr)}.worksheet-field-wide{grid-column:auto}.worksheet-actions>*{flex:1 1 130px}.worksheet-delete-button{margin-left:0}.worksheet-saved-controls{grid-template-columns:minmax(0,1fr)}}
