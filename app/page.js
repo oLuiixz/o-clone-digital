@@ -25,7 +25,7 @@ export default function Home() {
     <main className="app-shell">
       <aside className="sidebar">
         <a className="brand" href="#inicio" aria-label="O Clone Digital início">
-          <span className="brand-mark">C<span>.</span></span>
+          <img className="brand-logo" src="/imagens/logo-clone-digital.svg" alt="O Clone Digital" />
           <span className="brand-name">O CLONE <b>DIGITAL</b><small>LABORATÓRIO DE OFERTAS</small></span>
         </a>
         <div className="side-label">ESPAÇO DE TRABALHO</div>
@@ -59,7 +59,7 @@ export default function Home() {
       <section className="main-panel" id="inicio">
         <header className="topbar"><div className="breadcrumb">Área do aluno <span>/</span> <b>Visão geral</b></div><div className="top-actions"><span className="status-dot"></span><span>Plataforma em construção</span><button className="user-button" aria-label="Perfil">CD</button></div></header>
         <div className="content">
-          <section className="hero">
+          <section className="hero">\n            <img className="hero-banner-image" src="/imagens/banner-clone-digital.svg" alt="O Clone Digital — Encontre, analise, estruture e teste" />
             <div className="hero-copy">
               <div className="eyebrow"><span className="eyebrow-line"></span> SUA JORNADA COMEÇA AQUI</div>
               <h1>Da pesquisa à<br /><em>primeira oferta.</em></h1>
