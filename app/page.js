@@ -9,9 +9,9 @@ const modules = [
 ];
 
 const quickLinks = [
-  { icon: "⌕", title: "Minerar ofertas", text: "Pesquisar e salvar referências", module: "MÓDULO 02" },
-  { icon: "◫", title: "Analisar uma oferta", text: "Entender os elementos que funcionam", module: "MÓDULO 03" },
-  { icon: "✳", title: "Montar minha estrutura", text: "Organizar produto e comunicação", module: "MÓDULO 04" },
+  { icon: "⌕", title: "Minerar ofertas", text: "Pesquisar e salvar referências", module: "MÓDULO 02", slug: "mineracao-de-ofertas" },
+  { icon: "◫", title: "Analisar uma oferta", text: "Entender os elementos que funcionam", module: "MÓDULO 03", slug: "analise-da-oferta" },
+  { icon: "✳", title: "Montar minha estrutura", text: "Organizar produto e comunicação", module: "MÓDULO 04", slug: "estrutura-e-produto" },
 ];
 
 const navigation = [
@@ -84,7 +84,7 @@ export default function Home() {
 
           <section className="section-block" id="atalhos">
             <div className="section-heading"><div><div className="eyebrow muted">COMECE POR AQUI</div><h2>O que você quer construir hoje?</h2></div><span className="section-note">ATALHOS DA JORNADA</span></div>
-            <div className="quick-grid">{quickLinks.map((item) => <a className="quick-card" href="#modulos" key={item.title}><div className="quick-top"><span className="quick-icon">{item.icon}</span><span className="arrow">↗</span></div><span className="quick-module">{item.module}</span><h3>{item.title}</h3><p>{item.text}</p></a>)}</div>
+            <div className="quick-grid">{quickLinks.map((item) => <a className="quick-card" href={`/modulos/${item.slug}`} key={item.title}><div className="quick-top"><span className="quick-icon">{item.icon}</span><span className="arrow">↗</span></div><span className="quick-module">{item.module}</span><h3>{item.title}</h3><p>{item.text}</p></a>)}</div>
           </section>
 
           <footer className="footer"><span>O CLONE DIGITAL <b>© 2026</b></span><span>ENCONTRE. ANALISE. ESTRUTURE. TESTE.</span></footer>
