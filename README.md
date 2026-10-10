@@ -173,15 +173,18 @@ Registrar decisões confirmadas e encaminhar ideias novas para avaliação. Não
 
 - Foi adicionada a migração `db/migrations/002_auth_and_payment_providers.sql`, com estrutura inicial de contas, tokens de ativação/recuperação, sessões e mapeamento de produtos por provedor.
 - **As migrações SQL continuam sendo arquivos no repositório; ainda não foram aplicadas ao banco de produção.**
-- O endpoint Cakto existente precisa ser revisado e testado com payloads oficiais antes de liberar acesso.
-- O endpoint SyncPay e a autenticação ainda precisam ser implementados e testados. A existência das tabelas não significa que login ou liberação automática já funcionem.
-- Regra confirmada: o e-mail usado no login deve corresponder ao e-mail da compra confirmada; a ativação será feita por link seguro enviado para esse endereço.
-- Não configurar vendas reais até concluir a validação dos webhooks, idempotência, reembolso/chargeback, bloqueio server-side dos módulos e testes ponta a ponta.
+- Há endpoints iniciais de webhook para Cakto e SyncPay. Ambos registram pedidos/eventos, tratam duplicidade e atualizam permissões; a validação real com payloads assinados dos painéis ainda é obrigatória antes de produção.
+- Foram criados os endpoints de login, solicitação de ativação e ativação por link de uso único; a senha é armazenada com hash scrypt e a sessão usa cookie HttpOnly.
+- O painel e as rotas dos sete módulos agora redirecionam para o login quando não há uma sessão válida e uma permissão ativa.
+- Os webhooks tentam enviar automaticamente o e-mail de ativação/acesso via Resend após confirmação. O envio depende de variáveis de ambiente válidas.
+- **A implementação não está pronta para vendas reais:** as migrações não foram aplicadas ao banco, as variáveis não foram confirmadas, e os webhooks/login ainda precisam de teste de ponta a ponta.
+- Regra confirmada: o e-mail usado no login deve corresponder ao e-mail da compra confirmada; a ativação é enviada para esse endereço.
 
 ### Próximas etapas técnicas
-1. Revisar o webhook Cakto contra os payloads e status oficiais e testar idempotência.
-2. Implementar o webhook SyncPay com validação de assinatura conforme a especificação oficial e mapeamento de produto próprio.
-3. Implementar ativação por e-mail, criação de senha, login, recuperação e sessões seguras.
-4. Proteger o painel e as rotas de módulos no servidor, verificando permissões ativas.
-5. Configurar variáveis de ambiente na Vercel e aplicar as migrações ao banco com acesso restrito.
-6. Executar testes de aprovação, duplicação, compra nas duas plataformas, e-mail divergente, reembolso e chargeback.
+1. Aplicar as migrações SQL ao banco de produção depois de revisar o esquema e confirmar o banco correto.
+2. Configurar na Vercel as variáveis de banco, Resend, Cakto e SyncPay, sem colocar segredos no repositório.
+3. Confirmar com cada painel o formato exato da assinatura de webhook e testar notificações reais/assinadas em ambiente controlado.
+4. Verificar o mapeamento do identificador de produto de cada provedor para o mesmo produto no banco.
+5. Testar ativação por e-mail, login, senha inválida, sessão expirada e bloqueio após reembolso/chargeback.
+6. Implementar e testar recuperação de senha e logout.
+7. Executar a jornada ponta a ponta antes de abrir vendas.
