@@ -5,6 +5,7 @@ const modules = [
   { number: "04", slug: "estrutura-e-produto", title: "Estrutura e produto", description: "Planeje uma oferta própria a partir das referências estudadas.", lessons: "Produto · Entregável · Posicionamento", status: "Disponível", progress: 0 },
   { number: "05", slug: "pagina-de-vendas-e-vsl", title: "Página de vendas e VSL", description: "Estruture sua comunicação e apresente a oferta com clareza.", lessons: "Roteiro · Página · Revisão", status: "Disponível", progress: 0 },
   { number: "06", slug: "primeiro-anuncio", title: "Primeiro anúncio", description: "Prepare a campanha inicial e entenda como testar com responsabilidade.", lessons: "Criativo · Configuração · Métricas", status: "Disponível", progress: 0 },
+  { number: "07", slug: "integracao-e-entrega", title: "Integração e entrega", description: "Organize pagamento, confirmação, acesso ao produto e suporte ao comprador.", lessons: "Checkout · Automação · Acesso · Pós-venda", status: "Disponível", progress: 0 },
 ];
 
 const quickLinks = [
@@ -86,7 +87,7 @@ export default function Home() {
           </section>
 
           <section className="section-block modules-section" id="modulos">
-            <div className="section-heading"><div><div className="eyebrow muted">TRILHA DE APRENDIZADO</div><h2>Seus módulos</h2></div><span className="section-note">06 ETAPAS PLANEJADAS</span></div>
+            <div className="section-heading"><div><div className="eyebrow muted">TRILHA DE APRENDIZADO</div><h2>Seus módulos</h2></div><span className="section-note">07 ETAPAS PLANEJADAS</span></div>
             <div className="module-list">{modules.map((module) => <a className="module-row" href={`/modulos/${module.slug}`} key={module.number} aria-label={`Abrir módulo ${module.number}: ${module.title}`}><div className="module-number">{module.number}</div><div className="module-info"><h3>{module.title}</h3><p>{module.description}</p><span className="lesson-meta">{module.lessons}</span></div><div className="module-state"><span className={module.number === "01" ? "state-pill soon" : "state-pill"}><i></i>{module.status}</span><div className="module-progress"><span style={{ width: module.progress + "%" }}></span></div></div><span className="module-arrow">↗</span></a>)}</div>
           </section>
           <footer className="footer"><span>O CLONE DIGITAL <b>© 2026</b></span><span>ENCONTRE. ANALISE. ESTRUTURE. TESTE.</span></footer>
