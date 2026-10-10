@@ -156,7 +156,8 @@ export async function POST(request) {
         provider_checkout_id = EXCLUDED.provider_checkout_id,
         status = CASE
           WHEN orders.status IN ('refunded', 'chargeback') THEN orders.status
-          WHEN EXCLUDED.status = 'pending' AND orders.status = 'approved' THEN orders.status
+          WHEN orders.status = 'approved'
+            AND EXCLUDED.status IN ('pending', 'failed', 'cancelled', 'expired') THEN orders.status
           ELSE EXCLUDED.status
         END,
         amount = EXCLUDED.amount,
