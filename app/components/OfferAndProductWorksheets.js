@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 function PracticalWorksheet({ storageKey, eyebrow, title, description, fields, decisionLabel, decisions, disclaimer }) {
   const [records, setRecords] = useState([]);
   const [currentId, setCurrentId] = useState("");
-  const [form, setForm] = useState(() => Object.fromEntries(fields.map((field) => [field.key, field.defaultValue || ""])));
+  const [form, setForm] = useState(() => ({ ...Object.fromEntries(fields.map((field) => [field.key, field.defaultValue || (field.options && field.options[0]) || ""])), __decision: decisions?.[0] || "" }));
   const [ready, setReady] = useState(false);
   const [notice, setNotice] = useState("");
 
@@ -29,7 +29,7 @@ function PracticalWorksheet({ storageKey, eyebrow, title, description, fields, d
   }, [records, ready, storageKey]);
 
   const filled = useMemo(() => fields.filter((field) => String(form[field.key] || "").trim()).length, [fields, form]);
-  const initialForm = () => Object.fromEntries(fields.map((field) => [field.key, field.defaultValue || ""]));
+  const initialForm = () => ({ ...Object.fromEntries(fields.map((field) => [field.key, field.defaultValue || (field.options && field.options[0]) || ""])), __decision: decisions?.[0] || "" });
 
   function update(key, value) {
     setForm((current) => ({ ...current, [key]: value }));
