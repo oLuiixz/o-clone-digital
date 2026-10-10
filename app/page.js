@@ -40,8 +40,12 @@ function Icon({ name, size = 18 }) {
 }
 
 import ModuleProgress from "./components/ModuleProgress";
+import { redirect } from "next/navigation";
+import { getCurrentMember } from "../lib/member-auth";
 
-export default function Home() {
+export default async function Home() {
+  const member = await getCurrentMember();
+  if (!member) redirect("/login");
   return (
     <main className="app-shell">
       <aside className="sidebar">
