@@ -15,16 +15,16 @@ function equal(aValue, bValue) {
 }
 
 function verifySignature(rawBody, timestamp, header, secret) {
-  if (!/^\\d+$/.test(String(timestamp ?? ""))) return false;
+  if (!/^\d+$/.test(String(timestamp ?? ""))) return false;
   const seconds = Number(timestamp);
   if (!Number.isSafeInteger(seconds) || Math.abs(Date.now() / 1000 - seconds) > TOLERANCE_SECONDS) return false;
   const digest = crypto.createHmac("sha256", secret)
-    .update(\`\${timestamp}.\`)
+    .update(`${timestamp}.`)
     .update(rawBody)
     .digest("hex");
   return String(header ?? "").split(",").map((part) => part.trim())
     .filter((part) => part.startsWith("v1="))
-    .some((part) => equal(part, \`v1=\${digest}\`));
+    .some((part) => equal(part, `v1=${digest}`));
 }
 
 function statusFor(event, data) {
@@ -38,7 +38,7 @@ function statusFor(event, data) {
 
 function validEmail(value) {
   return typeof value === "string" && value.length <= 320 &&
-    /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(value);
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
 export async function POST(request) {
@@ -90,21 +90,21 @@ export async function POST(request) {
     }
 
     // Include event type so a refund/chargeback is not deduplicated as the approval.
-    const eventId = \`\${payload.event}:\${data.id}\`.slice(0, 255);
+    const eventId = `${payload.event}:${data.id}`.slice(0, 255);
     let claimedId = null;
 
     try {
-      const claimed = await sql\`
+      const claimed = await sql`
         INSERT INTO payment_events
           (provider, provider_event_id, event_type, processing_status, received_at)
-        VALUES (\${PROVIDER}, \${eventId}, \${payload.event}, 'processing', now())
+        VALUES (${PROVIDER}, ${eventId}, ${payload.event}, 'processing', now())
         ON CONFLICT (provider, provider_event_id) DO UPDATE
           SET processing_status = 'processing', received_at = now(), error_code = NULL
           WHERE payment_events.processing_status IN ('received', 'failed')
              OR (payment_events.processing_status = 'processing'
                  AND payment_events.received_at < now() - interval '5 minutes')
         RETURNING id
-      \`;
+      `;
       if (!claimed.length) {
         outcomes.push({ processed: false, reason: "duplicate_or_in_progress" });
         continue;
@@ -113,15 +113,15 @@ export async function POST(request) {
 
       const nextStatus = statusFor(payload.event, data);
       if (!nextStatus) {
-        await sql\`UPDATE payment_events SET processing_status = 'ignored',
-          processed_at = now(), error_code = 'unsupported_event' WHERE id = \${claimedId}\`;
+        await sql`UPDATE payment_events SET processing_status = 'ignored',
+          processed_at = now(), error_code = 'unsupported_event' WHERE id = ${claimedId}`;
         outcomes.push({ processed: false, reason: "unsupported_event" });
         continue;
       }
 
       if (data.product?.id !== productId) {
-        await sql\`UPDATE payment_events SET processing_status = 'ignored',
-          processed_at = now(), error_code = 'product_mismatch' WHERE id = \${claimedId}\`;
+        await sql`UPDATE payment_events SET processing_status = 'ignored',
+          processed_at = now(), error_code = 'product_mismatch' WHERE id = ${claimedId}`;
         outcomes.push({ processed: false, reason: "product_mismatch" });
         continue;
       }
@@ -130,19 +130,19 @@ export async function POST(request) {
       const amount = Number(data.amount);
       const currency = String(data.offer?.currency || "BRL").toUpperCase();
       if (!validEmail(email) || !Number.isFinite(amount) || amount < 0 || currency.length !== 3) {
-        await sql\`UPDATE payment_events SET processing_status = 'ignored',
-          processed_at = now(), error_code = 'invalid_order_data' WHERE id = \${claimedId}\`;
+        await sql`UPDATE payment_events SET processing_status = 'ignored',
+          processed_at = now(), error_code = 'invalid_order_data' WHERE id = ${claimedId}`;
         outcomes.push({ processed: false, reason: "invalid_order_data" });
         continue;
       }
 
-      const products = await sql\`
+      const products = await sql`
         SELECT id, is_active FROM products
-        WHERE provider_product_id = \${productId} LIMIT 1
-      \`;
+        WHERE provider_product_id = ${productId} LIMIT 1
+      `;
       if (!products.length || (nextStatus === "approved" && !products[0].is_active)) {
-        await sql\`UPDATE payment_events SET processing_status = 'ignored',
-          processed_at = now(), error_code = 'product_not_configured' WHERE id = \${claimedId}\`;
+        await sql`UPDATE payment_events SET processing_status = 'ignored',
+          processed_at = now(), error_code = 'product_not_configured' WHERE id = ${claimedId}`;
         outcomes.push({ processed: false, reason: "product_not_configured" });
         continue;
       }
@@ -161,16 +161,16 @@ export async function POST(request) {
         paymentMethod: data.paymentMethod ?? null,
       });
 
-      const saved = await sql\`
+      const saved = await sql`
         INSERT INTO orders
           (product_id, customer_email, provider, provider_checkout_id, provider_payment_id,
            status, amount, currency, approved_at, refunded_at, metadata, updated_at)
         VALUES (
-          \${productRowId}, \${email}, \${PROVIDER}, \${data.checkoutUrl ?? null}, \${data.id},
-          \${nextStatus}, \${amountCents}, \${currency},
-          \${nextStatus === "approved" ? paidAt : null},
-          \${nextStatus === "refunded" ? refundedAt : null},
-          \${metadata}::jsonb, now()
+          ${productRowId}, ${email}, ${PROVIDER}, ${data.checkoutUrl ?? null}, ${data.id},
+          ${nextStatus}, ${amountCents}, ${currency},
+          ${nextStatus === "approved" ? paidAt : null},
+          ${nextStatus === "refunded" ? refundedAt : null},
+          ${metadata}::jsonb, now()
         )
         ON CONFLICT (provider, provider_payment_id) DO UPDATE SET
           customer_email = EXCLUDED.customer_email,
@@ -192,36 +192,36 @@ export async function POST(request) {
           metadata = orders.metadata || EXCLUDED.metadata,
           updated_at = now()
         RETURNING id, status
-      \`;
+      `;
       const order = saved[0];
 
       if (order.status === "approved") {
-        await sql\`
+        await sql`
           INSERT INTO entitlements
             (order_id, product_id, customer_email, status, granted_at, updated_at)
-          VALUES (\${order.id}, \${productRowId}, \${email}, 'active', now(), now())
+          VALUES (${order.id}, ${productRowId}, ${email}, 'active', now(), now())
           ON CONFLICT (order_id) DO UPDATE SET
             customer_email = EXCLUDED.customer_email, status = 'active',
             revoked_at = NULL, revocation_reason = NULL, updated_at = now()
-        \`;
+        `;
       } else if (["refunded", "chargeback"].includes(order.status)) {
-        await sql\`
+        await sql`
           UPDATE entitlements SET status = 'revoked',
             revoked_at = COALESCE(revoked_at, now()),
-            revocation_reason = \${order.status}, updated_at = now()
-          WHERE order_id = \${order.id}
-        \`;
+            revocation_reason = ${order.status}, updated_at = now()
+          WHERE order_id = ${order.id}
+        `;
       }
 
-      await sql\`UPDATE payment_events SET order_id = \${order.id},
+      await sql`UPDATE payment_events SET order_id = ${order.id},
         processing_status = 'processed', processed_at = now(), error_code = NULL
-        WHERE id = \${claimedId}\`;
+        WHERE id = ${claimedId}`;
       outcomes.push({ processed: true, status: order.status });
     } catch (error) {
       if (claimedId) {
         try {
-          await sql\`UPDATE payment_events SET processing_status = 'failed',
-            error_code = 'processing_error' WHERE id = \${claimedId}\`;
+          await sql`UPDATE payment_events SET processing_status = 'failed',
+            error_code = 'processing_error' WHERE id = ${claimedId}`;
         } catch {
           // A stale processing claim can be reclaimed after five minutes.
         }
