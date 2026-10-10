@@ -11,22 +11,36 @@ export default function ModuleProgress({ modules }) {
   useEffect(() => {
     try {
       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-      if (Array.isArray(saved)) setCompleted(saved);
-    } catch {}
+      const validNumbers = new Set(modules.map((module) => module.number));
+      if (Array.isArray(saved)) {
+        setCompleted([...new Set(saved.filter((number) => validNumbers.has(number)))]);
+      }
+    } catch {
+      setCompleted([]);
+    }
     setLoaded(true);
-  }, []);
+  }, [modules]);
+
+  useEffect(() => {
+    if (!loaded) return;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(completed));
+    } catch {
+      // O progresso continua funcionando na sessão mesmo se o armazenamento estiver indisponível.
+    }
+  }, [completed, loaded]);
 
   function toggle(number) {
-    setCompleted((current) => {
-      const next = current.includes(number)
+    setCompleted((current) =>
+      current.includes(number)
         ? current.filter((item) => item !== number)
-        : [...current, number];
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(next)); } catch {}
-      return next;
-    });
+        : [...current, number]
+    );
   }
 
-  const percent = Math.round((completed.length / modules.length) * 100);
+  const percent = modules.length
+    ? Math.round((completed.length / modules.length) * 100)
+    : 0;
 
   return <>
     <section className="stats-grid" id="progresso">
@@ -37,13 +51,13 @@ export default function ModuleProgress({ modules }) {
     <section className="section-block modules-section" id="modulos">
       <div className="section-heading"><div><div className="eyebrow muted">TRILHA DE APRENDIZADO</div><h2>Seus módulos</h2></div><span className="section-note">07 ETAPAS PLANEJADAS</span></div>
       <div className="module-list">{modules.map((module) => {
-      const done = completed.includes(module.number);
-      return <div className="module-row" key={module.number}>
-        <div className="module-number">{module.number}</div>
-        <a className="module-info" href={`/modulos/${module.slug}`}><h3>{module.title}</h3><p>{module.description}</p><span className="lesson-meta">{module.lessons}</span></a>
-        <div className="module-state"><span className={done ? "state-pill completed" : "state-pill"}><i></i>{done ? "Concluído" : "Disponível"}</span><div className="module-progress"><span style={{width: done ? "100%" : "0%"}} /></div><button type="button" className="module-complete-button" onClick={() => toggle(module.number)}>{done ? "Desmarcar conclusão" : "Marcar como concluído"}</button></div>
-        <a className="module-arrow" href={`/modulos/${module.slug}`} aria-label={`Abrir módulo ${module.number}`}>↗</a>
-      </div>;
+        const done = completed.includes(module.number);
+        return <div className="module-row" key={module.number}>
+          <div className="module-number">{module.number}</div>
+          <a className="module-info" href={`/modulos/${module.slug}`}><h3>{module.title}</h3><p>{module.description}</p><span className="lesson-meta">{module.lessons}</span></a>
+          <div className="module-state"><span className={done ? "state-pill completed" : "state-pill"}><i></i>{done ? "Concluído" : "Disponível"}</span><div className="module-progress"><span style={{width: done ? "100%" : "0%"}} /></div><button type="button" className="module-complete-button" onClick={() => toggle(module.number)}>{done ? "Desmarcar conclusão" : "Marcar como concluído"}</button></div>
+          <a className="module-arrow" href={`/modulos/${module.slug}`} aria-label={`Abrir módulo ${module.number}`}>↗</a>
+        </div>;
       })}</div>
     </section>
   </>;
