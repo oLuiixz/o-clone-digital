@@ -6,140 +6,152 @@
 
 ## 1. Visão do projeto
 
-**O Clone Digital** é um produto digital de entrada (*low-ticket*) que pretende ensinar, de forma prática e organizada, como pesquisar ofertas no mercado, analisar anúncios e páginas, estruturar uma oferta própria e preparar seus elementos para teste.
+**O Clone Digital** é a ideia de um **webapp educacional organizado por módulos**, pensado para ajudar iniciantes a percorrer o processo de pesquisa de ofertas até a preparação e publicação do primeiro anúncio de uma oferta própria baseada em referências estudadas.
 
-A proposta nasce de um processo que já faz parte da operação do criador: encontrar ofertas, estudar como são apresentadas e construir uma estrutura própria a partir das referências pesquisadas.
+A intenção é oferecer um caminho prático, explicado passo a passo, em vez de apenas um curso tradicional em vídeo. O webapp poderá reunir aulas, demonstrações de tela, ferramentas, checklists, prompts e materiais de apoio. O formato e as funcionalidades finais ainda precisam ser definidos.
 
-O produto deve priorizar demonstrações práticas, tutoriais passo a passo e processos replicáveis, sem prometer vendas ou resultados garantidos.
+O projeto parte de um objetivo de acessibilidade: criar uma opção de baixo custo para quem não tem um caixa alto para investir no início.
 
 ## 2. Público-alvo
 
-Pessoas que querem começar a trabalhar com ofertas no mercado digital, mas ainda não sabem:
+Pessoas que querem começar no mercado digital e precisam aprender, com uma sequência clara:
 - Onde encontrar ofertas e anúncios para pesquisar.
-- Como analisar criativos, páginas e a apresentação de um produto.
-- Como montar uma landing page e organizar uma oferta própria.
-- Como criar ou organizar o produto entregue ao comprador.
-- Como pesquisar fornecedores quando a oferta envolve produto físico.
+- Como analisar anúncios, páginas, VSLs e a estrutura de uma oferta.
+- Como usar ferramentas de pesquisa, incluindo a Biblioteca de Anúncios e o URLScan, quando adequadas.
+- Como reconstruir a estrutura de uma oferta com materiais próprios ou devidamente autorizados.
+- Como criar ou organizar o produto/entregável e a página de vendas.
+- Como preparar e publicar o primeiro anúncio para testar a oferta.
 
 ## 3. Proposta de valor
 
-Ensinar o processo inicial de pesquisa e construção de ofertas com exemplos práticos, ferramentas e uma sequência de execução clara — reduzindo a confusão de quem não sabe por onde começar.
+Ensinar um processo prático, do início da pesquisa até o primeiro teste de anúncio, em uma área de conteúdo organizada por etapas. A meta é reduzir a confusão de quem está começando e ajudar a pessoa a executar o processo com recursos acessíveis.
 
-**Princípio:** ensinar um método útil para começar, mantendo estratégias avançadas, diferenciais operacionais e acompanhamento aprofundado fora do escopo inicial do low-ticket.
+**Princípios:** linguagem simples, demonstrações práticas, sequência executável, preço de entrada acessível e nenhuma promessa de vendas, lucro ou resultados garantidos.
 
-## 4. Conteúdo previsto
+## 4. Jornada e módulos em discussão
 
-Os módulos abaixo são uma primeira hipótese, ainda sujeitos a revisão.
+Esta estrutura reflete a ideia explicada em 10/10/2026. É uma **proposta inicial para discussão**, não uma grade fechada.
 
-### Módulo 1 — Visão geral do processo
-- Fluxo: pesquisar, analisar, estruturar e testar.
-- Como organizar referências e registrar aprendizados.
-- Como avaliar uma oferta sem presumir que terá o mesmo resultado em outro contexto.
+### Módulo 1 — Entendendo o processo
+- Visão geral: minerar, analisar, estruturar, preparar e testar.
+- Como organizar pesquisas e referências.
+- O que observar antes de decidir estudar uma oferta.
 
 ### Módulo 2 — Mineração de ofertas
-- Pesquisa na Biblioteca de Anúncios.
-- Uso do Whatsparo (extensão), a confirmar conforme disponibilidade e funcionamento.
-- Uso do URLScan para investigar informações públicas de sites.
-- Como registrar e comparar ofertas encontradas.
+- Como pesquisar ofertas na Biblioteca de Anúncios.
+- Como encontrar e organizar anúncios e páginas de referência.
+- Uso de ferramentas de apoio, como URLScan, para investigar informações públicas de sites.
+- Como registrar sinais observáveis sem assumir que uma oferta terá o mesmo desempenho para outra pessoa.
 
-### Módulo 3 — Pesquisa e análise de criativos
-- Como localizar criativos de referência.
-- Como analisar ângulo, gancho, formato e chamada para ação.
-- Como salvar referências e organizar uma biblioteca de pesquisa.
-- Como produzir versões próprias, respeitando direitos autorais e permissões de uso.
+### Módulo 3 — Análise da oferta e dos anúncios
+- Como entender a promessa, o público, os ângulos, os ganchos e as chamadas para ação.
+- Como analisar a estrutura de anúncios, páginas e VSLs.
+- Como separar elementos úteis de referência e ideias que precisam ser adaptadas.
 
-### Módulo 4 — Estrutura de landing pages e ofertas
-- Como mapear as seções de uma página de vendas.
-- Como entender a sequência da oferta, benefícios, objeções e chamadas para ação.
-- Como construir uma página própria com identidade, textos e materiais originais ou devidamente licenciados.
-- Checklist de revisão para desktop e celular.
+### Módulo 4 — Reconstrução da estrutura da oferta
+- Como mapear a sequência e os componentes de uma oferta.
+- Como desenvolver uma versão própria, com posicionamento, textos, identidade visual e materiais originais ou devidamente licenciados.
+- Como revisar a oferta para que a entrega corresponda ao que é anunciado.
 
-### Módulo 5 — Criação do entregável
-- Como definir o que o comprador receberá.
-- Como estruturar materiais digitais, como guias, e-books, arquivos ou áreas de conteúdo.
-- Como organizar a entrega e conferir se o produto corresponde ao que foi anunciado.
+### Módulo 5 — Produto/entregável
+- Como definir o que o comprador vai receber.
+- Como criar ou organizar o material que será entregue.
+- Como conferir a qualidade, a clareza e a coerência entre a oferta e o produto.
 
-### Módulo 6 — Fornecedores para produtos físicos
-- Como pesquisar possíveis fornecedores.
-- Como comparar preço, prazo, qualidade, logística e condições.
-- Como verificar a confiabilidade antes de anunciar um produto.
-- Cuidados com estoque, envio, atendimento e políticas de devolução.
+### Módulo 6 — Estrutura da página de vendas e da VSL
+- Como analisar a organização de uma página de vendas e de uma VSL de referência.
+- Como planejar uma página e um roteiro próprios.
+- Como adaptar a estrutura sem copiar conteúdo protegido ou usar materiais sem autorização.
+- Como revisar a experiência em computador e celular.
 
-### Módulo 7 — Preparação para testar
-- Checklist da oferta antes de colocá-la no ar.
-- Revisão da página, criativos, checkout e entrega.
-- Como registrar hipóteses, testes e resultados.
-- Como interpretar resultados sem prometer sucesso garantido.
+### Módulo 7 — Preparando e publicando o primeiro anúncio
+- Checklist antes de anunciar: oferta, página, checkout e entrega.
+- Como preparar um criativo próprio e configurar um primeiro teste de anúncio.
+- Como acompanhar e registrar o que aconteceu.
+- Como interpretar os dados com cautela, sem promessa de resultado.
+
+> A ordem, os nomes e a quantidade de módulos podem mudar. O conteúdo de fornecedores para produtos físicos permanece como possibilidade a avaliar, não como parte confirmada da primeira versão.
 
 ## 5. Formato de entrega
 
-**Ideia inicial:** uma área de membros ou sistema próprio com:
-- Módulos e aulas organizados.
-- Tutoriais práticos, de preferência com gravações de tela.
-- Checklists e materiais de apoio.
-- Exemplos comentados e modelos de organização.
-- Espaço para adicionar novos conteúdos no futuro.
+**Direção desejada:** webapp com conteúdo separado por módulos, inspirado na experiência prática que já foi explorada no DarkMotion.
 
-A plataforma ainda não foi definida nem desenvolvida. Primeiro, validar o escopo e a sequência do conteúdo.
+Possíveis componentes, ainda sujeitos a definição:
+- Área organizada por módulos e aulas.
+- Tutoriais passo a passo, incluindo gravações de tela.
+- Checklists, prompts e materiais de apoio.
+- Ferramentas e links úteis.
+- Espaço para atualizar e acrescentar conteúdo.
 
-## 6. Posicionamento e limites
+A plataforma ainda não foi construída e os recursos finais não foram definidos. A prioridade é consolidar a jornada de aprendizagem antes de desenvolver.
 
-- Produto de entrada, com escopo objetivo.
+## 6. Faixa de preço em consideração
+
+O criador mencionou uma faixa inicial acessível de **R$ 17 a R$ 47**, considerando valores como R$ 29,90. **Nenhum preço foi definido.** A faixa deve ser avaliada em conjunto com o escopo, a entrega e os custos da operação.
+
+## 7. Posicionamento e limites
+
+- Produto de entrada, com escopo objetivo e acessível.
 - Conteúdo prático, sem excesso de teoria genérica.
-- Não prometer faturamento, lucro ou resultados garantidos.
-- Usar páginas, anúncios e produtos de terceiros como referências de análise; não apresentar cópias não autorizadas como material próprio.
+- Não prometer faturamento, lucro, aprovação de anúncios ou resultados garantidos.
+- Usar anúncios, páginas, VSLs e produtos de terceiros como referências de análise; não apresentar cópias não autorizadas como material próprio.
 - Respeitar direitos autorais, marcas, licenças, termos de uso das ferramentas e regras das plataformas.
-- Ao recriar uma oferta, desenvolver textos, criativos, identidade visual e entregáveis próprios ou utilizar materiais com autorização adequada.
+- Ao reconstruir uma oferta, criar textos, criativos, identidade visual, roteiro e entregáveis próprios ou utilizar materiais com autorização adequada.
 - Não incentivar falsificação de provas, depoimentos, resultados ou alegações de produto.
 
-## 7. Ideias para avaliar depois
+## 8. Ideias para avaliar depois
 
 - Biblioteca de ferramentas e links úteis.
 - Checklist de mineração de ofertas.
 - Planilha ou painel para registrar ofertas pesquisadas.
-- Modelos de briefing para criativos e landing pages.
-- Checklist de validação de fornecedores.
+- Modelos de briefing para criativos, VSLs e landing pages.
+- Checklists para revisar a oferta, a página e a entrega.
+- Conteúdo sobre pesquisa de fornecedores para produtos físicos.
 - Área de atualizações e novos tutoriais.
-- Produto avançado ou mentoria como possível próximo passo — sem definir isso antes de validar o produto inicial.
+- Produto avançado ou mentoria como possível próximo passo, somente após avaliar a primeira versão.
 
 Estas são possibilidades, não funcionalidades confirmadas.
 
-## 8. Status atual
+## 9. Status atual
 
 | Área | Status | Observações |
 |---|---|---|
 | Nome do produto | Definido inicialmente | O Clone Digital |
-| Formato comercial | Ideia inicial | Low-ticket |
-| Público-alvo | Rascunho | Iniciantes que precisam aprender o processo |
-| Conteúdo principal | Rascunho | Mineração, criativos, páginas, entregáveis e fornecedores |
-| Preço | A definir | Não decidido |
+| Formato desejado | Direção definida | Webapp educacional separado por módulos |
+| Público-alvo | Rascunho | Iniciantes com orçamento limitado |
+| Jornada principal | Rascunho mais claro | Da mineração de ofertas ao primeiro anúncio |
+| Conteúdo dos módulos | Em discussão | Grade inicial registrada acima |
+| Faixa de preço | Ideia registrada | R$ 17 a R$ 47; preço final não definido |
 | Identidade visual | A definir | Não decidida |
-| Plataforma de entrega | A definir | Sistema próprio é uma possibilidade |
-| Gravação das aulas | Não iniciado | Definir roteiro e ordem antes de gravar |
+| Plataforma e funcionalidades | A definir | Ainda não desenvolvidas |
+| Gravação das aulas | Não iniciado | Definir roteiros e sequência antes de gravar |
 | Página de vendas | Não iniciado | Definir após consolidar oferta e conteúdo |
 | Checkout e entrega | Não iniciado | Escolher quando o modelo estiver mais claro |
 
-## 9. Próximas etapas
+## 10. Próximas etapas
 
 - [ ] Refinar a promessa principal e o resultado realista para o aluno.
-- [ ] Definir o perfil de aluno prioritário.
-- [ ] Fechar os módulos que farão parte da primeira versão.
-- [ ] Separar o conteúdo essencial do conteúdo avançado que ficará de fora.
-- [ ] Definir preço, formato e ferramentas de entrega.
+- [ ] Definir o perfil prioritário de aluno.
+- [ ] Revisar e fechar a sequência de módulos da primeira versão.
+- [ ] Separar conteúdo essencial do conteúdo avançado.
+- [ ] Definir o que o webapp precisa ter no lançamento e o que pode ficar para depois.
+- [ ] Avaliar a faixa de preço e o que será entregue.
 - [ ] Escrever os roteiros das aulas em ordem de execução.
 - [ ] Produzir os primeiros tutoriais e materiais de apoio.
 - [ ] Preparar a página de vendas e o fluxo de compra e entrega.
 - [ ] Testar a experiência completa antes de lançar.
 - [ ] Registrar feedbacks e atualizar o produto após o lançamento.
 
-## 10. Registro de decisões e novas ideias
+## 11. Registro de decisões e novas ideias
 
-Registrar aqui decisões confirmadas e encaminhar ideias novas para a seção de ideias a avaliar. Não tratar uma sugestão como decisão até que seja aprovada.
+Registrar decisões confirmadas e encaminhar ideias novas para avaliação. Não tratar uma sugestão como decisão até que seja aprovada.
 
 ### Registro inicial
 - **Projeto criado:** O Clone Digital.
-- **Objetivo desta etapa:** organizar a ideia em um documento central antes de iniciar o desenvolvimento.
-- **Escopo inicial:** produto low-ticket com conteúdo prático sobre pesquisa de ofertas, análise de criativos, estruturação de landing pages, criação de entregáveis e pesquisa de fornecedores.
+- **Objetivo desta etapa:** organizar e amadurecer a ideia antes de iniciar o desenvolvimento.
+- **Direção registrada em 10/10/2026:** webapp modular de baixo custo, ensinando desde a mineração e análise de ofertas até a reconstrução de uma estrutura própria e a preparação do primeiro anúncio.
+- **Faixa de preço mencionada:** R$ 17 a R$ 47, ainda sem definição final.
+- **Fonte central do projeto:** este repositório GitHub; não usar Obsidian como segundo espaço de organização.
 
 ---
 
