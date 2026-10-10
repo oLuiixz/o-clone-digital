@@ -286,3 +286,12 @@ a.module-row:focus-visible{
 .module-deep-section h2{margin:0 0 10px;font-size:16px;color:var(--text)}
 .module-deep-section p{margin:0;color:#aeb4bc;font-size:13px;line-height:1.85}
 @media(max-width:780px){.module-deep-section{grid-template-columns:28px minmax(0,1fr);gap:10px;padding:18px 15px}.module-deep-section h2{font-size:14px}.module-deep-section p{font-size:12px;line-height:1.8}.module-benefits li{font-size:11px}}
+
+/* Identidade visual O Clone Digital */
+.brand-logo{display:block;width:58px;height:58px;object-fit:contain;flex:0 0 auto;border-radius:10px}
+.brand{gap:12px}
+.hero{isolation:isolate}
+.hero-banner-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.27;pointer-events:none;z-index:0}
+.hero-copy{z-index:2}
+.hero-art{z-index:1}
+@media(max-width:780px){.brand-logo{width:48px;height:48px}.hero-banner-image{opacity:.22}}
