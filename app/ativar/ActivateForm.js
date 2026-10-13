@@ -17,7 +17,7 @@ export default function ActivateForm({ token }) {
       const response = await fetch("/api/auth/activate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ token, password }) });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Não foi possível ativar a conta.");
-      window.location.assign(data.redirect || "/");
+      window.location.assign(data.redirect || "/painel");
     } catch (err) { setError(err.message || "Tente novamente."); }
     finally { setBusy(false); }
   }
