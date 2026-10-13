@@ -32,7 +32,7 @@ export async function POST(request) {
         email_verified_at = COALESCE(member_accounts.email_verified_at, now()), updated_at = now()
       RETURNING id`;
     await createSession(accounts[0].id);
-    return NextResponse.json({ ok: true, redirect: "/" });
+    return NextResponse.json({ ok: true, redirect: "/painel" });
   } catch (error) {
     console.error("Member activation failed", error instanceof Error ? error.message : "unknown_error");
     return NextResponse.json({ error: "Não foi possível ativar a conta agora." }, { status: 500 });
