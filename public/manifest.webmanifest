@@ -1,0 +1,16 @@
+{
+  "id": "/painel",
+  "name": "O Clone Digital",
+  "short_name": "Clone Digital",
+  "description": "Seu laboratório de ofertas digitais.",
+  "start_url": "/painel",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#090a0c",
+  "theme_color": "#ff3045",
+  "orientation": "portrait",
+  "icons": [
+    {"src": "/imagens/E900F1F7-AFCC-42AA-AA22-F92B83E84AF8.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "/imagens/E900F1F7-AFCC-42AA-AA22-F92B83E84AF8.png", "sizes": "512x512", "type": "image/png", "purpose": "any"}
+  ]
+}
