@@ -101,8 +101,9 @@ export async function POST(request) {
 
   const sql = neon(databaseUrl);
   let claimedId = null;
-  const eventId = String(payload.event_id ?? request.headers.get("x-syncpay-delivery") ??
-    `${payload.event}:${transactionId}:${transaction.status}`).slice(0, 255);
+  // Use a stable transaction + status key instead of provider delivery IDs. This makes
+  // repeated "paid" notifications idempotent even when SyncPay assigns a new event ID.
+  const eventId = `${payload.event}:${transactionId}:${String(transaction.status).toLowerCase()}`.slice(0, 255);
   try {
     const claimed = await sql`
       INSERT INTO payment_events (provider, provider_event_id, event_type, processing_status, received_at)
