@@ -816,3 +816,9 @@ button, a {
 @keyframes sales-card-border-spin{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
 @media(prefers-reduced-motion:reduce){.sales-method-card::before{animation:none;transform:translate(-50%,-50%) rotate(35deg)}}
 
+
+/* SVG icons used across the sales landing page */
+.sales-play svg{display:block;width:16px;height:16px}
+.sales-stage-arrow svg,.sales-module-arrow svg,.sales-float-icon svg{display:block;width:16px;height:16px}
+.sales-method-symbol svg{display:block;width:34px;height:34px}
+.sales-offer-secure span svg{display:block;width:13px;height:13px}
