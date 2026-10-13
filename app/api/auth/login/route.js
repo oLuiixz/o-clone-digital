@@ -23,7 +23,7 @@ export async function POST(request) {
       return NextResponse.json({ error: "Não há uma compra ativa vinculada a este e-mail." }, { status: 403 });
     }
     await createSession(rows[0].id);
-    return NextResponse.json({ ok: true, redirect: "/" });
+    return NextResponse.json({ ok: true, redirect: "/painel" });
   } catch (error) {
     console.error("Member login failed", error instanceof Error ? error.message : "unknown_error");
     return NextResponse.json({ error: "Não foi possível entrar agora." }, { status: 500 });
