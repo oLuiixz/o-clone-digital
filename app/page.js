@@ -1,117 +1,78 @@
+import Link from "next/link";
+
+const checkoutUrl = process.env.NEXT_PUBLIC_SYNCPAY_CHECKOUT_URL;
 const modules = [
-  { number: "01", slug: "entendendo-o-processo", title: "Entendendo o processo", description: "Conheça o caminho da pesquisa ao primeiro teste.", lessons: "Introdução e mapa do método", status: "Disponível", progress: 0 },
-  { number: "02", slug: "mineracao-de-ofertas", title: "Mineração de ofertas", description: "Aprenda a pesquisar anúncios e encontrar referências.", lessons: "Biblioteca de Anúncios · Pesquisa · Organização", status: "Disponível", progress: 0 },
-  { number: "03", slug: "analise-da-oferta", title: "Análise da oferta", description: "Entenda a promessa, o público, os criativos e a estrutura.", lessons: "Anúncios · Página · VSL · Diferenciais", status: "Disponível", progress: 0 },
-  { number: "04", slug: "estrutura-e-produto", title: "Estrutura e produto", description: "Planeje uma oferta própria a partir das referências estudadas.", lessons: "Produto · Entregável · Posicionamento", status: "Disponível", progress: 0 },
-  { number: "05", slug: "pagina-de-vendas-e-vsl", title: "Página de vendas e VSL", description: "Estruture sua comunicação e apresente a oferta com clareza.", lessons: "Roteiro · Página · Revisão", status: "Disponível", progress: 0 },
-  { number: "06", slug: "primeiro-anuncio", title: "Primeiro anúncio", description: "Prepare a campanha inicial e entenda como testar com responsabilidade.", lessons: "Criativo · Configuração · Métricas", status: "Disponível", progress: 0 },
-  { number: "07", slug: "integracao-e-entrega", title: "Integração e entrega", description: "Organize pagamento, confirmação, acesso ao produto e suporte ao comprador.", lessons: "Checkout · Automação · Acesso · Pós-venda", status: "Disponível", progress: 0 },
+  ["01","Entendendo o processo","Veja como as etapas se conectam e por onde começar."],
+  ["02","Mineração de ofertas","Pesquise anúncios, páginas e referências com mais critério."],
+  ["03","Análise da oferta","Observe promessa, público, criativos e estrutura."],
+  ["04","Estrutura e produto","Planeje uma proposta própria a partir do que estudou."],
+  ["05","Página de vendas e VSL","Organize a mensagem e apresente sua oferta com clareza."],
+  ["06","Primeiro anúncio","Prepare um teste inicial e acompanhe as métricas."],
+  ["07","Integração e entrega","Entenda checkout, acesso, automação e pós-venda."]
 ];
-
-const quickLinks = [
-  { icon: "search", title: "Minerar ofertas", text: "Pesquisar e salvar referências", module: "MÓDULO 02", slug: "mineracao-de-ofertas" },
-  { icon: "chart", title: "Analisar uma oferta", text: "Entender os elementos que funcionam", module: "MÓDULO 03", slug: "analise-da-oferta" },
-  { icon: "layers", title: "Montar minha estrutura", text: "Organizar produto e comunicação", module: "MÓDULO 04", slug: "estrutura-e-produto" },
+const faqs = [
+  ["O que é o O Clone Digital?","É uma plataforma educacional organizada por etapas para ajudar você a pesquisar referências, analisar ofertas, estruturar um produto próprio e preparar um primeiro teste de anúncio."],
+  ["Preciso ter experiência no mercado digital?","A jornada foi pensada para quem está começando e precisa de um caminho organizado. Você pode avançar etapa por etapa, sem tentar fazer tudo de uma vez."],
+  ["O conteúdo garante vendas ou lucro?","Não. Resultados dependem de diversos fatores, incluindo execução, oferta, mercado, orçamento e ajustes. O Clone Digital ensina um processo; não promete vendas ou lucro garantidos."],
+  ["Vou aprender a copiar produtos de outras pessoas?","A proposta é estudar referências para compreender estruturas e desenvolver uma oferta própria. Conteúdos, marcas e materiais de terceiros devem ser usados respeitando direitos autorais e as permissões aplicáveis."],
+  ["Como recebo meu acesso?","Após a confirmação da compra, o acesso é vinculado ao e-mail informado no pedido. Se você já comprou, use a opção de entrar na área do aluno."]
 ];
+function Arrow(){return <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+function Check(){return <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="m5 12 4.5 4.5L19 7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>}
 
-const navigation = [
-  { icon: "home", label: "Início", href: "#inicio" },
-  { icon: "modules", label: "Módulos", href: "#modulos" },
-  { icon: "files", label: "Documentos", href: "#atalhos" },
-  { icon: "settings", label: "Configurações", href: "#progresso" },
-];
-
-
-function Icon({ name, size = 18 }) {
-  const common = { width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.7, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true, focusable: "false" };
-  const paths = {
-    home: <><path d="m3 10 9-7 9 7" /><path d="M5 9v11h14V9M9 20v-6h6v6" /></>,
-    modules: <><rect x="4" y="3" width="16" height="18" rx="2" /><path d="M8 8h8M8 12h8M8 16h5" /></>,
-    files: <><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H10l2 2h5.5A2.5 2.5 0 0 1 20 9.5v8a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 17.5Z" /><path d="M4 10h16" /></>,
-    settings: <><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.8 1.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5v.2h-2.6v-.2a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1-1.8-1.8.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H6.3v-2.6h.2a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1 1.8-1.8.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.5v-.2H15v.2a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1 1.8 1.8-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.5 1h.2v2.6h-.2a1.7 1.7 0 0 0-1.5 1Z" /></>,
-    search: <><circle cx="10.8" cy="10.8" r="6.3" /><path d="m16 16 4.2 4.2" /></>,
-    chart: <><path d="M4 19V5M4 19h16" /><path d="m7 15 4-4 3 2 5-6" /><path d="M16 7h3v3" /></>,
-    layers: <><path d="m12 3 9 5-9 5-9-5 9-5Z" /><path d="m3 12 9 5 9-5M3 16l9 5 9-5" /></>,
-    arrow: <><path d="M7 17 17 7M8 7h9v9" /></>,
-    help: <><circle cx="12" cy="12" r="9" /><path d="M9.6 9a2.5 2.5 0 1 1 4.2 1.8c-1.1 1-1.8 1.3-1.8 2.7M12 17h.01" /></>,
-    more: <><circle cx="5" cy="12" r="1" /><circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /></>
-  };
-  return <svg {...common}>{paths[name] || paths.layers}</svg>;
-}
-
-import ModuleProgress from "./components/ModuleProgress";
-import { redirect } from "next/navigation";
-import { getCurrentMember } from "../lib/member-auth";
-
-export default async function Home() {
-  const member = await getCurrentMember();
-  if (!member) redirect("/login");
-  return (
-    <main className="app-shell">
-      <aside className="sidebar">
-        <a className="brand" href="#inicio" aria-label="O Clone Digital início">
-          <img className="brand-logo" src="/imagens/logo-clone-digital.svg" alt="O Clone Digital" />
-          <span className="brand-name">O CLONE <b>DIGITAL</b><small>LABORATÓRIO DE OFERTAS</small></span>
-        </a>
-        <div className="side-label">ESPAÇO DE TRABALHO</div>
-        <nav className="navigation" aria-label="Navegação principal">
-          <a className="nav-item active" href="#inicio"><span><Icon name="home" /></span> Visão geral</a>
-          <a className="nav-item" href="#modulos"><span><Icon name="modules" /></span> Módulos e aulas</a>
-          <a className="nav-item" href="#atalhos"><span><Icon name="search" /></span> Pesquisa de ofertas</a>
-          <a className="nav-item" href="#modulos"><span><Icon name="layers" /></span> Ferramentas e materiais</a>
-          <a className="nav-item" href="#progresso"><span><Icon name="chart" /></span> Meu progresso</a>
-        </nav>
-        <div className="sidebar-bottom">
-          <div className="help-card"><span className="help-icon"><Icon name="help" size={15} /></span><div><b>Precisa de ajuda?</b><p>Em breve, um espaço de suporte.</p></div></div>
-          <div className="profile"><div className="avatar">CD</div><div className="profile-copy"><b>Minha jornada</b><span>Área do aluno</span></div><span className="profile-menu"><Icon name="more" size={18} /></span></div>
-        </div>
-      </aside>
-
-      <nav className="mobile-nav" aria-label="Navegação mobile">
-        {navigation.map((item, index) => (
-          <a className={index === 0 ? "mobile-nav-item active" : "mobile-nav-item"} href={item.href} key={item.label}>
-            <span className={`mobile-nav-icon icon-${item.icon}`} aria-hidden="true">
-              {item.icon === "home" && <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3.2 2.8 11a1 1 0 0 0 1.3 1.5l.9-.8v7A2.3 2.3 0 0 0 7.3 21h3.1v-5.5h3.2V21h3.1a2.3 2.3 0 0 0 2.3-2.3v-7l.9.8a1 1 0 0 0 1.3-1.5L12 3.2Z"/></svg>}
-              {item.icon === "modules" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>}
-              {item.icon === "files" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H10l2 2h5.5A2.5 2.5 0 0 1 20 9.5v8a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 17.5Z"/><path d="M4 10h16"/></svg>}
-              {item.icon === "settings" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="m19.4 15 .1.1 1.1.9-1.1 1.9-1.4-.5a7.7 7.7 0 0 1-1.5.9l-.2 1.5h-2.2l-.4-1.4a7.7 7.7 0 0 1-1.8 0l-.8 1.2-2-.9.3-1.5a7.7 7.7 0 0 1-1.3-1.3l-1.5.3-.9-2 1.2-.8a7.7 7.7 0 0 1 0-1.8l-1.2-.8.9-2 1.5.3a7.7 7.7 0 0 1 1.3-1.3l-.3-1.5 2-.9.8 1.2a7.7 7.7 0 0 1 1.8 0l.4-1.4h2.2l.2 1.5a7.7 7.7 0 0 1 1.5.9l1.4-.5 1.1 1.9-1.1.9a7.7 7.7 0 0 1 0 1.8Z"/></svg>}
-            </span>
-            <span>{item.label}</span>
-          </a>
-        ))}
-      </nav>
-
-      <section className="main-panel" id="inicio">
-        <header className="topbar"><div className="breadcrumb">Área do aluno <span>/</span> <b>Visão geral</b></div><div className="top-actions"><span className="status-dot"></span><span>Plataforma em construção</span><button className="user-button" aria-label="Perfil">CD</button></div></header>
-        <div className="content">
-          <section className="hero">
-            <img className="hero-banner-image" src="/imagens/banner.webp" alt="O Clone Digital — Encontre, analise, estruture e teste" />
-            <div className="hero-copy">
-              <div className="eyebrow"><span className="eyebrow-line"></span> SUA JORNADA COMEÇA AQUI</div>
-              <h1>Da pesquisa à<br /><em>primeira oferta.</em></h1>
-              <p>Um passo de cada vez. Aprenda a encontrar referências, entender a estrutura de uma oferta e construir seu próprio processo com método.</p>
-              <a className="primary-button" href="#modulos">Explorar módulos <span><Icon name="arrow" size={15} /></span></a>
-            </div>
-            <div className="hero-art" aria-hidden="true">
-              <div className="orbit orbit-one"></div><div className="orbit orbit-two"></div><div className="orbit orbit-three"></div>
-              <div className="core"><span>C</span><small>ESTRUTURE</small></div>
-              <div className="floating-chip chip-top"><span>01</span> PESQUISAR</div>
-              <div className="floating-chip chip-right"><span>02</span> ANALISAR</div>
-              <div className="floating-chip chip-bottom"><span>03</span> TESTAR</div>
-            </div>
-            <div className="hero-index">OCD / 001</div>
-          </section>
-
-          <ModuleProgress modules={modules} />
-
-          <section className="section-block" id="atalhos">
-            <div className="section-heading"><div><div className="eyebrow muted">COMECE POR AQUI</div><h2>O que você quer construir hoje?</h2></div><span className="section-note">ATALHOS DA JORNADA</span></div>
-            <div className="quick-grid">{quickLinks.map((item) => <a className="quick-card" href={`/modulos/${item.slug}`} key={item.title}><div className="quick-top"><span className="quick-icon"><Icon name={item.icon} size={19} /></span><span className="arrow"><Icon name="arrow" size={16} /></span></div><span className="quick-module">{item.module}</span><h3>{item.title}</h3><p>{item.text}</p></a>)}</div>
-          </section>
-
-          <footer className="footer"><span>O CLONE DIGITAL <b>© 2026</b></span><span>ENCONTRE. ANALISE. ESTRUTURE. TESTE.</span></footer>
-        </div>
-      </section>
-    </main>
-  );
+export default function SalesPage(){
+ return <main className="sales-page">
+  <div className="sales-topline"><span className="sales-status-dot"/> UM PROCESSO MAIS CLARO PARA COMEÇAR NO DIGITAL</div>
+  <header className="sales-header">
+   <Link className="sales-brand" href="/" aria-label="O Clone Digital início"><img src="/imagens/logo-clone-digital.svg" alt=""/><span>O CLONE <b>DIGITAL</b><small>LABORATÓRIO DE OFERTAS</small></span></Link>
+   <nav className="sales-nav" aria-label="Navegação da página"><a href="#metodo">O método</a><a href="#jornada">A jornada</a><a href="#duvidas">Dúvidas</a></nav>
+   <Link className="sales-header-login" href="/login">Já tenho acesso <Arrow/></Link>
+  </header>
+  <section className="sales-hero">
+   <div className="sales-hero-glow" aria-hidden="true"/>
+   <div className="sales-hero-copy">
+    <div className="sales-kicker"><span/> PESQUISAR. ANALISAR. ESTRUTURAR. TESTAR.</div>
+    <h1>Menos achismo.<br/><em>Mais método.</em></h1>
+    <p className="sales-hero-lead">Aprenda a sair da pesquisa de referências para a estruturação da sua própria oferta — com uma jornada organizada, prática e etapa por etapa.</p>
+    <div className="sales-hero-actions"><a className="sales-button sales-button-primary" href="#oferta">Conhecer o O Clone Digital <Arrow/></a><a className="sales-button sales-button-quiet" href="#metodo">Ver como funciona <span className="sales-play">↓</span></a></div>
+    <div className="sales-hero-footnote"><span><Check/></span> Um caminho organizado para quem está começando</div>
+   </div>
+   <div className="sales-product-stage" aria-label="Prévia ilustrativa da organização dos módulos da plataforma">
+    <div className="sales-stage-orbit sales-stage-orbit-one"/><div className="sales-stage-orbit sales-stage-orbit-two"/>
+    <div className="sales-stage-card">
+     <div className="sales-stage-top"><div className="sales-stage-brand"><span className="sales-stage-mark">C</span><span>O CLONE <b>DIGITAL</b><small>ÁREA DE APRENDIZADO</small></span></div><span className="sales-live"><i/> SUA JORNADA</span></div>
+     <div className="sales-stage-welcome"><span>SEU PRÓXIMO PASSO</span><h2>Transforme pesquisa<br/>em direção.</h2><p>Uma etapa de cada vez. Um processo que você consegue acompanhar.</p></div>
+     <div className="sales-stage-progress"><div><span>JORNADA DE APRENDIZADO</span><b>07 etapas</b></div><div className="sales-stage-progress-track"><span/></div></div>
+     <div className="sales-stage-modules">{modules.slice(0,3).map(([n,title,desc])=><div className={n==="01"?"sales-stage-module is-active":"sales-stage-module"} key={n}><span>{n}</span><div><b>{title}</b><small>{desc}</small></div><span className="sales-stage-arrow">↗</span></div>)}</div>
+     <div className="sales-stage-bottom"><span><i/> CONTEÚDO ORGANIZADO POR ETAPAS</span><span>OCD / 01</span></div>
+    </div>
+    <div className="sales-float-note sales-float-note-top"><span className="sales-float-icon">↗</span><div><b>Pesquise com intenção</b><small>Organize suas referências</small></div></div>
+    <div className="sales-float-note sales-float-note-bottom"><span className="sales-float-check"><Check/></span><div><b>Construa seu processo</b><small>Avance no seu ritmo</small></div></div>
+   </div>
+  </section>
+  <div className="sales-proof-strip"><div><span>01</span><b>Clareza no caminho</b></div><i/><div><span>02</span><b>Pesquisa com critério</b></div><i/><div><span>03</span><b>Estrutura própria</b></div><i/><div><span>04</span><b>Teste consciente</b></div></div>
+  <section className="sales-section sales-method" id="metodo">
+   <div className="sales-section-heading"><div><div className="sales-kicker"><span/> A IDEIA POR TRÁS DO MÉTODO</div><h2>Você não precisa<br/>fazer tudo <em>no escuro.</em></h2></div><p>O mercado digital pode parecer confuso quando cada informação está em um lugar. O O Clone Digital organiza as etapas para você entender o que pesquisar, o que observar e qual pode ser o próximo passo.</p></div>
+   <div className="sales-method-grid">
+    <article className="sales-method-card sales-method-card-featured"><span className="sales-card-index">01 / PESQUISA</span><div className="sales-method-symbol">⌕</div><h3>Encontre referências para estudar</h3><p>Aprenda a pesquisar ofertas e anúncios públicos, reunir referências e registrar o que vale investigar melhor.</p><span className="sales-card-line"/></article>
+    <article className="sales-method-card"><span className="sales-card-index">02 / ANÁLISE</span><div className="sales-method-symbol">◫</div><h3>Entenda a estrutura por trás da oferta</h3><p>Observe promessa, público, criativos, página e VSL sem confundir referência com garantia de resultado.</p><span className="sales-card-line"/></article>
+    <article className="sales-method-card"><span className="sales-card-index">03 / EXECUÇÃO</span><div className="sales-method-symbol">↗</div><h3>Organize uma oferta que seja sua</h3><p>Use o que aprendeu para planejar produto, comunicação e um teste inicial com mais clareza.</p><span className="sales-card-line"/></article>
+   </div>
+  </section>
+  <section className="sales-journey" id="jornada"><div className="sales-journey-head"><div><div className="sales-kicker"><span/> UMA JORNADA EM ETAPAS</div><h2>Do primeiro estudo<br/>ao primeiro <em>teste.</em></h2></div><p>Conteúdo organizado para avançar com consistência, sem pular direto para a parte mais difícil.</p></div>
+   <div className="sales-module-list">{modules.map(([n,title,desc])=><article className="sales-module-row" key={n}><span className="sales-module-number">{n}</span><div className="sales-module-copy"><h3>{title}</h3><p>{desc}</p></div><span className="sales-module-arrow">↗</span></article>)}</div>
+   <p className="sales-journey-note">O conteúdo é educacional. As etapas podem ser ajustadas conforme a evolução do material.</p>
+  </section>
+  <section className="sales-section sales-fit"><div className="sales-fit-intro"><div className="sales-kicker"><span/> FEITO PARA APRENDER FAZENDO</div><h2>Mais organização.<br/><em>Menos dispersão.</em></h2><p>Uma base para quem quer parar de pular entre ideias e começar a trabalhar com um processo mais claro.</p><a className="sales-text-link" href="#oferta">Quero conhecer a plataforma <Arrow/></a></div>
+   <div className="sales-fit-list"><div><span><Check/></span><p><b>Para quem está começando</b><small>Entenda a sequência antes de tentar executar tudo ao mesmo tempo.</small></p></div><div><span><Check/></span><p><b>Para quem precisa de direção</b><small>Organize a pesquisa, as observações e as decisões em etapas.</small></p></div><div><span><Check/></span><p><b>Para quem quer criar algo próprio</b><small>Estude estruturas como referência e desenvolva sua própria comunicação e entrega.</small></p></div><div><span><Check/></span><p><b>Para quem quer testar com consciência</b><small>Prepare-se para avaliar dados e aprender com os testes, sem promessas irreais.</small></p></div></div>
+  </section>
+  <section className="sales-offer-section" id="oferta"><div className="sales-offer-glow" aria-hidden="true"/><div className="sales-offer-copy"><div className="sales-kicker"><span/> SEU PRÓXIMO PASSO</div><h2>Comece com um plano.<br/><em>Avance com método.</em></h2><p>Conheça a jornada do O Clone Digital e organize o seu próximo passo no mercado digital.</p><div className="sales-offer-checks"><span><Check/> Jornada dividida em 7 etapas</span><span><Check/> Conteúdo educacional e prático</span><span><Check/> Acesso vinculado ao e-mail da compra</span></div></div>
+   <div className="sales-offer-card"><div className="sales-offer-card-top"><img src="/imagens/logo-clone-digital.svg" alt=""/><span>O CLONE DIGITAL</span></div><div className="sales-offer-name">ACESSO À PLATAFORMA</div><h3>O Clone Digital</h3><p>Uma jornada organizada para pesquisar, analisar, estruturar e testar.</p>
+    {checkoutUrl?<a className="sales-button sales-button-primary sales-buy-button" href={checkoutUrl} target="_blank" rel="noreferrer">Quero acessar agora <Arrow/></a>:<div className="sales-checkout-pending"><b>Checkout SyncPay pendente</b><span>O link oficial de compra ainda precisa ser configurado para ativar a finalização nesta página.</span></div>}
+    <Link className="sales-offer-login" href="/login">Já comprou? Entre na área do aluno <Arrow/></Link><div className="sales-offer-secure"><span>◈</span> Compra somente pelo checkout oficial configurado</div>
+   </div>
+  </section>
+  <section className="sales-faq sales-section" id="duvidas"><div className="sales-faq-heading"><div className="sales-kicker"><span/> PERGUNTAS FREQUENTES</div><h2>Antes de <em>começar.</em></h2><p>Informação clara para você decidir com tranquilidade.</p></div><div className="sales-faq-list">{faqs.map(([q,a])=><details key={q} className="sales-faq-item"><summary>{q}<span>+</span></summary><p>{a}</p></details>)}</div></section>
+  <footer className="sales-footer"><Link className="sales-brand" href="/"><img src="/imagens/logo-clone-digital.svg" alt=""/><span>O CLONE <b>DIGITAL</b><small>LABORATÓRIO DE OFERTAS</small></span></Link><p>Aprendizado, pesquisa e execução com responsabilidade.</p><div><Link href="/login">Área do aluno</Link><a href="#metodo">O método</a><a href="#duvidas">Dúvidas</a></div><small>© {new Date().getFullYear()} O Clone Digital. Conteúdo educacional. Resultados não são garantidos.</small></footer>
+ </main>
 }
