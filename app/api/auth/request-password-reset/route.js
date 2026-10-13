@@ -1,0 +1,37 @@
+import { NextResponse } from "next/server";
+import { createOpaqueToken, getDatabase, hashToken, normalizeEmail } from "../../../../lib/member-auth";
+import { activationEmailContent, getActivationUrl, sendResendEmail } from "../../../../lib/resend-email";
+
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
+export async function POST(request) {
+  let body;
+  try { body = await request.json(); } catch { return NextResponse.json({ error: "Requisição inválida." }, { status: 400 }); }
+  const email = normalizeEmail(body?.email);
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 320) {
+    return NextResponse.json({ error: "Informe um e-mail válido." }, { status: 400 });
+  }
+  const generic = { message: "Se houver uma conta ativa com esse e-mail, enviaremos instruções para redefinir a senha." };
+  if (!process.env.RESEND_API_KEY?.trim() || !process.env.RESEND_FROM_EMAIL?.trim()) {
+    return NextResponse.json({ error: "O envio de e-mail não está configurado no momento." }, { status: 503 });
+  }
+  try {
+    const sql = getDatabase();
+    const accounts = await sql`SELECT id FROM member_accounts WHERE lower(email) = ${email} AND password_hash IS NOT NULL AND email_verified_at IS NOT NULL LIMIT 1`;
+    if (!accounts.length) return NextResponse.json(generic);
+    const token = createOpaqueToken();
+    const expiresAt = new Date(Date.now() + 30 * 60 * 1000).toISOString();
+    await sql`INSERT INTO member_password_reset_tokens (account_id, token_hash, expires_at) VALUES (${accounts[0].id}, ${hashToken(token)}, ${expiresAt})`;
+    const base = process.env.NEXT_PUBLIC_APP_URL?.trim();
+    if (!base) throw new Error("NEXT_PUBLIC_APP_URL não configurada.");
+    const url = new URL("/redefinir-senha", base);
+    url.searchParams.set("token", token);
+    const content = activationEmailContent({ activationUrl: url.toString() });
+    await sendResendEmail({ to: email, ...content, subject: "Redefina sua senha do O Clone Digital", text: `Use este link para redefinir sua senha: ${url}\n\nO link expira em 30 minutos e só pode ser usado uma vez.` });
+    return NextResponse.json(generic);
+  } catch (error) {
+    console.error("Password reset request failed", error instanceof Error ? error.message : "unknown_error");
+    return NextResponse.json({ error: "Não foi possível iniciar a recuperação agora." }, { status: 500 });
+  }
+}
