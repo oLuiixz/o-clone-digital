@@ -803,14 +803,16 @@ button, a {
 @media(max-width:700px){.sales-banner-showcase{grid-template-columns:1fr;padding:10px 20px 48px;gap:22px}.sales-banner-copy h2{font-size:37px;letter-spacing:-2px}.sales-banner-copy>p{font-size:11px}.sales-banner-frame{padding:5px;border-radius:8px}.sales-banner-frame img{border-radius:4px}.sales-banner-caption{font-size:7px;padding:10px 5px 5px;letter-spacing:.6px}}
 
 /* Animated red border for key sales cards */
-.sales-method-card,.sales-offer-card{isolation:isolate}
-.sales-method-card::before,.sales-offer-card::before{content:"";position:absolute;z-index:0;pointer-events:none;width:165%;height:165%;left:50%;top:50%;transform:translate(-50%,-50%) rotate(0deg);transform-origin:center;background:linear-gradient(180deg,#ff3045 0%,#ff8b95 28%,#7d0d1b 58%,#ff3045 100%);animation:sales-card-border-spin 4.8s linear infinite}
-.sales-method-card::after,.sales-offer-card::after{content:"";position:absolute;z-index:0;pointer-events:none;inset:1.5px;border-radius:inherit;background:linear-gradient(150deg,#14161a,#0e0f12)}
+/* Subtle animated border for the method cards; keep the main offer calm and premium. */
+.sales-method-card{isolation:isolate}
+.sales-method-card::before{content:"";position:absolute;z-index:0;pointer-events:none;width:165%;height:165%;left:50%;top:50%;transform:translate(-50%,-50%) rotate(0deg);transform-origin:center;background:linear-gradient(180deg,#ff3045 0%,#ff8b95 28%,#7d0d1b 58%,#ff3045 100%);animation:sales-card-border-spin 5.8s linear infinite}
+.sales-method-card::after{content:"";position:absolute;z-index:0;pointer-events:none;inset:1.5px;border-radius:inherit;background:linear-gradient(150deg,#14161a,#0e0f12)}
 .sales-method-card-featured::after{background:radial-gradient(ellipse at 100% 0,#54131d2a,transparent 55%),linear-gradient(150deg,#181418,#101114)}
-.sales-offer-card::after{background:#0d0e11}
-.sales-method-card>* ,.sales-offer-card>*{position:relative;z-index:1}
+.sales-method-card>*{position:relative;z-index:1}
 .sales-method-card>.sales-card-line{position:absolute;z-index:1}
-.sales-method-card:hover::before,.sales-offer-card:hover::before{animation-duration:2.8s}
+.sales-method-card:hover::before{animation-duration:3.8s}
+.sales-offer-card{border-color:#54232c;box-shadow:0 18px 55px #0004,0 0 24px #ff30450b;transition:border-color .25s,box-shadow .25s}
+.sales-offer-card:hover{border-color:#79303b;box-shadow:0 20px 60px #0005,0 0 28px #ff304512}
 @keyframes sales-card-border-spin{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
-@media(prefers-reduced-motion:reduce){.sales-method-card::before,.sales-offer-card::before{animation:none;transform:translate(-50%,-50%) rotate(35deg)}}
+@media(prefers-reduced-motion:reduce){.sales-method-card::before{animation:none;transform:translate(-50%,-50%) rotate(35deg)}}
 
