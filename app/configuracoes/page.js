@@ -54,7 +54,7 @@ export default function ConfiguracoesPage() {
       if(permission!=="granted") throw new Error(permission==="denied"?"A permissão está bloqueada. Altere as notificações nas configurações do navegador e tente novamente.":"Você não autorizou as notificações.");
       const registration=await navigator.serviceWorker.register("/sw.js",{scope:"/"});
       await navigator.serviceWorker.ready;
-      const applicationServerKey=Uint8Array.from(atob(config.publicKey.replace(/-/g,"+").replace(/_/g,"/")),c=>c.charCodeAt(0));
+      const normalizedKey=config.publicKey.replace(/-/g,"+").replace(/_/g,"/");const applicationServerKey=Uint8Array.from(atob(normalizedKey+"=".repeat((4-normalizedKey.length%4)%4)),c=>c.charCodeAt(0));
       const subscription=await registration.pushManager.subscribe({userVisibleOnly:true,applicationServerKey});
       const response=await fetch("/api/push/subscribe",{method:"POST",headers:{"Content-Type":"application/json"},credentials:"same-origin",body:JSON.stringify({subscription:subscription.toJSON()})});
       const data=await response.json();
