@@ -29,7 +29,7 @@ export default function ConfiguracoesPage() {
     setReady(true);
     return ()=>window.removeEventListener("beforeinstallprompt",capture);
   },[]);
-  useEffect(()=>{if(!ready)return;document.documentElement.dataset.theme=settings.theme;document.documentElement.style.setProperty("--accent",settings.accent);document.documentElement.style.setProperty("--accent-dark",settings.accent);},[settings,ready]);
+  useEffect(()=>{if(!ready)return;document.documentElement.dataset.theme=settings.theme;document.documentElement.style.setProperty("--accent",settings.accent);document.documentElement.style.setProperty("--accent-dark",settings.accent);try{localStorage.setItem(KEY,JSON.stringify(settings));}catch{}},[settings,ready]);
   const saveProfile=async()=>{setMessage("Salvando preferências…");try{const response=await fetch("/api/member/profile",{method:"PUT",headers:{"Content-Type":"application/json"},credentials:"same-origin",body:JSON.stringify(settings)});const data=await response.json();if(!response.ok)throw new Error(data.error||"Não foi possível salvar.");setSettings(s=>({...s,...data}));setMessage("Perfil e preferências salvos na sua conta.");}catch(error){setMessage(error.message||"Erro ao salvar as preferências.");}};
   const update=(patch)=>setSettings(s=>({...s,...patch}));
   const choosePhoto=e=>{const file=e.target.files?.[0];if(!file)return;if(!file.type.startsWith("image/")){setMessage("Escolha um arquivo de imagem.");return;}if(file.size>2*1024*1024){setMessage("A imagem deve ter até 2 MB.");return;}const reader=new FileReader();reader.onload=()=>{update({photo:String(reader.result)});setMessage("Foto selecionada. Salve as alterações para sincronizar com sua conta.");};reader.readAsDataURL(file);};
