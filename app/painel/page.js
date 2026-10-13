@@ -19,7 +19,7 @@ const navigation = [
   { icon: "home", label: "Início", href: "#inicio" },
   { icon: "modules", label: "Módulos", href: "#modulos" },
   { icon: "files", label: "Documentos", href: "#atalhos" },
-  { icon: "settings", label: "Configurações", href: "#progresso" },
+  { icon: "settings", label: "Configurações", href: "/configuracoes" },
 ];
 
 
@@ -61,6 +61,7 @@ export default async function Home() {
           <a className="nav-item" href="#atalhos"><span><Icon name="search" /></span> Pesquisa de ofertas</a>
           <a className="nav-item" href="#modulos"><span><Icon name="layers" /></span> Ferramentas e materiais</a>
           <a className="nav-item" href="#progresso"><span><Icon name="chart" /></span> Meu progresso</a>
+          <a className="nav-item" href="/configuracoes"><span><Icon name="settings" /></span> Configurações</a>
         </nav>
         <div className="sidebar-bottom">
           <div className="help-card"><span className="help-icon"><Icon name="help" size={15} /></span><div><b>Precisa de ajuda?</b><p>Em breve, um espaço de suporte.</p></div></div>
@@ -83,7 +84,7 @@ export default async function Home() {
       </nav>
 
       <section className="main-panel" id="inicio">
-        <header className="topbar"><div className="breadcrumb">Área do aluno <span>/</span> <b>Visão geral</b></div><div className="top-actions"><span className="status-dot"></span><span>Plataforma em construção</span><button className="user-button" aria-label="Perfil">CD</button></div></header>
+        <header className="topbar"><div className="breadcrumb">Área do aluno <span>/</span> <b>Visão geral</b></div><div className="top-actions"><span className="status-dot"></span><span>Plataforma em construção</span><a className="user-button" aria-label="Configurações do perfil" href="/configuracoes">CD</a></div></header>
         <div className="content">
           <section className="hero">
             <img className="hero-banner-image" src="/imagens/banner.webp" alt="O Clone Digital — Encontre, analise, estruture e teste" />
