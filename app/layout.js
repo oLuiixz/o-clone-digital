@@ -5,11 +5,12 @@ export const metadata = {
   title: "O Clone Digital | Da pesquisa à sua própria oferta",
   description: "Uma jornada educacional organizada para pesquisar referências, analisar ofertas, estruturar um produto próprio e preparar seu primeiro teste.",
   manifest: "/manifest.webmanifest",
-  appleWebApp: { capable: true, statusBarStyle: "black-translucent", title: "Clone Digital" },
+  appleWebApp: { capable: true, statusBarStyle: "black-translucent", title: "O Clone Digital" },
+  other: { "mobile-web-app-capable": "yes" },
   icons: {
-    icon: [{ url: "/imagens/logo-clone-digital.svg", type: "image/png" }],
-    shortcut: "/imagens/logo-clone-digital.svg",
-    apple: "/imagens/logo-clone-digital.svg"
+    icon: [{ url: "/imagens/logo-clone-digital.svg", type: "image/svg+xml", sizes: "any" }],
+    shortcut: [{ url: "/imagens/logo-clone-digital.svg", type: "image/svg+xml" }],
+    apple: [{ url: "/imagens/logo-clone-digital.svg", type: "image/svg+xml" }]
   }
 };
 
