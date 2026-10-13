@@ -55,18 +55,21 @@ export async function POST(request) {
   if (Buffer.byteLength(rawBody, "utf8") > MAX_BODY_BYTES) {
     return Response.json({ error: "Payload muito grande." }, { status: 413 });
   }
-  const signature = request.headers.get("x-syncpay-signature");
-  if (!validSignature(rawBody, signature, secret)) {
-    return Response.json({ error: "Assinatura inválida." }, { status: 401 });
-  }
-
   let payload;
   try { payload = JSON.parse(rawBody); }
   catch { return Response.json({ error: "JSON inválido." }, { status: 400 }); }
 
+  // SyncPay's dashboard test payload is a harmless connectivity probe and may
+  // arrive without the production HMAC header. Acknowledge only this exact
+  // marker when no payment/transaction identifiers are present; never process it.
   const isDashboardTest = JSON.stringify(payload).includes("This is a test webhook payload.") &&
     !payload?.transaction && !payload?.transaction_id && !payload?.payment && !payload?.payment_id;
   if (isDashboardTest) return Response.json({ received: true, test: true, processed: false });
+
+  const signature = request.headers.get("x-syncpay-signature");
+  if (!validSignature(rawBody, signature, secret)) {
+    return Response.json({ error: "Assinatura inválida." }, { status: 401 });
+  }
 
   if (!payload || typeof payload.event !== "string" || !payload.transaction) {
     return Response.json({ error: "Payload inválido." }, { status: 400 });
