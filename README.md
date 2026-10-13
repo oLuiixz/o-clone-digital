@@ -195,3 +195,7 @@ Registrar decisões confirmadas e encaminhar ideias novas para avaliação. Não
 5. Testar ativação por e-mail, login, senha inválida, sessão expirada e bloqueio após reembolso/chargeback.
 6. Implementar e testar recuperação de senha e logout.
 7. Executar a jornada ponta a ponta antes de abrir vendas.
+
+## Painel administrativo de entregas
+
+Acesse `/admin`. Configure `ADMIN_PANEL_PASSWORD` como variável sensível no ambiente Production da Vercel. O histórico operacional fica em `admin_delivery_events`; a migração `db/migrations/003_admin_delivery_history.sql` cria a tabela de eventos. Ações disponíveis: gerar link de ativação, enviar o link por SMTP e registrar entrega manual. O status `sent` indica que o SMTP aceitou a mensagem, não que chegou à caixa de entrada.
