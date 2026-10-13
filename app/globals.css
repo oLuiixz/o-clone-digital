@@ -809,6 +809,7 @@ button, a {
 .sales-method-card-featured::after{background:radial-gradient(ellipse at 100% 0,#54131d2a,transparent 55%),linear-gradient(150deg,#181418,#101114)}
 .sales-offer-card::after{background:#0d0e11}
 .sales-method-card>* ,.sales-offer-card>*{position:relative;z-index:1}
+.sales-method-card>.sales-card-line{position:absolute;z-index:1}
 .sales-method-card:hover::before,.sales-offer-card:hover::before{animation-duration:2.8s}
 @keyframes sales-card-border-spin{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
 @media(prefers-reduced-motion:reduce){.sales-method-card::before,.sales-offer-card::before{animation:none;transform:translate(-50%,-50%) rotate(35deg)}}
