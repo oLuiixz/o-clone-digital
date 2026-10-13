@@ -24,7 +24,7 @@ export default async function ModulePage({params}){
   const index=modules.findIndex(item=>item.slug===slug);
   const previous=modules[index-1], next=modules[index+1] || (module.slug === "primeiro-anuncio" ? {slug:"integracao-e-entrega",title:"Integração e entrega"} : null);
   return <main className="module-page-shell">
-    <header className="module-page-topbar"><Link href="/" className="module-back-link">← Voltar ao painel</Link><div className="module-page-brand"><span className="brand-mark">C<span>.</span></span><span>O CLONE <b>DIGITAL</b></span></div></header>
+    <header className="module-page-topbar"><Link href="/painel" className="module-back-link">← Voltar ao painel</Link><div className="module-page-brand"><span className="brand-mark">C<span>.</span></span><span>O CLONE <b>DIGITAL</b></span></div></header>
     <div className="module-page-content">
       <div className="module-page-breadcrumb">SUA JORNADA <span>/</span> MÓDULO {module.number}</div>
       <section className="module-hero-card"><div className="module-hero-number">{module.number}</div><div className="module-hero-copy"><span className="module-kicker"><i/> MÓDULO {module.number} · TRILHA DE APRENDIZADO</span><h1>{module.title}</h1><p>{module.subtitle}</p></div><div className="module-hero-orbit" aria-hidden="true"><span>C.</span></div></section>
@@ -38,7 +38,7 @@ export default async function ModulePage({params}){
       {module.slug === "estrutura-e-produto" && <ProductBuilderWorksheet />}
       {module.slug === "pagina-de-vendas-e-vsl" && <SalesPageBuilderWorksheet />}
       {module.slug === "primeiro-anuncio" && <AdTestWorksheet />}
-      <nav className="module-pager" aria-label="Navegar entre módulos">{previous?<Link href={`/modulos/${previous.slug}`} className="module-pager-link"><span>← MÓDULO ANTERIOR</span><b>{previous.title}</b></Link>:<Link href="/" className="module-pager-link"><span>← PAINEL PRINCIPAL</span><b>Voltar ao início</b></Link>}{next?<Link href={`/modulos/${next.slug}`} className="module-pager-link next"><span>PRÓXIMO MÓDULO →</span><b>{next.title}</b></Link>:<Link href="/" className="module-pager-link next"><span>FIM DA TRILHA</span><b>Voltar ao painel</b></Link>}</nav>
+      <nav className="module-pager" aria-label="Navegar entre módulos">{previous?<Link href={`/modulos/${previous.slug}`} className="module-pager-link"><span>← MÓDULO ANTERIOR</span><b>{previous.title}</b></Link>:<Link href="/painel" className="module-pager-link"><span>← PAINEL PRINCIPAL</span><b>Voltar ao início</b></Link>}{next?<Link href={`/modulos/${next.slug}`} className="module-pager-link next"><span>PRÓXIMO MÓDULO →</span><b>{next.title}</b></Link>:<Link href="/painel" className="module-pager-link next"><span>FIM DA TRILHA</span><b>Voltar ao painel</b></Link>}</nav>
       <footer className="module-page-footer">O CLONE DIGITAL <span>ENCONTRE. ANALISE. ESTRUTURE. TESTE.</span></footer>
     </div>
   </main>;
