@@ -20,7 +20,7 @@ export default function LoginPage() {
       const response = await fetch(endpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Não foi possível concluir a solicitação.");
-      if (mode === "login") window.location.assign(data.redirect || "/");
+      if (mode === "login") window.location.assign(data.redirect || "/painel");
       else setMessage(data.message || "Confira seu e-mail.");
     } catch (err) { setError(err.message || "Tente novamente."); }
     finally { setBusy(false); }
