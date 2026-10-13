@@ -949,3 +949,33 @@ html,body{background:var(--bg);color:var(--text)}
 :root[data-theme="light"] .state-pill{color:var(--text-secondary)}
 :root[data-theme="light"] .settings-avatar{background:#eef0f4;color:var(--text);border-color:var(--line)}
 :root[data-theme="light"] .settings-message{color:var(--text)}
+
+
+/* PWA install help: explicit guidance for iOS Safari, where beforeinstallprompt is unavailable. */
+.install-icon img{width:100%;height:100%;object-fit:contain;padding:5px;border-radius:12px}
+.install-modal-backdrop{position:fixed;z-index:9999;inset:0;display:grid;place-items:center;padding:20px;background:#050609c9;backdrop-filter:blur(8px)}
+.install-modal{position:relative;width:min(100%,440px);max-height:min(88dvh,760px);overflow:auto;padding:28px;border:1px solid var(--line);border-radius:16px;background:var(--panel);color:var(--text);box-shadow:0 24px 80px #0006}
+.install-modal-close{position:absolute;top:12px;right:14px;border:0;background:transparent;color:var(--muted);font-size:28px;cursor:pointer}
+.install-modal-logo{display:block;width:66px;height:66px;object-fit:contain;margin:0 auto 16px}
+.install-modal h2{text-align:center;font-size:22px;letter-spacing:-.7px;margin:0 0 12px;color:var(--text)}
+.install-modal p,.install-modal li{font-size:13px;line-height:1.75;color:var(--text-secondary,var(--muted))}
+.install-modal ol{padding-left:22px;display:grid;gap:9px}
+.install-modal li::marker{color:var(--accent);font-weight:800}
+.install-modal-note{padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--surface-soft);font-size:12px!important}
+.share-glyph{display:inline-grid;place-items:center;border:1px solid #1685ff;color:#1685ff;border-radius:5px;width:22px;height:22px;font-size:18px;line-height:1;vertical-align:middle}
+@media(max-width:480px){.install-modal{padding:24px 20px}.install-modal h2{font-size:20px}}
+
+/* Make module lessons and worksheets consume the same theme tokens as the dashboard. */
+:root[data-theme="light"] .main-panel,
+:root[data-theme="light"] .content,
+:root[data-theme="light"] .module-page,
+:root[data-theme="light"] .module-content,
+:root[data-theme="light"] .lesson-page,
+:root[data-theme="light"] .worksheet,
+:root[data-theme="light"] .worksheet-shell,
+:root[data-theme="light"] .lesson-content{background:var(--bg);color:var(--text)}
+:root[data-theme="light"] :is(.module-page,.module-content,.lesson-page,.worksheet,.worksheet-shell,.lesson-content) :is(h1,h2,h3,h4,b,strong,label,legend){color:var(--text)}
+:root[data-theme="light"] :is(.module-page,.module-content,.lesson-page,.worksheet,.worksheet-shell,.lesson-content) :is(p,small,li,span,.muted,.description,.helper-text){color:var(--text-secondary)}
+:root[data-theme="light"] :is(.module-page,.module-content,.lesson-page,.worksheet,.worksheet-shell,.lesson-content) :is(input,textarea,select){background:var(--panel);color:var(--text);border-color:var(--line)}
+:root[data-theme="light"] :is(.module-page,.module-content,.lesson-page,.worksheet,.worksheet-shell,.lesson-content) :is(button:not(.primary-button):not(.settings-primary),.worksheet-card,.lesson-card,.content-card,.panel-card,.step-card,.tool-card,.answer-card,.resource-card){background:var(--card);color:var(--text);border-color:var(--line)}
+:root[data-theme="light"] :is(.module-page,.module-content,.lesson-page,.worksheet,.worksheet-shell,.lesson-content) :is(.back-link,.breadcrumb a){color:var(--accent-dark)}
