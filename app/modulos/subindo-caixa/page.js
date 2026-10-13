@@ -191,7 +191,7 @@ export default async function SubindoCaixaPage() {
                 <h3>Passo a passo</h3><ol>{method.steps.map((step) => <li key={step}>{step}</li>)}</ol>
                 <div className="sc-info-block"><b>Ferramentas úteis</b><p>{method.tools}</p></div>
                 <div className="sc-info-block"><b>Como estruturar a oferta</b><p>{method.offer}</p></div>
-                {method.prompt ? <details className="sc-prompt"><summary>Ver prompt pronto para copiar <span>+</span></summary><div><pre>{method.prompt}</pre><button type="button" onClick={undefined} className="sc-copy-hint">Selecione o texto para copiar e adaptar</button></div></details> : null}
+                {method.prompt ? <details className="sc-prompt"><summary>Ver prompt pronto para copiar <span>+</span></summary><div><pre>{method.prompt}</pre><p className="sc-copy-hint">Selecione o texto acima para copiar e adaptar ao seu negócio.</p></div></details> : null}
               </div>
             </article>
           ))}
