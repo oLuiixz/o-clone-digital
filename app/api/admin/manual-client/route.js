@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createOpaqueToken, getAppBaseUrl, getDatabase, hashToken, normalizeEmail } from "../../../../lib/member-auth";
 import { isAdminRequest } from "../../../../lib/admin-auth";
+import { activationEmailContent, sendResendEmail } from "../../../../lib/resend-email";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
@@ -50,7 +51,17 @@ export async function POST(request) {
     await sql`INSERT INTO admin_delivery_events (order_id, customer_email, channel, action, status, details)
       VALUES (${orderId}, ${email}, 'manual', 'activation_link_generated', 'generated',
       ${("Acesso gratuito concedido manualmente por " + name + (notes ? ". Observação: " + notes : "") + ". Link válido por 30 minutos.").slice(0,1000)})`;
-    return NextResponse.json({ ok: true, message: "Acesso gratuito criado. Envie o link de ativação ao cliente.", activationUrl: url.toString(), expiresAt: expires, orderId });
+    let emailSent = false;
+    let emailWarning = "";
+    try {
+      const content = activationEmailContent({ activationUrl: url.toString(), name });
+      await sendResendEmail({ to: email, ...content });
+      emailSent = true;
+    } catch (mailError) {
+      emailWarning = "O acesso foi criado, mas o e-mail falhou. Envie o link exibido manualmente.";
+      console.error("Manual access email failed", mailError instanceof Error ? mailError.message : "unknown_error");
+    }
+    return NextResponse.json({ ok: true, message: emailSent ? "Acesso gratuito criado e e-mail enviado pelo Resend." : "Acesso gratuito criado. " + emailWarning, emailSent, emailWarning: emailWarning || null, activationUrl: url.toString(), expiresAt: expires, orderId });
   } catch (error) {
     console.error("Manual free access failed", error instanceof Error ? error.message : "unknown_error");
     return NextResponse.json({ error: "Não foi possível criar o acesso. Confira as migrações do banco." }, { status: 500 });
