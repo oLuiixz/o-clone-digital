@@ -65,7 +65,7 @@ export default async function Home() {
         </nav>
         <div className="sidebar-bottom">
           <div className="help-card"><span className="help-icon"><Icon name="help" size={15} /></span><div><b>Precisa de ajuda?</b><p>Em breve, um espaço de suporte.</p></div></div>
-          <div className="profile"><div className="avatar">CD</div><div className="profile-copy"><b>Minha jornada</b><span>Área do aluno</span></div><span className="profile-menu"><Icon name="more" size={18} /></span></div>
+          <div className="profile"><div className="avatar">{member.photo_data ? <img src={member.photo_data} alt="" /> : (member.display_name || "Minha jornada").trim().slice(0,2).toUpperCase()}</div><div className="profile-copy"><b>{member.display_name || "Minha jornada"}</b><span>Área do aluno</span></div><span className="profile-menu"><Icon name="more" size={18} /></span></div>
         </div>
       </aside>
 
@@ -84,7 +84,7 @@ export default async function Home() {
       </nav>
 
       <section className="main-panel" id="inicio">
-        <header className="topbar"><div className="breadcrumb">Área do aluno <span>/</span> <b>Visão geral</b></div><div className="top-actions"><span className="status-dot"></span><span>Plataforma em construção</span><a className="user-button" aria-label="Configurações do perfil" href="/configuracoes">CD</a></div></header>
+        <header className="topbar"><div className="breadcrumb">Área do aluno <span>/</span> <b>Visão geral</b></div><div className="top-actions"><span className="status-dot"></span><span>Plataforma em construção</span><a className="user-button" aria-label="Configurações do perfil" href="/configuracoes">{member.photo_data ? <img src={member.photo_data} alt="" /> : (member.display_name || "Minha jornada").trim().slice(0,2).toUpperCase()}</a></div></header>
         <div className="content">
           <section className="hero">
             <img className="hero-banner-image" src="/imagens/banner.webp" alt="O Clone Digital — Encontre, analise, estruture e teste" />
