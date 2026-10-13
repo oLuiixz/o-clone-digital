@@ -935,3 +935,17 @@ html,body{background:var(--bg);color:var(--text)}
 :root[data-theme="light"] .primary-button{color:#fff}
 :root[data-theme="light"] .module-state,:root[data-theme="light"] .section-note,:root[data-theme="light"] .lesson-meta,:root[data-theme="light"] .side-label{color:var(--muted)}
 @media(prefers-reduced-motion:no-preference){body,.sidebar,.topbar,.stat-card,.quick-card,.module-row,.settings-card{transition:background-color .18s ease,color .18s ease,border-color .18s ease}}
+
+.avatar,.user-button{overflow:hidden;flex-shrink:0}.avatar img,.user-button img{width:100%;height:100%;object-fit:cover;border-radius:inherit}
+.settings-save-bar{display:flex;justify-content:flex-end;margin:18px 0 4px}
+.settings-save-bar .settings-primary{min-width:190px}
+:root[data-theme="light"] .app-shell{background:var(--bg)}
+:root[data-theme="light"] .settings-header p,:root[data-theme="light"] .settings-card-title p,:root[data-theme="light"] .settings-row p,:root[data-theme="light"] .install-copy p{color:var(--text-secondary)}
+:root[data-theme="light"] .settings-back,:root[data-theme="light"] .settings-text-button,:root[data-theme="light"] .settings-footer a{color:var(--accent-dark)}
+:root[data-theme="light"] .settings-card-title,:root[data-theme="light"] .settings-profile-preview{border-color:var(--line)}
+:root[data-theme="light"] .stat-foot,:root[data-theme="light"] .arrow,:root[data-theme="light"] .module-arrow{color:var(--muted)}
+:root[data-theme="light"] .nav-item span{color:var(--muted)}
+:root[data-theme="light"] .module-number{color:var(--accent-dark)}
+:root[data-theme="light"] .state-pill{color:var(--text-secondary)}
+:root[data-theme="light"] .settings-avatar{background:#eef0f4;color:var(--text);border-color:var(--line)}
+:root[data-theme="light"] .settings-message{color:var(--text)}
