@@ -60,7 +60,7 @@ export default function IntegracaoEntregaPage() {
   return (
     <main className="module-page-shell">
       <header className="module-page-topbar">
-        <Link className="module-back-link" href="/">← Voltar para a jornada</Link>
+        <Link className="module-back-link" href="/painel">← Voltar para a jornada</Link>
         <div className="module-page-brand"><span className="brand-mark">C</span><span>O CLONE <b>DIGITAL</b></span></div>
       </header>
       <div className="module-page-content">
@@ -148,7 +148,7 @@ export default function IntegracaoEntregaPage() {
 
         <nav className="module-pager">
           <Link className="module-pager-link" href="/modulos/primeiro-anuncio"><span>← MÓDULO ANTERIOR</span><b>06 · Primeiro anúncio</b></Link>
-          <Link className="module-pager-link next" href="/"><span>FIM DA TRILHA</span><b>Voltar à visão geral ↗</b></Link>
+          <Link className="module-pager-link next" href="/painel"><span>FIM DA TRILHA</span><b>Voltar à visão geral ↗</b></Link>
         </nav>
         <footer className="module-page-footer"><div>O CLONE DIGITAL <span>© 2026</span></div><div>ESTRUTURE. ENTREGUE. MELHORE.</div></footer>
       </div>
