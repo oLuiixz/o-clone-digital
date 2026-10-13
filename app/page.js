@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const checkoutUrl = process.env.NEXT_PUBLIC_SYNCPAY_CHECKOUT_URL;
+const checkoutUrl = process.env.NEXT_PUBLIC_SYNCPAY_CHECKOUT_URL || "https://link.syncpayments.com.br/VwhUi7";
 const modules = [
   ["01","Entendendo o processo","Veja como as etapas se conectam e por onde começar."],
   ["02","Mineração de ofertas","Pesquise anúncios, páginas e referências com mais critério."],
@@ -49,6 +49,10 @@ export default function SalesPage(){
     <div className="sales-float-note sales-float-note-top"><span className="sales-float-icon">↗</span><div><b>Pesquise com intenção</b><small>Organize suas referências</small></div></div>
     <div className="sales-float-note sales-float-note-bottom"><span className="sales-float-check"><Check/></span><div><b>Construa seu processo</b><small>Avance no seu ritmo</small></div></div>
    </div>
+  </section>
+  <section className="sales-banner-showcase" aria-label="Banner oficial do O Clone Digital">
+   <div className="sales-banner-copy"><div className="sales-kicker"><span/> CONHEÇA A PLATAFORMA</div><h2>Seu próximo passo<br/>começa <em>aqui.</em></h2><p>Uma jornada organizada para transformar pesquisa em decisões mais conscientes — no seu ritmo, etapa por etapa.</p><a className="sales-text-link" href="#oferta">Conhecer o acesso <Arrow/></a></div>
+   <div className="sales-banner-frame"><img src="/imagens/banner.webp" alt="Banner oficial do O Clone Digital" loading="lazy"/><span className="sales-banner-caption"><i/> O CLONE DIGITAL <b> / </b> SUA JORNADA NO DIGITAL</span></div>
   </section>
   <div className="sales-proof-strip"><div><span>01</span><b>Clareza no caminho</b></div><i/><div><span>02</span><b>Pesquisa com critério</b></div><i/><div><span>03</span><b>Estrutura própria</b></div><i/><div><span>04</span><b>Teste consciente</b></div></div>
   <section className="sales-section sales-method" id="metodo">
