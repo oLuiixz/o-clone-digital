@@ -6,9 +6,9 @@ export const metadata = {
   manifest: "/manifest.webmanifest",
   appleWebApp: { capable: true, statusBarStyle: "black-translucent", title: "Clone Digital" },
   icons: {
-    icon: [{ url: "/imagens/E900F1F7-AFCC-42AA-AA22-F92B83E84AF8.png", type: "image/png" }],
-    shortcut: "/imagens/E900F1F7-AFCC-42AA-AA22-F92B83E84AF8.png",
-    apple: "/imagens/E900F1F7-AFCC-42AA-AA22-F92B83E84AF8.png"
+    icon: [{ url: "/imagens/logo-clone-digital.svg", type: "image/png" }],
+    shortcut: "/imagens/logo-clone-digital.svg",
+    apple: "/imagens/logo-clone-digital.svg"
   }
 };
 
