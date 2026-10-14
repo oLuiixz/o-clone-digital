@@ -979,3 +979,64 @@ html,body{background:var(--bg);color:var(--text)}
 :root[data-theme="light"] :is(.module-page,.module-content,.lesson-page,.worksheet,.worksheet-shell,.lesson-content) :is(input,textarea,select){background:var(--panel);color:var(--text);border-color:var(--line)}
 :root[data-theme="light"] :is(.module-page,.module-content,.lesson-page,.worksheet,.worksheet-shell,.lesson-content) :is(button:not(.primary-button):not(.settings-primary),.worksheet-card,.lesson-card,.content-card,.panel-card,.step-card,.tool-card,.answer-card,.resource-card){background:var(--card);color:var(--text);border-color:var(--line)}
 :root[data-theme="light"] :is(.module-page,.module-content,.lesson-page,.worksheet,.worksheet-shell,.lesson-content) :is(.back-link,.breadcrumb a){color:var(--accent-dark)}
+
+
+/* Fix definitivo de tema nas páginas individuais de módulos */
+:root[data-theme="light"] .module-page-shell{
+  background:radial-gradient(ellipse at 80% 0%,#e5eadf 0%,transparent 36%),var(--bg);
+  color:var(--text);
+}
+:root[data-theme="light"] .module-page-topbar{
+  background:rgba(255,255,255,.92);
+  border-color:var(--line);
+}
+:root[data-theme="light"] .module-back-link{color:var(--text-secondary)}
+:root[data-theme="light"] .module-page-brand{color:var(--text)}
+:root[data-theme="light"] .module-page-breadcrumb,
+:root[data-theme="light"] .module-section-eyebrow{color:var(--muted)}
+:root[data-theme="light"] .module-hero-card{
+  background:linear-gradient(110deg,#141a12 0%,#101311 58%,#141a12 100%);
+  border-color:#ff304533;
+}
+:root[data-theme="light"] .module-hero-copy h1{color:#f5f7f3}
+:root[data-theme="light"] .module-hero-copy p{color:#c5cbbf}
+:root[data-theme="light"] .module-hero-number{color:#ff30454a}
+:root[data-theme="light"] .module-content-card,
+:root[data-theme="light"] .module-outline-card{
+  background:var(--panel);
+  border-color:var(--line);
+  color:var(--text);
+  box-shadow:0 8px 28px #17203308;
+}
+:root[data-theme="light"] .module-content-card :is(h2,h3,b,strong),
+:root[data-theme="light"] .module-outline-card :is(h2,h3,b,strong),
+:root[data-theme="light"] .module-deep-section :is(h2,h3,b,strong){color:var(--text)}
+:root[data-theme="light"] .module-intro,
+:root[data-theme="light"] .module-objective p,
+:root[data-theme="light"] .module-lesson p,
+:root[data-theme="light"] .module-benefits li,
+:root[data-theme="light"] .module-deep-section p{color:var(--text-secondary)}
+:root[data-theme="light"] .module-objective{background:#fff6f7;border-color:#f1d7db}
+:root[data-theme="light"] .module-lesson{border-bottom-color:var(--line)}
+:root[data-theme="light"] .module-lesson-number{border-color:var(--line);background:#f8f9fb}
+:root[data-theme="light"] .module-lesson-state{color:var(--muted)}
+:root[data-theme="light"] .module-content-note{background:#f7f8fa;color:var(--text-secondary)}
+:root[data-theme="light"] .module-content-note span{border-color:#b8c0ca}
+:root[data-theme="light"] .module-deep-section{background:var(--panel);border-color:var(--line)}
+:root[data-theme="light"] .module-pager-link{background:var(--panel);border-color:var(--line);color:var(--text)}
+:root[data-theme="light"] .module-pager-link span{color:var(--muted)}
+:root[data-theme="light"] .module-page-footer{color:var(--muted)}
+:root[data-theme="light"] .module-page-footer span{color:var(--text-secondary)}
+:root[data-theme="dark"] .module-page-shell{background:radial-gradient(ellipse at 80% 0%,#182016 0%,transparent 36%),var(--bg);color:var(--text)}
+:root[data-theme="dark"] .module-hero-copy h1{color:var(--text)}
+:root[data-theme="dark"] .module-content-card,
+:root[data-theme="dark"] .module-outline-card{color:var(--text)}
+/* Worksheets dentro dos módulos também seguem a paleta ativa. */
+:root[data-theme="light"] .module-page-content :is(.worksheet,.worksheet-shell,.worksheet-card,.lesson-card,.content-card,.panel-card,.step-card,.tool-card,.answer-card,.resource-card){
+  background:var(--panel);
+  color:var(--text);
+  border-color:var(--line);
+}
+:root[data-theme="light"] .module-page-content :is(.worksheet,.worksheet-shell) :is(h1,h2,h3,h4,b,strong,label,legend){color:var(--text)}
+:root[data-theme="light"] .module-page-content :is(.worksheet,.worksheet-shell) :is(p,small,li,.muted,.description,.helper-text){color:var(--text-secondary)}
+:root[data-theme="light"] .module-page-content :is(input,textarea,select){background:#fff;color:var(--text);border-color:var(--line)}
