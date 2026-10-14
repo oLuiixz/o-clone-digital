@@ -47,9 +47,14 @@ export default function AdminFeedbackPage() {
       const response = await fetch("/api/admin/feedback", { method: "PATCH", headers: { "Content-Type": "application/json" }, credentials: "same-origin", body: JSON.stringify({ id: item.id, status: nextStatus, ...(options.sendNotification ? { responseText: options.responseText ?? responseText, sendNotification: true } : {}) }) });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Falha ao atualizar.");
-      setItems(current => current.map(row => row.id === item.id ? { ...row, status: nextStatus, updated_at: data.feedback.updated_at } : row));
-      setSelected(current => current?.id === item.id ? { ...current, status: nextStatus, updated_at: data.feedback.updated_at } : current);
-      setNotice("Status atualizado.");
+      setItems(current => current.map(row => row.id === item.id ? { ...row, ...data.feedback, status: nextStatus } : row));
+      setSelected(current => current?.id === item.id ? { ...current, ...data.feedback, status: nextStatus } : current);
+      if (options.sendNotification) {
+        if (data.notification?.sent) setNotice("Resposta salva e e-mail enviado ao membro.");
+        else setNotice(data.notification?.error || "Resposta salva, mas não foi possível enviar a notificação.");
+      } else if (data.notification?.sent) setNotice("Status atualizado e membro notificado por e-mail.");
+      else if (data.notification?.error) setError(data.notification.error);
+      else setNotice("Status atualizado.");
     } catch (e) { setError(e.message); } finally { setBusy(false); }
   }
 
