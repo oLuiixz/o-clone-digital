@@ -41,6 +41,7 @@ function Icon({ name, size = 18 }) {
 }
 
 import ModuleProgress from "../components/ModuleProgress";
+import MemberFeedback from "../components/MemberFeedback";
 import { redirect } from "next/navigation";
 import { getCurrentMember } from "../../lib/member-auth";
 
@@ -110,6 +111,8 @@ export default async function Home() {
             <div className="section-heading"><div><div className="eyebrow muted">COMECE POR AQUI</div><h2>O que você quer construir hoje?</h2></div><span className="section-note">ATALHOS DA JORNADA</span></div>
             <div className="quick-grid">{quickLinks.map((item) => <a className="quick-card" href={`/modulos/${item.slug}`} key={item.title}><div className="quick-top"><span className="quick-icon"><Icon name={item.icon} size={19} /></span><span className="arrow"><Icon name="arrow" size={16} /></span></div><span className="quick-module">{item.module}</span><h3>{item.title}</h3><p>{item.text}</p></a>)}</div>
           </section>
+
+          <MemberFeedback />
 
           <footer className="footer"><span>O CLONE DIGITAL <b>© 2026</b></span><span>ENCONTRE. ANALISE. ESTRUTURE. TESTE.</span></footer>
         </div>
