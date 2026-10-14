@@ -25,7 +25,7 @@ export default function PushOptInPrompt() {
         if (!live || response.status === 401 || !response.ok) return;
         const data = await response.json();
         if (!live || !data.configured || data.subscribed) return;
-        if (Notification.permission === "granted" || Notification.permission === "denied") return;
+        if (Notification.permission === "denied") return;
         let deferredUntil = 0;
         try { deferredUntil = Number(localStorage.getItem(DEFER_KEY) || 0); } catch {}
         if (deferredUntil > Date.now()) return;
