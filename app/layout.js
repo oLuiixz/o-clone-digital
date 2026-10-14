@@ -9,9 +9,9 @@ export const metadata = {
   appleWebApp: { capable: true, statusBarStyle: "black-translucent", title: "O Clone Digital" },
   other: { "mobile-web-app-capable": "yes" },
   icons: {
-    icon: [{ url: "/imagens/logo-clone-digital.svg", type: "image/svg+xml", sizes: "any" }],
-    shortcut: [{ url: "/imagens/logo-clone-digital.svg", type: "image/svg+xml" }],
-    apple: [{ url: "/imagens/logo-clone-digital.svg", type: "image/svg+xml" }]
+    icon: [{ url: "/imagens/pwa-icon.svg", type: "image/svg+xml", sizes: "any" }],
+    shortcut: [{ url: "/imagens/pwa-icon.svg", type: "image/svg+xml" }],
+    apple: [{ url: "/imagens/pwa-icon.svg", type: "image/svg+xml" }]
   }
 };
 
