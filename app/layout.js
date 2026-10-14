@@ -1,6 +1,7 @@
 import "./globals.css";
 import { getCurrentMember } from "../lib/member-auth";
 import ThemeSync from "./components/ThemeSync";
+import GlobalAnnouncements from "./components/GlobalAnnouncements";
 
 export const metadata = {
   title: "O Clone Digital | Da pesquisa à sua própria oferta",
@@ -19,7 +20,7 @@ export default async function RootLayout({ children }) {
   const member = await getCurrentMember();
   return (
     <html lang="pt-BR" data-theme={member?.preferred_theme || "dark"} style={{ "--accent": member?.accent_color || "#ff3045", "--accent-dark": member?.accent_color || "#ff3045" }}>
-      <body><ThemeSync />{children}</body>
+      <body><ThemeSync /><GlobalAnnouncements />{children}</body>
     </html>
   );
 }
