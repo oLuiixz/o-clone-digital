@@ -47,7 +47,7 @@ export async function POST(request) {
     } else {
       const orderRows = await sql`INSERT INTO orders (product_id, customer_email, provider, status, amount, currency, approved_at, metadata)
         VALUES (${productId}, ${email}, 'admin_free', 'approved', 0, ${products[0].currency || "BRL"}, now(),
-        jsonb_build_object('source','manual_admin','customer_name',${name},'notes',${notes}::text))
+        jsonb_build_object('source','manual_admin','customer_name',${name}::text,'notes',${notes}::text))
         RETURNING id`;
       orderId = orderRows[0].id;
       await sql`INSERT INTO entitlements (order_id, product_id, customer_email, status)
