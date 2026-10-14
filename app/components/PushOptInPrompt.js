@@ -31,7 +31,7 @@ export default function PushOptInPrompt() {
         if (deferredUntil > Date.now()) return;
         setVisible(true);
       } catch {}
-    }, 1400);
+    }, 3000);
     return () => { live = false; window.clearTimeout(timer); };
   }, []);
 
