@@ -1067,3 +1067,15 @@ html,body{background:var(--bg);color:var(--text)}
 :root[data-theme="light"] .auth-success{color:#176b43;background:#eaf8f0;border:1px solid #c5ebd4}
 :root[data-theme="dark"] .auth-card{color:var(--text)}
 :root[data-theme="dark"] .auth-form input{color:var(--text)}
+
+
+/* Checklist: cores legíveis e consistentes no tema claro. */
+:root[data-theme="light"] .checklist-progress-row{color:var(--text-secondary)}
+:root[data-theme="light"] .checklist-progress-track{background:#dfe3e8}
+:root[data-theme="light"] .checklist-item{background:#fff;color:var(--text);border-color:var(--line)}
+:root[data-theme="light"] .checklist-item:hover{background:#f4f6f9}
+:root[data-theme="light"] .checklist-item.is-complete{background:#fff3f4;border-color:#f0c6cd}
+:root[data-theme="light"] .checklist-item-copy h3{color:var(--text);text-decoration-color:#9ca3af}
+:root[data-theme="light"] .checklist-item.is-complete .checklist-item-copy h3{color:#737b86}
+:root[data-theme="light"] .module-checklist-checkbox{background:#fff;border-color:#c4cbd5}
+:root[data-theme="light"] .module-checklist-checkbox:checked{background:var(--accent);border-color:var(--accent)}
