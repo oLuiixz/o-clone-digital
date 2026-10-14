@@ -1040,3 +1040,30 @@ html,body{background:var(--bg);color:var(--text)}
 :root[data-theme="light"] .module-page-content :is(.worksheet,.worksheet-shell) :is(h1,h2,h3,h4,b,strong,label,legend){color:var(--text)}
 :root[data-theme="light"] .module-page-content :is(.worksheet,.worksheet-shell) :is(p,small,li,.muted,.description,.helper-text){color:var(--text-secondary)}
 :root[data-theme="light"] .module-page-content :is(input,textarea,select){background:#fff;color:var(--text);border-color:var(--line)}
+
+
+/* Authentication screens follow the user's selected theme */
+:root[data-theme="light"] .auth-page{
+  color-scheme:light;
+  background:radial-gradient(ellipse at 50% 0%,#f6e8ec 0,transparent 48%),var(--bg);
+  color:var(--text);
+}
+:root[data-theme="light"] .auth-card{
+  background:linear-gradient(145deg,#fff,#f8f9fc);
+  border-color:#dfe3e8;
+  box-shadow:0 24px 70px rgba(27,35,48,.12);
+}
+:root[data-theme="light"] .auth-card h1{color:#20242b}
+:root[data-theme="light"] .auth-description{color:#596270}
+:root[data-theme="light"] .auth-form label{color:#414957}
+:root[data-theme="light"] .auth-form input{
+  background:#fff;color:#20242b;border-color:#cfd5df;
+}
+:root[data-theme="light"] .auth-form input::placeholder{color:#89919d}
+:root[data-theme="light"] .auth-switch{color:color-mix(in srgb,var(--accent) 78%,#000)}
+:root[data-theme="light"] .auth-footnote{color:#68717d}
+:root[data-theme="light"] .auth-footnote a{color:color-mix(in srgb,var(--accent) 78%,#000)}
+:root[data-theme="light"] .auth-error{color:#a51d32;background:#fff0f2;border:1px solid #f2cbd2}
+:root[data-theme="light"] .auth-success{color:#176b43;background:#eaf8f0;border:1px solid #c5ebd4}
+:root[data-theme="dark"] .auth-card{color:var(--text)}
+:root[data-theme="dark"] .auth-form input{color:var(--text)}
