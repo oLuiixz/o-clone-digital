@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <title>O Clone Digital — ícone do aplicativo</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#191115"/><stop offset="1" stop-color="#08090b"/></linearGradient>
+    <linearGradient id="silver" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#9da3ad"/></linearGradient>
+    <linearGradient id="red" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ff3548"/><stop offset="1" stop-color="#a30012"/></linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="100" fill="url(#bg)"/>
+  <path d="M0 0h190L0 138ZM378 512l134-98v98Z" fill="#e90020" opacity=".24"/>
+  <g transform="translate(256 256)" fill="none" stroke-width="38" stroke-linecap="square">
+    <path d="M-35 -104A120 120 0 0 1 104 -35" stroke="url(#silver)"/>
+    <path d="M104 -35A120 120 0 0 1 35 104" stroke="url(#silver)"/>
+    <path d="M35 104A120 120 0 0 1 -104 35" stroke="url(#red)"/>
+    <path d="M-104 35A120 120 0 0 1 -35 -104" stroke="url(#silver)"/>
+  </g>
+</svg>
