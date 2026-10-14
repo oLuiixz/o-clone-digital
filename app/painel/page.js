@@ -7,6 +7,7 @@ const modules = [
   { number: "06", slug: "primeiro-anuncio", title: "Primeiro anúncio", description: "Prepare a campanha inicial e entenda como testar com responsabilidade.", lessons: "Criativo · Configuração · Métricas", status: "Disponível", progress: 0 },
   { number: "07", slug: "integracao-e-entrega", title: "Integração e entrega", description: "Organize pagamento, confirmação, acesso ao produto e suporte ao comprador.", lessons: "Checkout · Automação · Acesso · Pós-venda", status: "Disponível", progress: 0 },
   { number: "08", slug: "subindo-caixa", title: "Subindo Caixa", description: "Explore caminhos práticos para criar renda no digital e transformar habilidades em ofertas.", lessons: "O método 🔥 · Serviços digitais · Afiliados · Produto próprio", status: "Novo módulo", progress: 0 },
+  { number: "09", slug: "nicho-hot", title: "🔥 Nicho HOT 🔞", description: "Explore oportunidades no mercado adulto com estratégia, responsabilidade e foco em ofertas legais.", lessons: "Pesquisa de mercado · Oferta · Aquisição de tráfego · Conversão · Compliance", status: "Novo módulo", progress: 0 },
 ];
 
 const quickLinks = [
