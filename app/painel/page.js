@@ -18,7 +18,7 @@ const quickLinks = [
 const navigation = [
   { icon: "home", label: "Início", href: "#inicio" },
   { icon: "modules", label: "Módulos", href: "#modulos" },
-  { icon: "files", label: "Documentos", href: "#atalhos" },
+  { icon: "files", label: "Ferramentas", href: "/ferramentas" },
   { icon: "settings", label: "Configurações", href: "/configuracoes" },
 ];
 
@@ -60,7 +60,7 @@ export default async function Home() {
           <a className="nav-item active" href="#inicio"><span><Icon name="home" /></span> Visão geral</a>
           <a className="nav-item" href="#modulos"><span><Icon name="modules" /></span> Módulos e aulas</a>
           <a className="nav-item" href="#atalhos"><span><Icon name="search" /></span> Pesquisa de ofertas</a>
-          <a className="nav-item" href="#modulos"><span><Icon name="layers" /></span> Ferramentas e materiais</a>
+          <a className="nav-item" href="/ferramentas"><span><Icon name="layers" /></span> Ferramentas</a>
           <a className="nav-item" href="#progresso"><span><Icon name="chart" /></span> Meu progresso</a>
           <a className="nav-item" href="/configuracoes"><span><Icon name="settings" /></span> Configurações</a>
         </nav>
