@@ -11,10 +11,10 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "/imagens/pwa-icon.svg",
+      "src": "/imagens/logo-clone-digital.svg",
       "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "purpose": "any"
     }
   ]
 }
