@@ -1079,3 +1079,5 @@ html,body{background:var(--bg);color:var(--text)}
 :root[data-theme="light"] .checklist-item.is-complete .checklist-item-copy h3{color:#737b86}
 :root[data-theme="light"] .module-checklist-checkbox{background:#fff;border-color:#c4cbd5}
 :root[data-theme="light"] .module-checklist-checkbox:checked{background:var(--accent);border-color:var(--accent)}
+
+.member-feedback-form{display:grid;gap:10px;margin-top:18px}.member-feedback-form .settings-label{margin-top:7px}.member-feedback-form textarea{resize:vertical;min-height:120px;font:inherit;line-height:1.55}.member-feedback-form .settings-primary{justify-self:start;margin-top:8px}.member-feedback-notice{padding:12px 14px;border-radius:10px;background:color-mix(in srgb,var(--accent,#ff3045) 12%,transparent);border:1px solid color-mix(in srgb,var(--accent,#ff3045) 35%,transparent);line-height:1.5}.feedback-settings{grid-column:1/-1}
