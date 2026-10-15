@@ -112,24 +112,17 @@ export default function ModuleProgress({ modules }) {
         {tracks.map((track) => {
           const isMain = track.id === "estrutura-dark";
           const children = isMain ? mainModules : track.standalone ? modules.filter((module) => module.slug === track.slug) : [];
+          const count = isMain ? children.length : track.standalone ? children.length : track.items.length;
+          const countLabel = isMain || track.standalone ? `${String(count).padStart(2, "0")} módulo${count === 1 ? "" : "s"}` : `${String(count).padStart(2, "0")} tópicos previstos`;
           const doneCount = children.filter((module) => completed.includes(module.number)).length;
-          return <article className={`learning-track-card ${track.tone === "featured" ? "learning-track-featured" : ""} ${track.tone === "special" ? "learning-track-special" : ""}`} key={track.id}>
+          return <a className={`learning-track-card learning-track-compact ${track.tone === "featured" ? "learning-track-featured" : ""} ${track.tone === "special" ? "learning-track-special" : ""}`} href={isMain ? "/modulos/entendendo-o-processo" : track.standalone && children[0] ? `/modulos/${children[0].slug}` : "#"} key={track.id} onClick={(event) => { if (track.comingSoon) event.preventDefault(); }}>
             <div className="learning-track-top"><span className="learning-track-number">{track.number}</span><span className="learning-track-eyebrow">{track.eyebrow}</span></div>
             <h3>{track.title}</h3>
             <p className="learning-track-description">{track.description}</p>
+            <div className="learning-track-meta"><span className="learning-track-count">{countLabel}</span>{isMain && <span className="learning-track-done">{doneCount}/{count} concluídos</span>}{track.comingSoon && <span className="learning-coming-soon">Em organização</span>}</div>
             {isMain && <div className="learning-track-progress"><span style={{ width: (children.length ? Math.round(doneCount / children.length * 100) : 0) + "%" }} /></div>}
-            <div className="learning-submodules">
-              {isMain ? children.map((module, index) => {
-                const done = completed.includes(module.number);
-                return <div className="learning-submodule" key={module.slug}>
-                  <span className={`learning-submodule-index ${done ? "is-done" : ""}`}>{done ? "✓" : String(index + 1).padStart(2, "0")}</span>
-                  <a href={`/modulos/${module.slug}`}><b>{module.title}</b><small>{module.description}</small></a>
-                  <button type="button" className="learning-submodule-toggle" onClick={() => toggle(module.number)} aria-label={done ? `Desmarcar ${module.title}` : `Marcar ${module.title} como concluído`}>{done ? "Concluído" : "Marcar"}</button>
-                </div>;
-              }) : track.standalone ? children.map((module) => <a className="learning-submodule learning-submodule-link" href={`/modulos/${module.slug}`} key={module.slug}><span className="learning-submodule-index">↗</span><span><b>{module.title}</b><small>{module.lessons}</small></span><span className="learning-submodule-arrow">↗</span></a>) : track.items.map((item, index) => <div className="learning-submodule learning-submodule-planned" key={item}><span className="learning-submodule-index">{String(index + 1).padStart(2, "0")}</span><span><b>{item}</b><small>Conteúdo previsto para esta trilha</small></span></div>)}
-            </div>
-            <div className="learning-track-footer">{track.comingSoon ? <span className="learning-coming-soon">Em organização</span> : <span>{doneCount || 0} etapa(s) concluída(s)</span>}{isMain ? <span>{children.length} submódulos</span> : null}</div>
-          </article>;
+            <div className="learning-track-open">{track.comingSoon ? "Conteúdo em breve" : "Explorar trilha"} <span>↗</span></div>
+          </a>;
         })}
       </div>
       <p className="learning-footnote">As trilhas em organização mostram a estrutura planejada. Os conteúdos atuais foram preservados; novas aulas serão adicionadas dentro de cada trilha sem apagar o material existente.</p>
