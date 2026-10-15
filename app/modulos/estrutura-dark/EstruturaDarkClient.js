@@ -24,15 +24,15 @@ export default function EstruturaDarkClient({ lessons }) {
     <div className="module-page-shell">
       <nav className="module-breadcrumb"><Link href="/painel">Painel</Link><span>/</span><span>Estrutura Dark</span></nav>
       <header className="module-hero">
-        <div className="module-section-eyebrow">TRILHA IMPORTADA DO DARKMOTION</div>
+        <div className="module-section-eyebrow">ESTRUTURA DARK</div>
         <h1>Estrutura Dark</h1>
-        <p className="module-intro">Conteúdo do Método Dark Motion organizado em uma biblioteca de aulas pesquisável. Selecione uma aula para abrir o material completo.</p>
-        <div className="module-hero-meta"><span>{lessons.length} conteúdos importados</span><span>Método, prompts e materiais complementares</span></div>
+        <p className="module-intro">Explore as aulas, ferramentas e materiais da Estrutura Dark. Selecione um conteúdo para começar.</p>
+        <div className="module-hero-meta"><span>Método, prompts e materiais complementares</span></div>
       </header>
       <section className="dark-resources-grid" aria-label="Recursos da Estrutura Dark">
         <Link href="/modulos/estrutura-dark/prompts" className="dark-resource-card"><span className="dark-resource-icon">✳</span><span><b>Biblioteca de Prompts</b><small>Prompts por tema para copy, anúncios, conteúdo e negócios.</small></span><strong>↗</strong></Link>
         <Link href="/modulos/estrutura-dark/conteudo-validado" className="dark-resource-card"><span className="dark-resource-icon">▤</span><span><b>Conteúdo Validado</b><small>Bibliotecas externas e pastas de materiais organizadas por categoria.</small></span><strong>↗</strong></Link>
-        <a href="/estrutura-dark/aquecimento-conta.txt" download className="dark-resource-card"><span className="dark-resource-icon">↓</span><span><b>Material de Aquecimento</b><small>Arquivo complementar importado do Método Dark Motion.</small></span><strong>↓</strong></a>
+        <a href="/estrutura-dark/aquecimento-conta.txt" download className="dark-resource-card"><span className="dark-resource-icon">↓</span><span><b>Material de Aquecimento</b><small>Material complementar para preparar sua conta.</small></span><strong>↓</strong></a>
       </section>
       <section className="module-content-card" style={{marginTop:24}}>
         <label htmlFor="dark-search" className="module-section-eyebrow">PESQUISAR CONTEÚDO</label>
