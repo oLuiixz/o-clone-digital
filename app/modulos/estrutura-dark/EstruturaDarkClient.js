@@ -30,8 +30,8 @@ export default function EstruturaDarkClient({ lessons }) {
         <div className="module-hero-meta"><span>Método, prompts e materiais complementares</span></div>
       </header>
       <section className="dark-resources-grid" aria-label="Recursos da Estrutura Dark">
-        <Link href="/modulos/estrutura-dark/prompts" className="dark-resource-card"><span className="dark-resource-icon">✳</span><span className="dark-resource-copy"><b>Biblioteca de Prompts</b><small>Prompts por tema para copy, anúncios, conteúdo e negócios.</small></span><strong>↗</strong></Link>
-        <Link href="/modulos/estrutura-dark/conteudo-validado" className="dark-resource-card"><span className="dark-resource-icon">▤</span><span className="dark-resource-copy"><b>Conteúdo Validado</b><small>Bibliotecas externas e pastas de materiais organizadas por categoria.</small></span><strong>↗</strong></Link>
+        <a href="/modulos/estrutura-dark/prompts" className="dark-resource-card"><span className="dark-resource-icon">✳</span><span className="dark-resource-copy"><b>Biblioteca de Prompts</b><small>Prompts por tema para copy, anúncios, conteúdo e negócios.</small></span><strong>↗</strong></a>
+        <a href="/modulos/estrutura-dark/conteudo-validado" className="dark-resource-card"><span className="dark-resource-icon">▤</span><span className="dark-resource-copy"><b>Conteúdo Validado</b><small>Bibliotecas externas e pastas de materiais organizadas por categoria.</small></span><strong>↗</strong></a>
         <a href="/estrutura-dark/aquecimento-conta.txt" download className="dark-resource-card"><span className="dark-resource-icon">↓</span><span className="dark-resource-copy"><b>Material de Aquecimento</b><small>Material complementar para preparar sua conta.</small></span><strong>↓</strong></a>
       </section>
       <section className="module-content-card" style={{marginTop:24}}>
