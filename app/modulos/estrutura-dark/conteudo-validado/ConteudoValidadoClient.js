@@ -86,12 +86,7 @@ export default function ConteudoValidadoClient() {
       @media(max-width:900px){.cv-page .cv-nav{display:none}.cv-page .cv-search{width:min(240px,35vw)}.cv-page .cv-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.cv-page .cv-guide{grid-template-columns:1fr}}@media(max-width:600px){.cv-page{padding:10px 11px 45px}.cv-page .cv-header{flex-wrap:wrap;gap:10px}.cv-page .cv-brand{min-width:0;flex:1}.cv-page .cv-actions{width:100%}.cv-page .cv-search{flex:1;width:auto}.cv-page .cv-grid,.cv-page .cv-links{grid-template-columns:1fr}.cv-page .cv-hero{padding:29px 22px;border-radius:19px}.cv-page .cv-hero h1{font-size:40px}.cv-page .cv-detail{padding:19px}.cv-page .cv-detail h2{font-size:22px}.cv-page .cv-section-head{align-items:flex-start;flex-direction:column}}
     `}</style>
     <div className="cv-shell">
-      <header className="cv-header">
-        <div className="cv-brand"><span className="cv-logo">CV</span><div><strong>Conteúdo Validado</strong><small>Bônus gratuito • Área exclusiva</small></div></div>
-        <nav className="cv-nav"><a href="#inicio">Início</a><a href="#biblioteca">Biblioteca</a><a href="#guia">Como usar</a></nav>
-        <div className="cv-actions"><div className="cv-search"><Icon name="globe" size={16} /><input value={query} onChange={event => setQuery(event.target.value)} placeholder="Buscar categoria..." aria-label="Buscar categoria" /></div><button className="cv-btn" onClick={toggleTheme} aria-label="Alternar tema">{theme === "dark" ? "Tema claro" : "Tema escuro"}</button></div>
-      </header>
-      <a className="cv-back" href="/app">← Voltar para o Método Dark Motion</a>
+      <a className="cv-back" href="/modulos/estrutura-dark">← Voltar à Estrutura Dark</a>
       <section className="cv-hero" id="inicio">
         <span className="cv-kicker">BÔNUS EXCLUSIVO • BIBLIOTECA DE CLIPES</span>
         <h1>50 mil<br/>cortes virais.</h1>
