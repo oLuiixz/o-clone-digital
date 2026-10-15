@@ -143,6 +143,7 @@ button{font:inherit}
   animation:loading-mark-pulse 2.2s ease-in-out infinite;
 }
 .loading-brand-mark span{color:#f3f4f6}
+.loading-logo{display:block;width:76px;height:76px;object-fit:contain;filter:drop-shadow(0 0 28px #ff304525);animation:loading-mark-pulse 2.2s ease-in-out infinite}
 .loading-loader-wrapper{
   position:relative;display:flex;align-items:center;justify-content:center;
   min-height:64px;min-width:270px;padding:10px 22px;
