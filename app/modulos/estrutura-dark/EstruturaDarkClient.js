@@ -32,6 +32,7 @@ export default function EstruturaDarkClient({ lessons }) {
       <section className="dark-resources-grid" aria-label="Recursos da Estrutura Dark">
         <Link href="/modulos/estrutura-dark/prompts" className="dark-resource-card"><span className="dark-resource-icon">✳</span><span><b>Biblioteca de Prompts</b><small>Prompts por tema para copy, anúncios, conteúdo e negócios.</small></span><strong>↗</strong></Link>
         <Link href="/modulos/estrutura-dark/conteudo-validado" className="dark-resource-card"><span className="dark-resource-icon">▤</span><span><b>Conteúdo Validado</b><small>Bibliotecas externas e pastas de materiais organizadas por categoria.</small></span><strong>↗</strong></Link>
+        <a href="/estrutura-dark/aquecimento-conta.txt" download className="dark-resource-card"><span className="dark-resource-icon">↓</span><span><b>Material de Aquecimento</b><small>Arquivo complementar importado do Método Dark Motion.</small></span><strong>↓</strong></a>
       </section>
       <section className="module-content-card" style={{marginTop:24}}>
         <label htmlFor="dark-search" className="module-section-eyebrow">PESQUISAR CONTEÚDO</label>
