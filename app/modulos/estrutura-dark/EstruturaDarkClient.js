@@ -27,8 +27,12 @@ export default function EstruturaDarkClient({ lessons }) {
         <div className="module-section-eyebrow">TRILHA IMPORTADA DO DARKMOTION</div>
         <h1>Estrutura Dark</h1>
         <p className="module-intro">Conteúdo do Método Dark Motion organizado em uma biblioteca de aulas pesquisável. Selecione uma aula para abrir o material completo.</p>
-        <div className="module-hero-meta"><span>{lessons.length} conteúdos importados</span><span>Texto, listas e referências</span></div>
+        <div className="module-hero-meta"><span>{lessons.length} conteúdos importados</span><span>Método, prompts e materiais complementares</span></div>
       </header>
+      <section className="dark-resources-grid" aria-label="Recursos da Estrutura Dark">
+        <Link href="/modulos/estrutura-dark/prompts" className="dark-resource-card"><span className="dark-resource-icon">✳</span><span><b>Biblioteca de Prompts</b><small>Prompts por tema para copy, anúncios, conteúdo e negócios.</small></span><strong>↗</strong></Link>
+        <Link href="/modulos/estrutura-dark/conteudo-validado" className="dark-resource-card"><span className="dark-resource-icon">▤</span><span><b>Conteúdo Validado</b><small>Bibliotecas externas e pastas de materiais organizadas por categoria.</small></span><strong>↗</strong></Link>
+      </section>
       <section className="module-content-card" style={{marginTop:24}}>
         <label htmlFor="dark-search" className="module-section-eyebrow">PESQUISAR CONTEÚDO</label>
         <input id="dark-search" value={query} onChange={(e)=>{setQuery(e.target.value);setActive(0)}} placeholder="Buscar aula, nicho, conteúdo, monetização..." style={{width:"100%",marginTop:10,padding:"13px 15px",borderRadius:12,border:"1px solid var(--line)",background:"var(--surface)",color:"var(--text)"}} />
@@ -51,6 +55,11 @@ export default function EstruturaDarkClient({ lessons }) {
       <nav className="module-pager"><Link href="/modulos/entendendo-o-processo" className="module-pager-link"><span>TRILHA ORIGINAL</span><b>Ver módulos do O Clone Digital</b></Link><Link href="/painel" className="module-pager-link next"><span>VOLTAR</span><b>Painel principal</b></Link></nav>
     </div>
     <style jsx>{`
+      .dark-resources-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:20px}
+      .dark-resource-card{display:flex;align-items:center;gap:12px;padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--surface);text-decoration:none;transition:transform .18s,border-color .18s}
+      .dark-resource-card:hover{transform:translateY(-2px);border-color:var(--accent)}
+      .dark-resource-icon{display:grid;place-items:center;flex:0 0 40px;height:40px;border-radius:12px;background:var(--surface2);font-size:20px}
+      .dark-resource-card span:nth-child(2){flex:1;min-width:0}.dark-resource-card b,.dark-resource-card small{display:block}.dark-resource-card b{font-size:14px}.dark-resource-card small{font-size:12px;line-height:1.45;opacity:.7;margin-top:4px}.dark-resource-card strong{color:var(--accent)}
       .estrutura-dark-layout{display:grid;grid-template-columns:minmax(260px, .8fr) minmax(0,1.5fr);gap:18px;margin-top:20px;align-items:start}
       .estrutura-dark-index{position:sticky;top:18px;max-height:76vh;overflow:auto}
       .estrutura-dark-lesson-list{display:grid;gap:5px;margin-top:12px}
@@ -70,7 +79,7 @@ export default function EstruturaDarkClient({ lessons }) {
       .estrutura-dark-navigation{display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--line);padding-top:18px;margin-top:28px}
       .estrutura-dark-navigation button{border:1px solid var(--line);border-radius:10px;padding:10px 13px;background:var(--surface2);color:var(--text);cursor:pointer}
       .estrutura-dark-navigation button:disabled{opacity:.4;cursor:not-allowed}
-      @media(max-width:800px){.estrutura-dark-layout{grid-template-columns:1fr}.estrutura-dark-index{position:static;max-height:330px}.estrutura-dark-lesson small{display:none}}
+      @media(max-width:800px){.dark-resources-grid{grid-template-columns:1fr}.estrutura-dark-layout{grid-template-columns:1fr}.estrutura-dark-index{position:static;max-height:330px}.estrutura-dark-lesson small{display:none}}
     `}</style>
   </main>;
 }
