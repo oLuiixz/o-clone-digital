@@ -115,7 +115,7 @@ export default function ModuleProgress({ modules }) {
           const count = isMain ? children.length : track.standalone ? children.length : track.items.length;
           const countLabel = isMain || track.standalone ? `${String(count).padStart(2, "0")} módulo${count === 1 ? "" : "s"}` : `${String(count).padStart(2, "0")} tópicos previstos`;
           const doneCount = children.filter((module) => completed.includes(module.number)).length;
-          return <a className={`learning-track-card learning-track-compact ${track.tone === "featured" ? "learning-track-featured" : ""} ${track.tone === "special" ? "learning-track-special" : ""}`} href={isMain ? "/modulos/entendendo-o-processo" : track.standalone && children[0] ? `/modulos/${children[0].slug}` : "#"} key={track.id} onClick={(event) => { if (track.comingSoon) event.preventDefault(); }}>
+          return <a className={`learning-track-card learning-track-compact ${track.tone === "featured" ? "learning-track-featured" : ""} ${track.tone === "special" ? "learning-track-special" : ""}`} href={isMain ? "/modulos/estrutura-dark" : track.standalone && children[0] ? `/modulos/${children[0].slug}` : "#"} key={track.id} onClick={(event) => { if (track.comingSoon) event.preventDefault(); }}>
             <div className="learning-track-top"><span className="learning-track-number">{track.number}</span><span className="learning-track-eyebrow">{track.eyebrow}</span></div>
             <h3>{track.title}</h3>
             <p className="learning-track-description">{track.description}</p>
