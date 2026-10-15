@@ -20,7 +20,7 @@ export default function EstruturaDarkClient({ lessons }) {
   }, [lessons, query]);
   const selected = filtered[Math.min(active, Math.max(0, filtered.length - 1))];
 
-  return <main className="module-page">
+  return <main className="module-page estrutura-dark-page">
     <div className="module-page-shell">
       <nav className="module-breadcrumb"><Link href="/painel">Painel</Link><span>/</span><span>Estrutura Dark</span></nav>
       <header className="module-hero">
@@ -55,7 +55,7 @@ export default function EstruturaDarkClient({ lessons }) {
       </section>
       <nav className="module-pager"><Link href="/modulos/entendendo-o-processo" className="module-pager-link"><span>TRILHA ORIGINAL</span><b>Ver módulos do O Clone Digital</b></Link><Link href="/painel" className="module-pager-link next"><span>VOLTAR</span><b>Painel principal</b></Link></nav>
     </div>
-    <style jsx>{`
+    <style jsx>{`\n      .estrutura-dark-page{min-height:100vh;background:#090a0c;color:#f3f4f6;padding:0 0 48px}.estrutura-dark-page .module-page-shell{width:min(1180px,calc(100% - 48px));margin:0 auto;background:transparent;padding:28px 0 36px}.estrutura-dark-page .module-breadcrumb{display:flex;align-items:center;gap:9px;color:#858b96;font-size:12px;margin:0 0 22px}.estrutura-dark-page .module-breadcrumb a{color:#858b96}.estrutura-dark-page .module-hero{position:relative;overflow:hidden;padding:clamp(26px,4vw,44px);border:1px solid #25292f;border-radius:22px;background:radial-gradient(ellipse at 90% 0%,#ff30451c,transparent 38%),linear-gradient(135deg,#14171b,#0e1013)}.estrutura-dark-page .module-hero h1{font-size:clamp(30px,4vw,46px);line-height:1.08;letter-spacing:-1.8px;margin:14px 0 12px;color:#f3f4f6}.estrutura-dark-page .module-intro{max-width:760px;color:#a9afb8;line-height:1.75;font-size:14px;margin:0}.estrutura-dark-page .module-hero-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}.estrutura-dark-page .module-hero-meta span{padding:9px 12px;border:1px solid #ffffff12;border-radius:999px;background:#ffffff06;color:#b5bbc4;font-size:11px}.dark-resource-card{display:flex;align-items:center;gap:14px;min-height:100px;padding:18px;border:1px solid #25292f;border-radius:16px;background:linear-gradient(145deg,#121519,#0e1012);color:#f3f4f6;text-decoration:none;min-width:0}.dark-resource-icon{display:grid;place-items:center;flex:0 0 42px;height:42px;border:1px solid #ff304524;border-radius:12px;background:#ff304510;color:#ff3045;font-size:20px}@media(max-width:800px){.estrutura-dark-page .module-page-shell{width:calc(100% - 28px);padding-top:18px}.estrutura-dark-page .module-hero{padding:24px 20px}.estrutura-dark-page .module-hero h1{letter-spacing:-1px}.dark-resources-grid{grid-template-columns:1fr}}
       .dark-resources-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:20px}
       .dark-resource-card{display:flex;align-items:center;gap:12px;padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--surface);text-decoration:none;transition:transform .18s,border-color .18s}
       .dark-resource-card:hover{transform:translateY(-2px);border-color:var(--accent)}
