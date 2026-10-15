@@ -1,0 +1,89 @@
+"use client";
+import {useState} from "react";
+import Link from "next/link";
+import "./vibe-coding.css";
+const tools=[
+["ChatGPT","Planejamento, prompts e revisão","https://chatgpt.com","https://cdn.simpleicons.org/openai/ffffff"],
+["GitHub","Código, histórico e branches","https://github.com","https://cdn.simpleicons.org/github/ffffff"],
+["Vercel","Deploy, previews e domínio","https://vercel.com","https://cdn.simpleicons.org/vercel/ffffff"],
+["Neon","PostgreSQL serverless","https://neon.tech","https://cdn.simpleicons.org/neon/00e599"],
+["Supabase","Banco, auth e backend","https://supabase.com","https://cdn.simpleicons.org/supabase/3ecf8e"],
+["Resend","E-mails transacionais","https://resend.com","https://cdn.simpleicons.org/resend/ffffff"],
+["Apify","Actors, datasets e APIs","https://apify.com","https://cdn.simpleicons.org/apify/97d700"],
+["21st.dev","Componentes de interface","https://21st.dev","https://cdn.simpleicons.org/21st/ffffff"],
+["Uiverse","Efeitos e componentes CSS","https://uiverse.io","https://cdn.simpleicons.org/uiverse/ffffff"]];
+const modules=[
+["Fundamentos do Vibe Coding","Iniciante","Planeje antes de construir",[
+["O que é Vibe Coding","Desenvolver com IA significa transformar instruções claras em pequenas entregas, testar o resultado e iterar. A IA acelera o trabalho, mas não substitui sua revisão.","Comece com uma tarefa pequena e verificável. Descreva o problema, quem vai usar, a tela necessária e o resultado esperado."],
+["Transforme uma ideia em requisitos","Defina o problema, o público, as ações principais e o que ficará fora da primeira versão. Isso evita tentar construir tudo de uma vez.","Exercício: escreva o objetivo em uma frase, três funcionalidades essenciais e um critério de sucesso."],
+["Planejamento com ChatGPT","Peça ao ChatGPT para transformar sua ideia em páginas, componentes, dados, integrações e etapas. Revise o plano antes de gerar código.","PROMPT: Atue como analista de produto. Faça perguntas para esclarecer minha ideia e depois crie um MVP com objetivo, usuários, páginas, funcionalidades, dados, riscos e etapas. Não escreva código ainda."],
+["Organize o projeto","Guarde escopo, referências, decisões e dúvidas num documento central. Registre alterações importantes para manter consistência entre conversas.","Entrega: um documento de escopo, referências visuais, funcionalidades prioritárias e critérios de aceite."]
+]],
+["ChatGPT como parceiro de desenvolvimento","Iniciante","Planeje, implemente, revise e corrija",[
+["Como dar contexto à IA","Inclua objetivo, stack, comportamento esperado, restrições e como validar. Contexto concreto reduz respostas genéricas.","PROMPT: Contexto: [projeto]. Objetivo: [tarefa]. Preserve funcionalidades existentes, reutilize padrões e não invente dependências. Proponha um plano curto, implemente e explique como testar."],
+["Construa em pequenas etapas","Peça uma entrega por vez: estrutura, componente, integração e testes. Confira cada resultado antes de seguir.","Divida a tarefa em passos pequenos com critérios de aceite. Evite pedir uma aplicação inteira numa única mensagem."],
+["Corrija bugs com método","Informe o erro exato, passos para reproduzir e comportamento esperado. Peça investigação da causa antes de alterar o código.","PROMPT: Reproduza o problema, encontre a causa raiz e faça a menor correção possível. Preserve o comportamento existente e liste os testes executados."],
+["Auditoria e segurança","Revise autenticação, autorização, validação, exposição de segredos e tratamento de erros. A revisão da IA não substitui testes.","Nunca compartilhe senhas, tokens privados ou dados reais no prompt. Use exemplos fictícios e mantenha segredos no servidor."]
+]],
+["21st.dev e Uiverse","Iniciante","Encontre componentes e adapte ao design",[
+["Pesquisando no 21st.dev","Busque componentes como hero, pricing, dashboard, modal e botão. Confira dependências, termos e compatibilidade antes de integrar.","Copie o componente escolhido e peça à IA para adaptá-lo à stack e às variáveis visuais do projeto, sem reconstruir páginas inteiras."],
+["Explorando Uiverse","Encontre ideias para botões, loaders, cards e efeitos CSS. Escolha efeitos que ajudem a experiência, não apenas decoração.","Adapte cores, estados de foco, acessibilidade e comportamento mobile. Confira os termos e créditos do componente."],
+["Integre sem quebrar o layout","Encapsule estilos e prefira tokens globais de cor, espaçamento e tipografia para manter consistência.","Critério: funciona em mobile, não cria rolagem horizontal, tem contraste legível e respeita tema claro/escuro."]
+]],
+["GitHub na prática","Intermediário","Versione o projeto com segurança",[
+["Repositórios e arquivos","O repositório guarda código e histórico. README documenta o projeto e commits registram conjuntos de alterações.","Use repositório privado quando necessário e nunca envie arquivos .env com segredos."],
+["Commits úteis","Faça commits pequenos e descritivos. Revise o diff e os arquivos antes de confirmar.","Exemplo de mensagem: Adiciona formulário de contato. Remova segredos e rode verificações antes de enviar."],
+["Branches de teste","Use uma branch de recurso para experimentar sem alterar a versão principal. Compare mudanças antes de mesclar.","Fluxo: branch de teste → implementação → preview → revisão → merge consciente. Evite experimentar na principal quando há usuários."],
+["Histórico e recuperação","O histórico permite entender quando uma mudança entrou e recuperar uma versão conhecida.","Exercício: faça uma alteração pequena, registre um commit e localize-a no histórico do GitHub."]
+]],
+["Vercel e publicação","Intermediário","Publique, revise e mantenha projetos",[
+["Primeiro deploy","Importe o repositório, confirme framework e build. A URL de preview permite revisar antes de produção.","Se falhar, leia o primeiro erro relevante nos logs e corrija a causa. Não confunda execução local com deploy aprovado."],
+["Domínio e ambientes","Configure domínio e DNS seguindo os valores indicados pela Vercel. Separe variáveis de desenvolvimento e produção.","Confira HTTPS, redirecionamentos, rotas, links e comportamento em celulares."],
+["Variáveis de ambiente","Segredos devem ficar nas configurações do servidor. Variáveis NEXT_PUBLIC são expostas ao navegador.","Nunca coloque tokens privados em variáveis públicas. Após alterar configurações, valide o novo deploy."],
+["Preview e rollback","Use previews para testar alterações sem afetar a versão publicada e conheça o caminho para voltar à versão anterior.","Checklist: build aprovado, autenticação testada, integrações verificadas e plano de reversão conhecido."]
+]],
+["Bancos de dados: Neon e Supabase","Intermediário","Armazene dados com acesso seguro",[
+["Como funciona um banco","Tabelas organizam registros; chaves relacionam dados e restrições ajudam a manter consistência.","Desenhe entidades e relações antes de criar tabelas. Armazene apenas os dados necessários."],
+["Neon e PostgreSQL","Neon oferece PostgreSQL gerenciado e branches de banco. É útil quando você controla a camada da aplicação.","Guarde a connection string como segredo no servidor. Use migrations versionadas e permissões mínimas."],
+["Supabase e seus serviços","Supabase combina PostgreSQL com recursos como autenticação, storage e APIs. Avalie quais serviços realmente precisa.","Configure Row Level Security e políticas adequadas para dados expostos via cliente. Nunca exponha a service_role key no navegador."],
+["Neon ou Supabase?","Neon é uma boa opção para PostgreSQL gerenciado com backend próprio. Supabase pode acelerar projetos que usam autenticação e outros serviços integrados. Não precisa usar ambos sem motivo.","Compare requisitos, custos, autenticação, storage, segurança e estratégia de migração."],
+["Modelagem e migrations","Planeje tabelas, tipos, chaves e índices. Versione alterações para reproduzir o esquema em cada ambiente.","Exercício: modele projects com id, nome, status e data de criação; defina quem pode ler e alterar cada registro."]
+]],
+["Resend: envio de e-mails","Intermediário","Automatize comunicações transacionais",[
+["Verifique seu domínio","Configure no Resend o domínio que você controla e adicione os registros DNS solicitados antes do envio real.","Acompanhe a verificação e use remetente consistente com o domínio."],
+["Templates profissionais","Crie mensagens de boas-vindas, avisos e recuperação com assunto claro, identidade visual e links corretos.","Teste em diferentes clientes de e-mail e mantenha o conteúdo acessível."],
+["Envio seguro pelo backend","Faça chamadas à API no servidor. Valide destinatários e trate erros sem expor chaves.","PROMPT: Implemente envio server-side com Resend, chave apenas no servidor, validação de campos, tratamento de falhas e testes de sucesso e erro."],
+["Logs e entregabilidade","Monitore rejeições, falhas e limites. Respeite consentimento e regras de envio aplicáveis.","Exercício: implemente um e-mail de teste e documente como investigar falhas."]
+]],
+["Apify: APIs e automações","Avançado","Conecte aplicações a fontes de dados",[
+["APIs e endpoints","Leia a documentação para entender autenticação, parâmetros, respostas, limites e erros.","Teste um endpoint documentado com dados não sensíveis e registre o formato de resposta."],
+["Actors e datasets","Actors executam tarefas automatizadas; datasets guardam resultados. Confira inputs, custos e condições de uso.","Comece com execução pequena, limite os itens e valide os dados retornados."],
+["Integração server-side","Chame Apify pelo backend para proteger o token, validar parâmetros e controlar custo e frequência.","Nunca exponha APIFY_API_TOKEN no frontend. Implemente timeout, limites e logs sem credenciais."],
+["Uso responsável","Respeite termos, privacidade, direitos autorais e leis aplicáveis. Não contorne autenticação nem controles de acesso.","Exercício: leia um dataset de demonstração, valide o schema e exiba estados de carregamento, erro e vazio."]
+]],
+["Integração completa","Avançado","Conecte interface, dados, APIs e deploy",[
+["Desenhe a arquitetura","Defina o que roda no navegador, o que roda no servidor e onde cada dado fica armazenado.","Fluxo sugerido: usuário → interface → endpoint seguro → banco/API → resposta. Identifique onde permissões são verificadas."],
+["Autenticação e permissões","Esconder botões não protege dados. Valide identidade e autorização no servidor para cada operação protegida.","Teste usuário autorizado, usuário sem permissão, sessão expirada e entrada inválida."],
+["Integre uma dependência por vez","Adicione cada serviço gradualmente e teste sucesso, falha, timeout e dados inesperados.","Use mocks ou ambiente de teste sempre que possível."],
+["Checklist de lançamento","Configure variáveis, publique preview, valide rotas e monitore logs. Documente limitações e plano de rollback.","Entrega: checklist de deploy e instruções de configuração sem segredos."]
+]],
+["Projetos reais e biblioteca de prompts","Avançado","Transforme aprendizado em projetos",[
+["Projeto: landing page","Crie uma página com proposta de valor, benefícios, prova legítima, perguntas frequentes e CTA. Teste mobile e links.","PROMPT: Crie uma landing page responsiva para [produto]. Proponha estrutura e copy antes do código. Preserve identidade visual, acessibilidade e valide links e formulários."],
+["Projeto: dashboard com dados","Crie uma interface que lista registros de um banco com estados de carregamento, vazio e erro.","Implemente um CRUD pequeno com validação no servidor e regras de acesso verificadas."],
+["Projeto: e-mails automáticos","Integre Resend a um evento real usando backend seguro e mensagens de teste.","Documente evento, destinatário, template, falhas e como impedir envios duplicados."],
+["Projeto: integração Apify","Consuma um dataset permitido e mostre resultados com validação e tratamento de falhas.","Entrega: preview publicado, README, checklist de segurança e instruções de uso."],
+["Prompt de auditoria reutilizável","Use um roteiro repetível para revisar qualidade antes de publicar.","PROMPT: Revise autenticação, autorização, segredos, validação, erros, acessibilidade e mobile. Priorize riscos, cite evidências e proponha correções pequenas e verificáveis."]
+]]
+];
+export default function VibeCodingClient(){
+ const [mi,setMi]=useState(0),[li,setLi]=useState(0),[done,setDone]=useState([]),[search,setSearch]=useState("");
+ const mod=modules[mi],lesson=mod[3][li],key=mi+"-"+li,total=modules.reduce((n,m)=>n+m[3].length,0);
+ const filtered=modules.map((m,i)=>({m,i})).filter(({m})=>(m[0]+" "+m[2]+" "+m[3].map(l=>l[0]).join(" ")).toLowerCase().includes(search.toLowerCase()));
+ function next(){if(li<mod[3].length-1)setLi(li+1);else if(mi<modules.length-1){setMi(mi+1);setLi(0)}}
+ function prev(){if(li>0)setLi(li-1);else if(mi>0){setMi(mi-1);setLi(modules[mi-1][3].length-1)}}
+ return <main className="vc-page"><div className="vc-shell"><nav className="vc-crumb"><Link href="/painel">Painel</Link><span>/</span><span>Vibe Coding</span></nav>
+ <header className="vc-hero"><div><small>O CLONE DIGITAL · TRILHA PRÁTICA</small><h1>Vibe <em>Coding</em></h1><p>Da ideia ao projeto publicado com inteligência artificial. Aprenda a construir por etapas, conectar ferramentas e lançar projetos com mais segurança.</p><div className="vc-pills"><span>9 módulos</span><span>{total} aulas</span><span>Prompts copiáveis</span></div></div><div className="vc-art"><div className="vc-codebar">● ● ● <span>project / build-with-ai</span></div><pre><b>const</b> idea = <em>"sua próxima ideia"</em>;{"\n"}<b>await</b> plan(idea);{"\n"}<b>await</b> buildStepByStep();{"\n"}<b>await</b> testAndShip();{"\n"}<small>// construa. valide. publique.</small></pre></div></header>
+ <div className="vc-layout"><section className="vc-card vc-curriculum"><div className="vc-head"><div><h2>Trilha de aprendizado</h2><p>Avance do básico às integrações reais.</p></div><div className="vc-count"><b>{done.length}/{total}</b><small>aulas concluídas</small><div><i style={{width:(done.length/total*100)+"%"}}/></div></div></div><input className="vc-search" value={search} onChange={e=>setSearch(e.target.value)} placeholder="Buscar módulos e aulas..."/><div className="vc-list">{filtered.map(({m,i})=><button key={m[0]} className={mi===i?"vc-module active":"vc-module"} onClick={()=>{setMi(i);setLi(0)}}><span className="vc-num">{String(i+1).padStart(2,"0")}</span><span className="vc-mcopy"><b>{m[0]}</b><small>{m[2]}</small><small>{m[3].length} aulas · {m[1]}</small></span><strong>›</strong></button>)}</div></section>
+ <aside className="vc-side"><section className="vc-card vc-tools"><h2>Ferramentas do módulo</h2><p>As plataformas usadas ao longo da trilha.</p><div className="vc-toolgrid">{tools.map(t=><a key={t[0]} href={t[2]} target="_blank" rel="noreferrer" className="vc-tool"><img src={t[3]} alt="" loading="lazy" onError={e=>{e.currentTarget.style.display="none"}}/><b>{t[0]}</b><small>{t[1]}</small><span>Acessar ↗</span></a>)}</div></section><section className="vc-card vc-callout"><div className="vc-symbol">↗</div><h3>Do zero ao seu próprio produto digital</h3><p>Domine as ferramentas, siga o método e construa projetos reais com IA.</p><ul><li>Aprenda passo a passo</li><li>Use prompts reutilizáveis</li><li>Teste antes de publicar</li><li>Proteja dados e credenciais</li></ul></section></aside></div>
+ <section className="vc-lesson"><aside className="vc-lesson-nav"><small>MÓDULO {String(mi+1).padStart(2,"0")}</small><h2>{mod[0]}</h2><p>{mod[2]}</p>{mod[3].map((l,i)=><button key={l[0]} className={li===i?"selected":""} onClick={()=>setLi(i)}><span>{done.includes(mi+"-"+i)?"✓":String(i+1).padStart(2,"0")}</span>{l[0]}</button>)}</aside><article className="vc-lesson-body"><small>AULA {String(li+1).padStart(2,"0")} · {mod[1].toUpperCase()}</small><h2>{lesson[0]}</h2><p>{lesson[1]}</p><div className="vc-practice"><b>Na prática</b><p>{lesson[2]}</p></div>{(lesson[2].includes("PROMPT:")||lesson[2].includes("prompt"))&&<div className="vc-prompt"><div><b>Material copiável</b><button onClick={()=>navigator.clipboard?.writeText(lesson[2].replace("PROMPT: ",""))}>Copiar prompt</button></div><pre>{lesson[2].replace("PROMPT: ","")}</pre></div>}<div className="vc-actions"><button className={done.includes(key)?"vc-done":"vc-primary"} onClick={()=>setDone(old=>old.includes(key)?old.filter(x=>x!==key):[...old,key])}>{done.includes(key)?"✓ Aula concluída":"Marcar como concluída"}</button><div><button onClick={prev} disabled={mi===0&&li===0}>← Anterior</button><button className="vc-primary" onClick={next} disabled={mi===modules.length-1&&li===mod[3].length-1}>Próxima aula →</button></div></div><p className="vc-note">Não publique chaves de API nem dados reais nos prompts. Teste integrações em ambiente seguro antes do lançamento.</p></article></section><footer className="vc-footer"><span>VIBE CODING · O CLONE DIGITAL</span><Link href="/painel">Voltar ao painel ↗</Link></footer></div></main>
+}
