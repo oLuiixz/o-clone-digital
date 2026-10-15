@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import "./revenda-streaming.css";
+import RevendaResources from "./RevendaResources";
 
 const affiliateUrl = "https://app.cakto.com.br/affiliate/invite/5be2c9ba-b511-4107-9ab7-2c2705e55af3";
 const panelUrl = "https://wa.me/5535991234316?text=quero%20abrir%20meu%20proprio%20painel%20de%20IPTV";
@@ -97,7 +98,8 @@ export default function RevendaStreamingClient() {
       </article>
     </section>
 
-    <section className="rs-resources"><div className="rs-resources-heading"><div><span className="rs-section-kicker">CAIXA DE FERRAMENTAS</span><h2>Materiais para sua operação</h2><p>Recursos de apoio para você adaptar à sua realidade.</p></div><span className="rs-resource-count">04 RECURSOS</span></div><div className="rs-resource-grid">{tools.map((tool, i) => <article className="rs-resource-card" key={tool.name}><span className="rs-resource-icon"><Icon name={tool.icon} size={21}/></span><span className="rs-resource-index">RECURSO 0{i+1}</span><h3>{tool.name}</h3><p>{tool.desc}</p><button onClick={() => document.getElementById("rs-aulas")?.scrollIntoView({behavior:"smooth"})}>Explorar conteúdo <Icon name="arrow-up-right" size={15}/></button></article>)}</div></section>
+    <section className="rs-resources"><div className="rs-resources-heading"><div><span className="rs-section-kicker">CAIXA DE FERRAMENTAS</span><h2>Materiais para sua operação</h2><p>Recursos de apoio para você adaptar à sua realidade.</p></div><span className="rs-resource-count">04 RECURSOS</span></div><div className="rs-resource-grid">{tools.map((tool, i) => <article className="rs-resource-card" key={tool.name}><span className="rs-resource-icon"><Icon name={tool.icon} size={21}/></span><span className="rs-resource-index">RECURSO 0{i+1}</span><h3>{tool.name}</h3><p>{tool.desc}</p><button onClick={() => window.dispatchEvent(new CustomEvent("rs-open-resource", { detail: i }))}>Abrir ferramenta <Icon name="arrow-up-right" size={15}/></button></article>)}</div></section>
+    <RevendaResources />
     <footer className="rs-footer"><Link href="/painel">← Voltar para o painel</Link><span>O CLONE DIGITAL · APRENDA, ESTRUTURE, OPERE</span></footer>
   </main>;
 }
