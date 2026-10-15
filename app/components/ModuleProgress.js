@@ -21,8 +21,9 @@ const tracks = [
     eyebrow: "CRIAÇÃO COM IA",
     description: "Use inteligência artificial para planejar, criar e melhorar páginas, ferramentas e produtos digitais.",
     tone: "standard",
-    comingSoon: true,
-    items: ["Fundamentos do Vibe Coding", "Criar páginas e ferramentas com IA", "Prompts, revisão e publicação"],
+    standalone: true,
+    slug: "vibe-coding",
+    items: ["ChatGPT · prompts e desenvolvimento", "GitHub · versionamento", "Vercel · deploy", "Neon e Supabase · banco de dados", "Resend · e-mails", "Apify · APIs", "21st.dev e Uiverse · componentes"],
   },
   {
     id: "afiliados",
