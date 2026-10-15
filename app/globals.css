@@ -1225,3 +1225,37 @@ html,body{background:var(--bg);color:var(--text)}
 .learning-footnote{margin:18px 0 0;color:var(--muted,#92929b);font-size:11px;line-height:1.6}
 @media(max-width:900px){.learning-track-grid{grid-template-columns:1fr}.learning-track-featured{grid-row:auto}.learning-track-card{padding:20px}}
 @media(max-width:480px){.learning-track-card{padding:16px;border-radius:15px}.learning-track-card h3{font-size:20px}.learning-submodule{gap:9px;padding:10px}.learning-submodule-toggle{padding:7px;font-size:9px}.learning-track-eyebrow{font-size:9px}.learning-submodule b{font-size:11px}}
+
+
+/* Compact track cards and improve light-theme contrast */
+.learning-track-compact{display:flex;flex-direction:column;min-height:245px;padding:20px;text-decoration:none;color:inherit;cursor:pointer}
+.learning-track-compact .learning-track-top{margin-bottom:13px}
+.learning-track-compact .learning-track-description{margin-bottom:16px;flex:1}
+.learning-track-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:auto}
+.learning-track-count,.learning-track-done,.learning-coming-soon{display:inline-flex;align-items:center;min-height:27px;padding:5px 9px;border:1px solid rgba(255,255,255,.14);border-radius:7px;font-size:10px;font-weight:700;letter-spacing:.02em}
+.learning-track-count{background:rgba(255,255,255,.055);color:var(--foreground,#f5f5f7)}
+.learning-track-done{color:#7ddba7;background:rgba(48,180,115,.1);border-color:rgba(48,180,115,.22)}
+.learning-track-compact .learning-track-progress{margin:14px 0 0}
+.learning-track-open{display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding-top:13px;border-top:1px solid rgba(255,255,255,.1);color:var(--foreground,#f5f5f7);font-size:11px;font-weight:700}
+.learning-track-open span{font-size:16px;color:#f06a78;transition:transform .2s ease}
+.learning-track-compact:hover .learning-track-open span{transform:translate(2px,-2px)}
+.learning-track-compact.learning-track-featured{min-height:245px;grid-row:span 1}
+.learning-track-compact.learning-track-special{border-color:rgba(229,45,64,.3)}
+/* Explicit contrast tokens when the app is in light mode */
+html.light .learning-track-card,body.light .learning-track-card,[data-theme="light"] .learning-track-card,.light-theme .learning-track-card{background:linear-gradient(145deg,#ffffff,#f7f8fb);border-color:#d7dce5;box-shadow:0 5px 18px rgba(20,28,45,.055)}
+html.light .learning-track-featured,body.light .learning-track-featured,[data-theme="light"] .learning-track-featured,.light-theme .learning-track-featured{background:radial-gradient(ellipse at 100% 0,rgba(220,35,54,.09),transparent 48%),#fff;border-color:#e5aeb5}
+html.light .learning-track-special,body.light .learning-track-special,[data-theme="light"] .learning-track-special,.light-theme .learning-track-special{background:radial-gradient(ellipse at 100% 0,rgba(220,35,54,.08),transparent 55%),#fff;border-color:#e5aeb5}
+html.light .learning-track-card h3,body.light .learning-track-card h3,[data-theme="light"] .learning-track-card h3,.light-theme .learning-track-card h3{color:#171923}
+html.light .learning-track-eyebrow,body.light .learning-track-eyebrow,[data-theme="light"] .learning-track-eyebrow,.light-theme .learning-track-eyebrow{color:#626879}
+html.light .learning-track-description,body.light .learning-track-description,[data-theme="light"] .learning-track-description,.light-theme .learning-track-description{color:#535b6b}
+html.light .learning-track-number,body.light .learning-track-number,[data-theme="light"] .learning-track-number,.light-theme .learning-track-number{color:#303646;border-color:#d7dce5;background:#f1f3f7}
+html.light .learning-track-featured .learning-track-number,html.light .learning-track-special .learning-track-number,body.light .learning-track-featured .learning-track-number,body.light .learning-track-special .learning-track-number,[data-theme="light"] .learning-track-featured .learning-track-number,[data-theme="light"] .learning-track-special .learning-track-number,.light-theme .learning-track-featured .learning-track-number,.light-theme .learning-track-special .learning-track-number{color:#b42336;background:#fff0f2;border-color:#f0bdc4}
+html.light .learning-track-count,body.light .learning-track-count,[data-theme="light"] .learning-track-count,.light-theme .learning-track-count{color:#303646;background:#f0f2f6;border-color:#d8dde6}
+html.light .learning-track-done,body.light .learning-track-done,[data-theme="light"] .learning-track-done,.light-theme .learning-track-done{color:#176b42;background:#e9f8ef;border-color:#b9e5ca}
+html.light .learning-coming-soon,body.light .learning-coming-soon,[data-theme="light"] .learning-coming-soon,.light-theme .learning-coming-soon{color:#a51f32;background:#fff0f2;border-color:#f0bdc4}
+html.light .learning-track-open,body.light .learning-track-open,[data-theme="light"] .learning-track-open,.light-theme .learning-track-open{color:#252a36;border-color:#e0e4eb}
+html.light .learning-track-footer,body.light .learning-track-footer,[data-theme="light"] .learning-track-footer,.light-theme .learning-track-footer{color:#535b6b;border-color:#e0e4eb}
+html.light .learning-footnote,body.light .learning-footnote,[data-theme="light"] .learning-footnote,.light-theme .learning-footnote{color:#535b6b}
+html.light .organized-learning .learning-intro,body.light .organized-learning .learning-intro,[data-theme="light"] .organized-learning .learning-intro,.light-theme .organized-learning .learning-intro{color:#535b6b}
+@media(max-width:900px){.learning-track-compact{min-height:0;padding:18px}.learning-track-compact.learning-track-featured{grid-row:auto}}
+@media(max-width:480px){.learning-track-compact{padding:16px}.learning-track-compact .learning-track-top{margin-bottom:11px}.learning-track-compact .learning-track-description{margin-bottom:14px}}
