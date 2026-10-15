@@ -156,7 +156,8 @@ export default function PromptsClient() {
       @media(max-width:820px){.pc-page .pc-layout{grid-template-columns:1fr}.pc-page .pc-topic-list{max-height:280px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.pc-page .pc-hero{padding:23px}}@media(max-width:540px){.pc-page{padding:12px}.pc-page .pc-topic-list{grid-template-columns:1fr}.pc-page .pc-detail{padding:16px}.pc-page .pc-detail-top{display:block}.pc-page .pc-prompt-top{align-items:flex-start;flex-direction:column}.pc-page .pc-copy{width:100%;justify-content:center}.pc-page .pc-hero h1{letter-spacing:-1px}}
     `}</style>
     <div className="pc-shell">
-      <a className="pc-back" href="/app">← Voltar ao Método Dark Motion</a>
+      <a className="pc-back" href="/modulos/estrutura-dark">← Voltar à Estrutura Dark</a>
+      
       <section className="pc-hero">
         <span className="pc-kicker">BIBLIOTECA DE INTELIGÊNCIA ARTIFICIAL</span>
         <h1>+1000 Prompts ChatGPT</h1>
