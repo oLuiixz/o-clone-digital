@@ -68,6 +68,7 @@ export default function IntegracaoEntregaPage() {
         <section className="module-hero-card">
           <div className="module-hero-number">07</div>
           <div className="module-hero-copy">
+            <img src="https://images.unsplash.com/photo-1557200134-90327ee9fafa?auto=format&fit=crop&w=1400&q=85" alt="" loading="lazy" style={{display:"block",width:"100%",maxHeight:190,objectFit:"cover",borderRadius:14,marginBottom:20}} />
             <div className="module-kicker"><i /> OPERAÇÃO E EXPERIÊNCIA DO CLIENTE</div>
             <h1>Integração e entrega</h1>
             <p>Conecte checkout, confirmação do pagamento, acesso ao produto e suporte. Uma venda só está bem organizada quando a pessoa recebe o que comprou e sabe como pedir ajuda.</p>
