@@ -10,6 +10,8 @@ const modules = [
   { number: "09", slug: "nicho-hot", title: "🔥 Nicho HOT 🔞", description: "Explore oportunidades no mercado adulto com estratégia, responsabilidade e foco em ofertas legais.", lessons: "Pesquisa de mercado · Oferta · Aquisição de tráfego · Conversão · Compliance", status: "Novo módulo", progress: 0 },
   { number: "10", slug: "vibe-coding", title: "Vibe Coding (IA)", description: "Crie sites, sistemas e produtos digitais com ChatGPT e ferramentas de desenvolvimento.", lessons: "ChatGPT · GitHub · Vercel · Neon · Supabase · Resend · Apify · UI", status: "Novo módulo", progress: 0 },
   { number: "11", slug: "revenda-streaming", title: "Revenda Streaming", description: "Estruture uma operação de IPTV com fornecedores autorizados, painéis, clientes e receita recorrente.", lessons: "Fornecedores · Painéis · Clientes · Renovações · Vendas", status: "Novo módulo", progress: 0 },
+  { number: "12", slug: "dinheiro-facebook", title: "Dinheiro com Facebook (Orgânico)", description: "Crie conteúdo original, construa comunidade e explore monetização orgânica responsável.", lessons: "Páginas · Reels · Stories · Conteúdo · Monetização · Analytics", status: "Novo módulo", progress: 0 },
+  { number: "13", slug: "dinheiro-tiktok", title: "Dinheiro com TikTok (Orgânico)", description: "Aprenda conteúdo curto, retenção e oportunidades de monetização orgânica.", lessons: "Posicionamento · Ganchos · Vídeos · Comunidade · Monetização", status: "Novo módulo", progress: 0 },
 ];
 
 const quickLinks = [
