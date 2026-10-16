@@ -31,7 +31,8 @@ const curricula = {
    ["Segurança e conformidade","Proteja a conta, não compartilhe senhas e use somente downloads oficiais do fornecedor. Revise as regras atuais do TikTok LIVE, conteúdo, presentes, direitos de terceiros e os termos da ferramenta escolhida.","Antes de instalar, confira domínio, versão, requisitos e permissões. Não desative proteções do sistema sem entender o risco; mantenha sistema e ferramentas atualizados."],
    ["Plano de lançamento em 30 dias","Semana 1: estudar formatos e requisitos. Semana 2: escolher um jogo e testar a transmissão. Semana 3: realizar lives-piloto e anotar participação e estabilidade. Semana 4: melhorar roteiro, horário e mecânicas com base nos dados.","Acompanhe duração, espectadores, participação no chat, novos seguidores, estabilidade e presentes recebidos. Use os resultados como aprendizado, sem projetar ganhos garantidos."]
   ]
- };
+ }
+};
 export default function OrganicoClient({kind}) {
  const data=curricula[kind]; const [active,setActive]=useState(0); const [done,setDone]=useState([]);
  const lesson=data.lessons[active];
