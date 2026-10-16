@@ -1291,3 +1291,13 @@ html[data-theme="light"] .dark-resource-card{background:linear-gradient(145deg,#
 html[data-theme="light"] .estrutura-dark-lesson{color:#171b24}
 html[data-theme="light"] .estrutura-dark-lesson:hover,html[data-theme="light"] .estrutura-dark-lesson.active{background:#f0f2f6;border-color:#dfe3ea}
 html[data-theme="light"] .estrutura-dark-navigation button{background:#f0f2f6;color:#171b24;border-color:#dfe3ea}
+
+
+/* Sales page launch price */
+.sales-offer-pricing{display:grid;justify-items:start;gap:7px;margin:22px 0 20px;padding:16px 17px;width:100%;border:1px solid #62313a;border-radius:7px;background:linear-gradient(125deg,#251116,#111114 72%)}
+.sales-offer-price-label{font:8px "DM Mono",monospace;letter-spacing:1px;color:#ff8792}
+.sales-offer-price{display:flex;align-items:baseline;color:#fff;font-size:48px;font-weight:800;letter-spacing:-2.5px;line-height:1.05}
+.sales-offer-price>span{margin-right:7px;color:#ff6878;font:700 15px "DM Mono",monospace;letter-spacing:0}
+.sales-offer-price small{font-size:25px;letter-spacing:-1px}
+.sales-offer-price-note{font-size:9px;color:#b7a9ad}
+@media(max-width:700px){.sales-offer-pricing{margin:18px 0;padding:14px}.sales-offer-price{font-size:43px}}
