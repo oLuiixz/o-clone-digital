@@ -1,5 +1,5 @@
 "use client";
-import {useState} from "react";
+import {useEffect,useState} from "react";
 import Link from "next/link";
 import "../vibe-coding/vibe-coding.css";
 
@@ -34,7 +34,10 @@ const curricula = {
  }
 };
 export default function OrganicoClient({kind}) {
- const data=curricula[kind]; const [active,setActive]=useState(0); const [done,setDone]=useState([]);
+ const data=curricula[kind]; const [active,setActive]=useState(0); const [done,setDone]=useState([]); const [progressReady,setProgressReady]=useState(false);
+ const storageKey=`clone-digital-${kind}-lesson-progress`;
+ useEffect(()=>{try{const saved=JSON.parse(window.localStorage.getItem(storageKey)||"{}");if(Array.isArray(saved.done))setDone(saved.done.filter(n=>Number.isInteger(n)&&n>=0&&n<data.lessons.length));if(Number.isInteger(saved.active)&&saved.active>=0&&saved.active<data.lessons.length)setActive(saved.active);}catch{}setProgressReady(true);},[storageKey,data.lessons.length]);
+ useEffect(()=>{if(!progressReady)return;try{window.localStorage.setItem(storageKey,JSON.stringify({active,done}));}catch{}},[active,done,progressReady,storageKey]);
  const lesson=data.lessons[active];
  return <main className="vc-page"><div className="vc-shell"><nav className="vc-crumb"><Link href="/painel">Painel</Link><span>/</span><span>{data.title}</span></nav>
  <section className="vc-hero"><div><small>{data.tag}</small><h1>{data.title}<br/><em>{kind==="facebook"?"Programa oficial":"Jogos interativos"}</em></h1><p>{data.subtitle}</p><div className="vc-pills"><span>{data.lessons.length} aulas práticas</span><span>Sem promessas de renda</span><span>Plano de 30 dias</span></div></div><div className="vc-art"><div className="vc-codebar">ESTRATÉGIA / CONTEÚDO / COMUNIDADE</div><pre>{kind==="facebook"?"01  Entenda seu público\n02  Crie conteúdo útil\n03  Construa confiança\n04  Teste ofertas relevantes":"01  Gancho claro\n02  Entrega rápida de valor\n03  Analise retenção\n04  Melhore a próxima versão"}</pre></div></section>
