@@ -90,6 +90,18 @@ const tracks = [
     slug: "nicho-hot",
     items: ["Pesquisa de mercado", "Estrutura da oferta", "Aquisição e operação responsável"],
   },
+  {
+    id: "clonagem-de-oferta",
+    number: "09",
+    title: "Clonagem de Oferta",
+    eyebrow: "PROCESSO COMPLETO",
+    description: "Da mineração à entrega: analise referências e construa uma oferta própria, com etapas práticas e organizadas.",
+    tone: "standard",
+    standalone: true,
+    slug: "clonagem-de-oferta",
+    items: ["Entenda o processo", "Mineração e análise", "Produto, página e VSL", "Anúncio, integração e entrega"],
+  },
+
 ];
 
 export default function ModuleProgress({ modules }) {
