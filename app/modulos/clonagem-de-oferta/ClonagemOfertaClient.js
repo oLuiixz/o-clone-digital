@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import "../vibe-coding/vibe-coding.css";
+import "../organico/lesson-layout.css";
 
 const units = [
 {title:"Entenda o processo",intro:"A clonagem de oferta é estudar a estrutura de uma oferta existente para entender por que ela comunica valor e, então, construir uma versão própria e legítima. Não significa copiar marca, textos, vídeos, produto protegido ou depoimentos.",lessons:[
