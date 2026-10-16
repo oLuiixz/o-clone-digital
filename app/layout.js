@@ -21,7 +21,7 @@ export default async function RootLayout({ children }) {
   const member = await getCurrentMember();
   return (
     <html lang="pt-BR" data-theme={member?.preferred_theme || "dark"} style={{ "--accent": member?.accent_color || "#ff3045", "--accent-dark": member?.accent_color || "#ff3045" }}>
-      <body><ThemeSync /><GlobalAnnouncements /><PushOptInPrompt />{children}</body>
+      <body><ThemeSync />{member ? <GlobalAnnouncements /> : null}<PushOptInPrompt />{children}</body>
     </html>
   );
 }
