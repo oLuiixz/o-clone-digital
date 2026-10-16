@@ -2,6 +2,7 @@
 import {useEffect,useState} from "react";
 import Link from "next/link";
 import "../vibe-coding/vibe-coding.css";
+import "./lesson-layout.css";
 
 const curricula = {
  facebook: {
