@@ -19,6 +19,13 @@ export default function EstruturaDarkClient({ lessons }) {
     return lessons.filter((lesson) => [lesson.t, lesson.d, ...(lesson.blocks || []).map((b) => b.text)].join(" ").toLocaleLowerCase("pt-BR").includes(q));
   }, [lessons, query]);
   const selected = filtered[Math.min(active, Math.max(0, filtered.length - 1))];
+  const lessonImages = [
+    "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1400&q=85",
+    "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1400&q=85"
+  ];
 
   return <main className="module-page estrutura-dark-page">
     <div className="module-page-shell">
@@ -50,7 +57,7 @@ export default function EstruturaDarkClient({ lessons }) {
           </div>
         </aside>
         <article className="module-content-card estrutura-dark-article">
-          {selected ? <><div className="module-section-eyebrow">AULA {String(active+1).padStart(2,"0")} / {filtered.length}</div><h2>{selected.t}</h2>{selected.d && <p className="module-intro">{selected.d}</p>}<div className="estrutura-dark-body">{(selected.blocks||[]).map(renderBlock)}</div><div className="estrutura-dark-navigation"><button type="button" disabled={active<=0} onClick={()=>setActive(v=>Math.max(0,v-1))}>← Aula anterior</button><button type="button" disabled={active>=filtered.length-1} onClick={()=>setActive(v=>Math.min(filtered.length-1,v+1))}>Próxima aula →</button></div></>:<p>Não encontramos conteúdo com esse termo.</p>}
+          {selected ? <><div className="estrutura-dark-lesson-visual"><img src={lessonImages[active % lessonImages.length]} alt="" loading="lazy"/><span>ESTRUTURA DARK · AULA PRÁTICA</span></div><div className="module-section-eyebrow">AULA {String(active+1).padStart(2,"0")} / {filtered.length}</div><h2>{selected.t}</h2>{selected.d && <p className="module-intro">{selected.d}</p>}<div className="estrutura-dark-body">{(selected.blocks||[]).map(renderBlock)}</div><div className="estrutura-dark-navigation"><button type="button" disabled={active<=0} onClick={()=>setActive(v=>Math.max(0,v-1))}>← Aula anterior</button><button type="button" disabled={active>=filtered.length-1} onClick={()=>setActive(v=>Math.min(filtered.length-1,v+1))}>Próxima aula →</button></div></>:<p>Não encontramos conteúdo com esse termo.</p>}
         </article>
       </section>
       <nav className="module-pager"><Link href="/modulos/entendendo-o-processo" className="module-pager-link"><span>TRILHA ORIGINAL</span><b>Ver módulos do O Clone Digital</b></Link><Link href="/painel" className="module-pager-link next"><span>VOLTAR</span><b>Painel principal</b></Link></nav>
@@ -70,6 +77,11 @@ export default function EstruturaDarkClient({ lessons }) {
       .estrutura-dark-lesson small{display:block;margin-top:4px;font-size:11px;line-height:1.4;opacity:.65}
       .estrutura-dark-lesson:hover,.estrutura-dark-lesson.active{background:var(--surface2);border-color:var(--line)}
       .estrutura-dark-lesson.active{box-shadow:inset 3px 0 var(--accent)}
+      .estrutura-dark-lesson-visual{position:relative;isolation:isolate;height:clamp(150px,22vw,250px);overflow:hidden;border:1px solid var(--line);border-radius:15px;margin-bottom:24px;background:var(--surface2)}
+      .estrutura-dark-lesson-visual:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#090a0caa,transparent 85%),linear-gradient(0deg,#090a0cbb,transparent 65%);pointer-events:none}
+      .estrutura-dark-lesson-visual img{display:block;width:100%;height:100%;object-fit:cover;opacity:.88}
+      .estrutura-dark-lesson-visual span{position:absolute;z-index:1;left:17px;bottom:15px;color:#fff;font-size:10px;font-weight:750;letter-spacing:1.2px}
+      @media(max-width:600px){.estrutura-dark-lesson-visual{height:155px;border-radius:12px;margin-bottom:18px}.estrutura-dark-lesson-visual span{font-size:8px;left:12px;bottom:12px}}
       .estrutura-dark-article h2{font-size:clamp(24px,3vw,34px);margin:12px 0}
       .estrutura-dark-body{margin-top:24px;line-height:1.8;overflow-wrap:anywhere}
       .estrutura-dark-body p{margin:0 0 16px}
