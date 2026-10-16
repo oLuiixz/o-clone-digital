@@ -8,7 +8,6 @@
 .vc-video-heading small{display:block;color:var(--accent);font-size:10px;font-weight:800;letter-spacing:.14em;margin-bottom:7px}
 .vc-video-heading h3{margin:0 0 6px;font-size:clamp(18px,2vw,24px);letter-spacing:-.035em}
 .vc-video-heading p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}
-.vc-video-heading>a{flex-shrink:0;color:var(--accent);font-size:12px;font-weight:700;text-decoration:none}
 .vc-video-frame{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:12px;background:#08090d;border:1px solid var(--line)}
 .vc-video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .vc-video-topics{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
