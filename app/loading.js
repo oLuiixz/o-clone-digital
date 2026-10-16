@@ -4,7 +4,7 @@ export default function Loading() {
   return (
     <main className="loading-screen" role="status" aria-live="polite" aria-label="Carregando O Clone Digital">
       <div className="loading-content">
-        <div className="loading-brand-mark" aria-hidden="true">C<span>.</span></div>
+        <img className="loading-logo" src="/imagens/logo-clone-digital.svg" alt="O Clone Digital" />
         <div className="loading-loader-wrapper" aria-hidden="true">
           {letters.map((letter, index) => (
             <span className="loading-letter" key={index}>{letter}</span>

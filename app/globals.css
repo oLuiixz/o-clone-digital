@@ -143,6 +143,7 @@ button{font:inherit}
   animation:loading-mark-pulse 2.2s ease-in-out infinite;
 }
 .loading-brand-mark span{color:#f3f4f6}
+.loading-logo{display:block;width:76px;height:76px;object-fit:contain;filter:drop-shadow(0 0 28px #ff304525);animation:loading-mark-pulse 2.2s ease-in-out infinite}
 .loading-loader-wrapper{
   position:relative;display:flex;align-items:center;justify-content:center;
   min-height:64px;min-width:270px;padding:10px 22px;
@@ -1191,3 +1192,112 @@ html,body{background:var(--bg);color:var(--text)}
 .hot-reference-method ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 24px;padding-left:18px;margin:12px 0 0;color:#c4c4cb;font-size:13px;line-height:1.65}
 .hot-reference-method li::marker{color:#ff6975}
 @media(max-width:700px){.hot-reference-grid,.hot-reference-method ul{grid-template-columns:1fr}.hot-reference-card{padding:16px}.hot-reference-section{padding:20px;border-radius:18px}}
+
+
+/* Organized learning paths prototype */
+.organized-learning .learning-intro{max-width:760px;margin:-8px 0 24px;color:var(--muted,#9b9ba4);font-size:14px;line-height:1.7}
+.learning-track-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start}
+.learning-track-card{position:relative;min-width:0;overflow:hidden;padding:24px;border:1px solid var(--border,rgba(255,255,255,.1));border-radius:18px;background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.018));transition:border-color .2s ease,transform .2s ease}
+.learning-track-card:hover{border-color:rgba(255,255,255,.2);transform:translateY(-2px)}
+.learning-track-featured{grid-row:span 2;border-color:rgba(235,48,62,.35);background:radial-gradient(ellipse at 100% 0,rgba(220,35,54,.13),transparent 48%),linear-gradient(145deg,rgba(255,255,255,.05),rgba(255,255,255,.018))}
+.learning-track-special{background:radial-gradient(ellipse at 100% 0,rgba(235,48,62,.11),transparent 55%),rgba(255,255,255,.02)}
+.learning-track-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:17px}
+.learning-track-number{display:grid;place-items:center;width:38px;height:38px;border:1px solid rgba(255,255,255,.12);border-radius:11px;color:#fff;font-size:12px;font-weight:700}
+.learning-track-featured .learning-track-number,.learning-track-special .learning-track-number{background:rgba(224,39,57,.13);border-color:rgba(224,39,57,.35)}
+.learning-track-eyebrow{font-size:10px;letter-spacing:.13em;font-weight:700;color:var(--muted,#a5a5ae)}
+.learning-track-card h3{margin:0 0 8px;color:var(--foreground,#f5f5f7);font-size:22px;letter-spacing:-.035em}
+.learning-track-description{margin:0 0 20px;color:var(--muted,#a5a5ae);font-size:13px;line-height:1.65}
+.learning-track-progress{height:4px;margin:-4px 0 18px;overflow:hidden;border-radius:8px;background:rgba(255,255,255,.08)}
+.learning-track-progress span{display:block;height:100%;border-radius:8px;background:#e52d40;transition:width .25s ease}
+.learning-submodules{display:grid;gap:8px}
+.learning-submodule{display:flex;align-items:center;gap:12px;min-width:0;padding:12px;border:1px solid rgba(255,255,255,.07);border-radius:12px;background:rgba(0,0,0,.12)}
+.learning-submodule-index{display:grid;place-items:center;flex:0 0 30px;width:30px;height:30px;border-radius:9px;background:rgba(255,255,255,.055);color:#bcbcc5;font-size:10px;font-weight:700}
+.learning-submodule-index.is-done{background:rgba(48,180,115,.14);color:#64d69b}
+.learning-submodule>a,.learning-submodule>span:not(.learning-submodule-index){flex:1;min-width:0}
+.learning-submodule a,.learning-submodule-link{color:inherit;text-decoration:none}
+.learning-submodule b{display:block;color:var(--foreground,#f5f5f7);font-size:12px;font-weight:650;line-height:1.4}
+.learning-submodule small{display:block;margin-top:4px;color:var(--muted,#9b9ba4);font-size:11px;line-height:1.45}
+.learning-submodule-toggle{flex:0 0 auto;border:1px solid rgba(255,255,255,.13);border-radius:8px;padding:7px 9px;background:transparent;color:#d4d4dc;font-size:10px;cursor:pointer}
+.learning-submodule-toggle:hover{border-color:rgba(235,48,62,.55);color:#fff}
+.learning-submodule-link{display:flex;align-items:center}
+.learning-submodule-arrow{color:#a9a9b2;font-size:14px}
+.learning-track-footer{display:flex;justify-content:space-between;gap:12px;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);color:var(--muted,#a5a5ae);font-size:10px}
+.learning-coming-soon{color:#e9a2a8}
+.learning-footnote{margin:18px 0 0;color:var(--muted,#92929b);font-size:11px;line-height:1.6}
+@media(max-width:900px){.learning-track-grid{grid-template-columns:1fr}.learning-track-featured{grid-row:auto}.learning-track-card{padding:20px}}
+@media(max-width:480px){.learning-track-card{padding:16px;border-radius:15px}.learning-track-card h3{font-size:20px}.learning-submodule{gap:9px;padding:10px}.learning-submodule-toggle{padding:7px;font-size:9px}.learning-track-eyebrow{font-size:9px}.learning-submodule b{font-size:11px}}
+
+
+/* Compact track cards and improve light-theme contrast */
+.learning-track-compact{display:flex;flex-direction:column;min-height:245px;padding:20px;text-decoration:none;color:inherit;cursor:pointer}
+.learning-track-compact .learning-track-top{margin-bottom:13px}
+.learning-track-compact .learning-track-description{margin-bottom:16px;flex:1}
+.learning-track-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:auto}
+.learning-track-count,.learning-track-done,.learning-coming-soon{display:inline-flex;align-items:center;min-height:27px;padding:5px 9px;border:1px solid rgba(255,255,255,.14);border-radius:7px;font-size:10px;font-weight:700;letter-spacing:.02em}
+.learning-track-count{background:rgba(255,255,255,.055);color:var(--foreground,#f5f5f7)}
+.learning-track-done{color:#7ddba7;background:rgba(48,180,115,.1);border-color:rgba(48,180,115,.22)}
+.learning-track-compact .learning-track-progress{margin:14px 0 0}
+.learning-track-open{display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding-top:13px;border-top:1px solid rgba(255,255,255,.1);color:var(--foreground,#f5f5f7);font-size:11px;font-weight:700}
+.learning-track-open span{font-size:16px;color:#f06a78;transition:transform .2s ease}
+.learning-track-compact:hover .learning-track-open span{transform:translate(2px,-2px)}
+.learning-track-compact.learning-track-featured{min-height:245px;grid-row:span 1}
+.learning-track-compact.learning-track-special{border-color:rgba(229,45,64,.3)}
+/* Explicit contrast tokens when the app is in light mode */
+html.light .learning-track-card,body.light .learning-track-card,[data-theme="light"] .learning-track-card,.light-theme .learning-track-card{background:linear-gradient(145deg,#ffffff,#f7f8fb);border-color:#d7dce5;box-shadow:0 5px 18px rgba(20,28,45,.055)}
+html.light .learning-track-featured,body.light .learning-track-featured,[data-theme="light"] .learning-track-featured,.light-theme .learning-track-featured{background:radial-gradient(ellipse at 100% 0,rgba(220,35,54,.09),transparent 48%),#fff;border-color:#e5aeb5}
+html.light .learning-track-special,body.light .learning-track-special,[data-theme="light"] .learning-track-special,.light-theme .learning-track-special{background:radial-gradient(ellipse at 100% 0,rgba(220,35,54,.08),transparent 55%),#fff;border-color:#e5aeb5}
+html.light .learning-track-card h3,body.light .learning-track-card h3,[data-theme="light"] .learning-track-card h3,.light-theme .learning-track-card h3{color:#171923}
+html.light .learning-track-eyebrow,body.light .learning-track-eyebrow,[data-theme="light"] .learning-track-eyebrow,.light-theme .learning-track-eyebrow{color:#626879}
+html.light .learning-track-description,body.light .learning-track-description,[data-theme="light"] .learning-track-description,.light-theme .learning-track-description{color:#535b6b}
+html.light .learning-track-number,body.light .learning-track-number,[data-theme="light"] .learning-track-number,.light-theme .learning-track-number{color:#303646;border-color:#d7dce5;background:#f1f3f7}
+html.light .learning-track-featured .learning-track-number,html.light .learning-track-special .learning-track-number,body.light .learning-track-featured .learning-track-number,body.light .learning-track-special .learning-track-number,[data-theme="light"] .learning-track-featured .learning-track-number,[data-theme="light"] .learning-track-special .learning-track-number,.light-theme .learning-track-featured .learning-track-number,.light-theme .learning-track-special .learning-track-number{color:#b42336;background:#fff0f2;border-color:#f0bdc4}
+html.light .learning-track-count,body.light .learning-track-count,[data-theme="light"] .learning-track-count,.light-theme .learning-track-count{color:#303646;background:#f0f2f6;border-color:#d8dde6}
+html.light .learning-track-done,body.light .learning-track-done,[data-theme="light"] .learning-track-done,.light-theme .learning-track-done{color:#176b42;background:#e9f8ef;border-color:#b9e5ca}
+html.light .learning-coming-soon,body.light .learning-coming-soon,[data-theme="light"] .learning-coming-soon,.light-theme .learning-coming-soon{color:#a51f32;background:#fff0f2;border-color:#f0bdc4}
+html.light .learning-track-open,body.light .learning-track-open,[data-theme="light"] .learning-track-open,.light-theme .learning-track-open{color:#252a36;border-color:#e0e4eb}
+html.light .learning-track-footer,body.light .learning-track-footer,[data-theme="light"] .learning-track-footer,.light-theme .learning-track-footer{color:#535b6b;border-color:#e0e4eb}
+html.light .learning-footnote,body.light .learning-footnote,[data-theme="light"] .learning-footnote,.light-theme .learning-footnote{color:#535b6b}
+html.light .organized-learning .learning-intro,body.light .organized-learning .learning-intro,[data-theme="light"] .organized-learning .learning-intro,.light-theme .organized-learning .learning-intro{color:#535b6b}
+@media(max-width:900px){.learning-track-compact{min-height:0;padding:18px}.learning-track-compact.learning-track-featured{grid-row:auto}}
+@media(max-width:480px){.learning-track-compact{padding:16px}.learning-track-compact .learning-track-top{margin-bottom:11px}.learning-track-compact .learning-track-description{margin-bottom:14px}}
+
+
+/* Global theme tokens: all routes derive their base palette from the root theme. */
+html[data-theme="light"]{
+  color-scheme:light;
+  --bg:#f4f6f9;--panel:#ffffff;--card:#ffffff;--line:#dfe3ea;--text:#171b24;--muted:#606a79;
+  --surface:#ffffff;--surface2:#f0f2f6;--foreground:#171b24;
+}
+html[data-theme="dark"]{color-scheme:dark}
+html[data-theme="light"] body{background:var(--bg);color:var(--text)}
+html[data-theme="light"] .sidebar,
+html[data-theme="light"] .module-page-topbar{background:#ffffff;border-color:var(--line)}
+html[data-theme="light"] .nav-item{color:#586273}
+html[data-theme="light"] .nav-item:hover,
+html[data-theme="light"] .nav-item.active{background:#eef1f6;color:#171b24}
+html[data-theme="light"] .module-content-card,
+html[data-theme="light"] .module-outline-card{background:linear-gradient(145deg,#fff,#f7f8fb);border-color:var(--line);color:var(--text)}
+html[data-theme="light"] .module-hero-card{background:linear-gradient(110deg,#fff,#f5f7fa);border-color:var(--line)}
+html[data-theme="light"] .module-hero-copy p,
+html[data-theme="light"] .module-intro{color:#586273}
+html[data-theme="light"] input,html[data-theme="light"] textarea,html[data-theme="light"] select{background:#fff;color:#171b24;border-color:#cfd5df}
+html[data-theme="light"] .estrutura-dark-page{background:var(--bg);color:var(--text)}
+html[data-theme="light"] .estrutura-dark-page .module-page-shell{background:transparent}
+html[data-theme="light"] .estrutura-dark-page .module-hero{background:radial-gradient(ellipse at 90% 0%,#ff304510,transparent 38%),linear-gradient(135deg,#fff,#f6f7fa);border-color:var(--line)}
+html[data-theme="light"] .estrutura-dark-page .module-hero h1{color:#171b24}
+html[data-theme="light"] .estrutura-dark-page .module-intro{color:#586273}
+html[data-theme="light"] .estrutura-dark-page .module-hero-meta span{background:#f0f2f6;border-color:#dfe3ea;color:#586273}
+html[data-theme="light"] .dark-resource-card{background:linear-gradient(145deg,#fff,#f7f8fb);color:#171b24;border-color:#dfe3ea}
+html[data-theme="light"] .estrutura-dark-lesson{color:#171b24}
+html[data-theme="light"] .estrutura-dark-lesson:hover,html[data-theme="light"] .estrutura-dark-lesson.active{background:#f0f2f6;border-color:#dfe3ea}
+html[data-theme="light"] .estrutura-dark-navigation button{background:#f0f2f6;color:#171b24;border-color:#dfe3ea}
+
+
+/* Sales page launch price */
+.sales-offer-pricing{display:grid;justify-items:start;gap:7px;margin:22px 0 20px;padding:16px 17px;width:100%;border:1px solid #62313a;border-radius:7px;background:linear-gradient(125deg,#251116,#111114 72%)}
+.sales-offer-price-label{font:8px "DM Mono",monospace;letter-spacing:1px;color:#ff8792}
+.sales-offer-price{display:flex;align-items:baseline;color:#fff;font-size:48px;font-weight:800;letter-spacing:-2.5px;line-height:1.05}
+.sales-offer-price>span{margin-right:7px;color:#ff6878;font:700 15px "DM Mono",monospace;letter-spacing:0}
+.sales-offer-price small{font-size:25px;letter-spacing:-1px}
+.sales-offer-price-note{font-size:9px;color:#b7a9ad}
+@media(max-width:700px){.sales-offer-pricing{margin:18px 0;padding:14px}.sales-offer-price{font-size:43px}}
