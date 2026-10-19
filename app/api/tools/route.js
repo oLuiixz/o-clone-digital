@@ -33,6 +33,18 @@ async function ensure(sql) {
   ["SMS Full Bot","Fornecedor no Telegram para compra de números de WhatsApp e outros serviços.","Fornecedores e marketplaces","Consultar no Telegram","https://t.me/smsfull_bot?start=1028021521","Confira preços, disponibilidade, regras da plataforma e condições antes de comprar.",false],
   ["NotzSMS","Fornecedor no Telegram para compra de números de WhatsApp e outros serviços.","Fornecedores e marketplaces","Consultar no Telegram","https://t.me/NotzSMSBot?start=1028021521","Confira preços, disponibilidade, regras da plataforma e condições antes de comprar.",false]
  ];
+ const additionalTools = [
+  ["Apify","Automatize coleta de dados públicos da web e execute scrapers prontos ou personalizados.","Pesquisa e mineração","Gratuito / pago","https://apify.com/","Respeite os termos de uso, limites de acesso e privacidade dos sites consultados.",true],
+  ["Manychat","Crie automações de conversas e respostas para Instagram, WhatsApp, TikTok e Messenger.","Pesquisa e mineração","Gratuito / pago","https://manychat.com/pt","Use automações em conformidade com as regras de cada canal e com o consentimento dos contatos.",true],
+  ["Adsparo","Pesquise anúncios, criativos, produtos em tendência e informações de páginas anunciantes.","Pesquisa e mineração","Pago","https://adsparo.com/","Confira o preço e os recursos disponíveis no plano atual antes de assinar.",true],
+  ["Kalodata","Analise tendências de produtos, criadores e dados comerciais do TikTok Shop.","Pesquisa e mineração","Gratuito / pago","https://www.kalodata.com/","Disponibilidade de dados e recursos pode variar conforme região e plano.",true],
+  ["GitHub","Hospede repositórios, controle versões e colabore no desenvolvimento de projetos.","Infraestrutura","Gratuito / pago","https://github.com/","Nunca publique tokens, senhas ou chaves de API nos repositórios.",true],
+  ["Netlify","Publique sites e aplicações web com deploy integrado a repositórios Git.","Infraestrutura","Gratuito / pago","https://www.netlify.com/","Confira os limites do plano e configure variáveis sensíveis nas configurações do projeto.",true]
+ ];
+ for (const t of additionalTools) {
+  await sql`INSERT INTO tool_library(name,description,category,pricing,url,notes,verified) SELECT ${t[0]},${t[1]},${t[2]},${t[3]},${t[4]},${t[5]},${t[6]} WHERE NOT EXISTS (SELECT 1 FROM tool_library WHERE lower(name) = lower(${t[0]}))`;
+ }
+ await sql`UPDATE tool_library SET category = 'Pesquisa e mineração', updated_at = now() WHERE lower(name) = 'urlscan.io' AND category <> 'Pesquisa e mineração'`;
  for (const t of suppliers) {
   await sql`INSERT INTO tool_library(name,description,category,pricing,url,notes,verified) SELECT ${t[0]},${t[1]},${t[2]},${t[3]},${t[4]},${t[5]},${t[6]} WHERE NOT EXISTS (SELECT 1 FROM tool_library WHERE url = ${t[4]})`;
  }
