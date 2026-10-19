@@ -28,7 +28,7 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     if (searchParams.get("members") === "1") {
       await sql`INSERT INTO community_presence (account_id, last_seen_at) VALUES (${member.id}, now()) ON CONFLICT (account_id) DO UPDATE SET last_seen_at = now()`;
-      const ownerEmail = (process.env.COMMUNITY_OWNER_EMAIL || "contato@oclonedigital.xyz").trim().toLowerCase();
+      const ownerEmail = (process.env.COMMUNITY_OWNER_EMAIL || "luizfernandogxp19@gmail.com").trim().toLowerCase();
       const members = await sql`SELECT a.id, a.display_name, a.photo_data, p.last_seen_at, lower(a.email) = ${ownerEmail} AS is_owner
         FROM member_accounts a
         JOIN entitlements e ON lower(e.customer_email) = lower(a.email) AND e.status = 'active'
