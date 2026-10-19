@@ -13,6 +13,7 @@ const modules = [
   { number: "11", slug: "revenda-streaming", title: "Revenda Streaming", description: "Estruture uma operação de IPTV com fornecedores autorizados, painéis, clientes e receita recorrente.", lessons: "Fornecedores · Painéis · Clientes · Renovações · Vendas", status: "Novo módulo", progress: 0 },
   { number: "12", slug: "dinheiro-facebook", title: "Dinheiro com Facebook (Orgânico)", description: "Crie conteúdo original, construa comunidade e explore monetização orgânica responsável.", lessons: "Páginas · Reels · Stories · Conteúdo · Monetização · Analytics", status: "Novo módulo", progress: 0 },
   { number: "13", slug: "dinheiro-tiktok", title: "Dinheiro com TikTok (Orgânico)", description: "Aprenda conteúdo curto, retenção e oportunidades de monetização orgânica.", lessons: "Posicionamento · Ganchos · Vídeos · Comunidade · Monetização", status: "Novo módulo", progress: 0 },
+  { number: "14", slug: "ecommerce", title: "Ecommerce", description: "Aprenda a planejar uma loja virtual, trabalhar com Shopify e organizar vendas, operação e métricas.", lessons: "Nicho · Shopify · Catálogo · Pagamentos · Marketing · Métricas · Lançamento", status: "Novo módulo", progress: 0 },
 ];
 
 const quickLinks = [
