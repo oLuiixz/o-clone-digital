@@ -33,7 +33,21 @@ export async function POST(request){
   }
   if(b.action==="season-status"){
    const allowed=["draft","scheduled","active","reviewing","closed","archived"];if(!allowed.includes(b.status)||!b.id)return json({error:"Status inválido."},400);
-   if(b.status==="active"){const active=await sql`SELECT id FROM clone_awards_seasons WHERE status='active' AND id<>${b.id} LIMIT 1`;if(active.length)return json({error:"Já existe outra temporada ativa."},409)}
+   if(b.status==="active"){
+    const active=await sql`SELECT id FROM clone_awards_seasons WHERE status='active' AND id<>${b.id} LIMIT 1`;
+    if(active.length)return json({error:"Já existe outra temporada ativa."},409);
+    const target=await sql`SELECT starts_at,ends_at,submission_deadline FROM clone_awards_seasons WHERE id=${b.id} LIMIT 1`;
+    if(!target.length)return json({error:"Temporada não encontrada."},404);
+    const season=target[0],now=Date.now();
+    if(new Date(season.starts_at).getTime()>now||new Date(season.ends_at).getTime()<=now||new Date(season.submission_deadline).getTime()<now)
+      return json({error:"Só é possível ativar uma temporada dentro do período de vigência e antes do prazo final de envio. Para uma temporada futura, mantenha o rascunho até a data de início."},409);
+    const trackCount=await sql`SELECT COUNT(*)::int AS count FROM clone_awards_tracks WHERE is_active=true`;
+    if(Number(trackCount[0]?.count)!==5)return json({error:"A temporada não pode ser ativada: o catálogo precisa ter exatamente 5 trilhas ativas."},409);
+    const invalidTracks=await sql`SELECT t.slug FROM clone_awards_tracks t LEFT JOIN clone_awards_levels l ON l.track_id=t.id LEFT JOIN clone_awards_challenges c ON c.level_id=l.id AND c.track_id=t.id AND c.is_active=true WHERE t.is_active=true GROUP BY t.id,t.slug HAVING COUNT(DISTINCT l.id)<>15 OR COUNT(c.id)<>150 OR COALESCE(SUM(c.xp),0)<>15000 LIMIT 1`;
+    if(invalidTracks.length)return json({error:"A temporada não pode ser ativada: cada trilha precisa ter 15 níveis, 150 desafios ativos e exatamente 15.000 XP."},409);
+    const invalidLevels=await sql`SELECT t.slug,l.level_number FROM clone_awards_tracks t JOIN clone_awards_levels l ON l.track_id=t.id LEFT JOIN clone_awards_challenges c ON c.level_id=l.id AND c.track_id=t.id AND c.is_active=true WHERE t.is_active=true GROUP BY t.slug,l.level_number HAVING COUNT(c.id)<>10 OR MIN(c.xp)<>30+(l.level_number-1)*10 OR MAX(c.xp)<>30+(l.level_number-1)*10 LIMIT 1`;
+    if(invalidLevels.length)return json({error:"A temporada não pode ser ativada: cada nível precisa ter 10 desafios ativos com a pontuação prevista para esse nível."},409);
+   }
    await sql`UPDATE clone_awards_seasons SET status=${b.status},updated_at=now() WHERE id=${b.id}`;return json({ok:true});
   }
   if(b.action==="save-track"){
