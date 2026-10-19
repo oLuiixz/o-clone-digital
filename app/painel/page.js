@@ -26,6 +26,7 @@ const navigation = [
   { icon: "home", label: "Início", href: "#inicio" },
   { icon: "modules", label: "Módulos", href: "#modulos" },
   { icon: "files", label: "Ferramentas", href: "/ferramentas" },
+  { icon: "community", label: "Comunidade", href: "/comunidade" },
   { icon: "settings", label: "Configurações", href: "/configuracoes" },
 ];
 
@@ -36,6 +37,7 @@ function Icon({ name, size = 18 }) {
     home: <><path d="m3 10 9-7 9 7" /><path d="M5 9v11h14V9M9 20v-6h6v6" /></>,
     modules: <><rect x="4" y="3" width="16" height="18" rx="2" /><path d="M8 8h8M8 12h8M8 16h5" /></>,
     files: <><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H10l2 2h5.5A2.5 2.5 0 0 1 20 9.5v8a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 17.5Z" /><path d="M4 10h16" /></>,
+    community: <><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H5l-2 2v-9.5A7.5 7.5 0 0 1 10.5 4H12a8 8 0 0 1 8 7.5Z" /><path d="M8 11h.01M12 11h.01M16 11h.01" /></>,
     settings: <><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.8 1.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5v.2h-2.6v-.2a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1-1.8-1.8.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H6.3v-2.6h.2a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1 1.8-1.8.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.5v-.2H15v.2a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1 1.8 1.8-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.5 1h.2v2.6h-.2a1.7 1.7 0 0 0-1.5 1Z" /></>,
     search: <><circle cx="10.8" cy="10.8" r="6.3" /><path d="m16 16 4.2 4.2" /></>,
     chart: <><path d="M4 19V5M4 19h16" /><path d="m7 15 4-4 3 2 5-6" /><path d="M16 7h3v3" /></>,
@@ -68,6 +70,7 @@ export default async function Home() {
           <a className="nav-item" href="#modulos"><span><Icon name="modules" /></span> Módulos e aulas</a>
           <a className="nav-item" href="#atalhos"><span><Icon name="search" /></span> Pesquisa de ofertas</a>
           <a className="nav-item" href="/ferramentas"><span><Icon name="layers" /></span> Ferramentas</a>
+          <a className="nav-item" href="/comunidade"><span><Icon name="community" /></span> Comunidade</a>
           <a className="nav-item" href="#progresso"><span><Icon name="chart" /></span> Meu progresso</a>
           <a className="nav-item" href="/configuracoes"><span><Icon name="settings" /></span> Configurações</a>
         </nav>
@@ -84,6 +87,7 @@ export default async function Home() {
               {item.icon === "home" && <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3.2 2.8 11a1 1 0 0 0 1.3 1.5l.9-.8v7A2.3 2.3 0 0 0 7.3 21h3.1v-5.5h3.2V21h3.1a2.3 2.3 0 0 0 2.3-2.3v-7l.9.8a1 1 0 0 0 1.3-1.5L12 3.2Z"/></svg>}
               {item.icon === "modules" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>}
               {item.icon === "files" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H10l2 2h5.5A2.5 2.5 0 0 1 20 9.5v8a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 17.5Z"/><path d="M4 10h16"/></svg>}
+              {item.icon === "community" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H5l-2 2v-9.5A7.5 7.5 0 0 1 10.5 4H12a8 8 0 0 1 8 7.5Z"/><path d="M8 11h.01M12 11h.01M16 11h.01"/></svg>}
               {item.icon === "settings" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="m19.4 15 .1.1 1.1.9-1.1 1.9-1.4-.5a7.7 7.7 0 0 1-1.5.9l-.2 1.5h-2.2l-.4-1.4a7.7 7.7 0 0 1-1.8 0l-.8 1.2-2-.9.3-1.5a7.7 7.7 0 0 1-1.3-1.3l-1.5.3-.9-2 1.2-.8a7.7 7.7 0 0 1 0-1.8l-1.2-.8.9-2 1.5.3a7.7 7.7 0 0 1 1.3-1.3l-.3-1.5 2-.9.8 1.2a7.7 7.7 0 0 1 1.8 0l.4-1.4h2.2l.2 1.5a7.7 7.7 0 0 1 1.5.9l1.4-.5 1.1 1.9-1.1.9a7.7 7.7 0 0 1 0 1.8Z"/></svg>}
             </span>
             <span>{item.label}</span>
