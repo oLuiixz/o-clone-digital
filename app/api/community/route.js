@@ -29,7 +29,7 @@ export async function GET(request) {
       ? await sql`SELECT m.id, m.account_id, m.message, m.media_data, m.media_type, m.media_name, m.created_at, a.display_name, a.photo_data
           FROM community_messages m JOIN member_accounts a ON a.id = m.account_id
           WHERE m.id > ${after} ORDER BY m.id ASC LIMIT 100`
-      : await sql`SELECT m.id, m.message, m.media_data, m.media_type, m.media_name, m.created_at, a.display_name, a.photo_data
+      : await sql`SELECT m.id, m.account_id, m.message, m.media_data, m.media_type, m.media_name, m.created_at, a.display_name, a.photo_data
           FROM (SELECT * FROM community_messages ORDER BY id DESC LIMIT 100) m
           JOIN member_accounts a ON a.id = m.account_id ORDER BY m.id ASC`;
     return NextResponse.json({ messages: rows.map(row => ({ ...row, media_data: row.media_data || null, photo_data: row.photo_data || null })) });
@@ -61,7 +61,7 @@ export async function POST(request) {
     await ensureTable(sql);
     const rows = await sql`INSERT INTO community_messages (account_id, message, media_data, media_type, media_name)
       VALUES (${member.id}, ${message}, ${mediaData || null}, ${mediaData ? mediaType : null}, ${mediaData ? mediaName : null})
-      RETURNING id, message, media_data, media_type, media_name, created_at`;
+      RETURNING id, account_id, message, media_data, media_type, media_name, created_at`;
     return NextResponse.json({ ok: true, message: { ...rows[0], display_name: member.display_name || "Membro", photo_data: member.photo_data || null } }, { status: 201 });
   } catch (error) {
     console.error("Community post failed", error instanceof Error ? error.message : "unknown_error");
