@@ -12,7 +12,7 @@
 - Prêmios configuráveis, sem valores definidos. Revisar regras legais antes do lançamento público.
 
 ## Modelo inicial de pontuação
-10 desafios por nível (150 desafios por trilha). Cada desafio do mesmo nível vale igual em todas as trilhas. Valores por nível: 3, 4, 5, ... 17 XP. Soma dos valores de níveis = 150; multiplicado por 10 desafios = 15.000 XP por trilha. A ativação da temporada deve validar que contagem e pontuação são equivalentes entre trilhas.
+10 desafios por nível (150 desafios por trilha). Cada desafio do mesmo nível vale igual em todas as trilhas. Valores por nível: 30, 40, 50, ... 170 XP. Soma dos valores de níveis = 1.500; multiplicado por 10 desafios = 15.000 XP por trilha. A ativação da temporada deve validar que contagem e pontuação são equivalentes entre trilhas.
 
 ## Trilhas iniciais
 1. Negócio Dark — materiais próprios/licenciados e respeito aos direitos de terceiros.
