@@ -13,3 +13,18 @@
 .vc-video-topics{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 .vc-video-topics span{padding:7px 10px;border:1px solid var(--line);border-radius:8px;color:var(--text);font-size:11px;background:var(--bg)}
 @media(max-width:620px){.vc-video-section{padding:12px;margin-bottom:20px}.vc-video-heading{align-items:flex-start;flex-direction:column;gap:10px}.vc-video-topics{display:grid;grid-template-columns:1fr 1fr}.vc-video-topics span{font-size:10px;line-height:1.45}}
+
+/* Capa personalizada do vídeo: a moldura aparece antes de iniciar o embed oficial. */
+.vc-video-frame{isolation:isolate}
+.vc-video-cover{position:absolute;inset:0;width:100%;height:100%;padding:0;border:0;background:#08090d;color:#fff;cursor:pointer;text-align:left;overflow:hidden}
+.vc-video-cover>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .45s ease}
+.vc-video-cover:hover>img{transform:scale(1.035)}
+.vc-video-shade{position:absolute;inset:0;background:linear-gradient(90deg,#08090de8 0%,#08090d55 60%,#08090d20 100%),linear-gradient(0deg,#08090dbb,transparent 65%)}
+.vc-video-play{position:absolute;left:50%;top:50%;display:grid;place-items:center;width:68px;height:68px;transform:translate(-50%,-50%);border:1px solid #ffffff70;border-radius:50%;background:var(--accent);color:#fff;box-shadow:0 8px 35px #0008;transition:transform .2s ease,filter .2s ease}
+.vc-video-play svg{width:28px;height:28px;margin-left:3px}
+.vc-video-cover:hover .vc-video-play{transform:translate(-50%,-50%) scale(1.08);filter:brightness(1.08)}
+.vc-video-cover:focus-visible{outline:3px solid var(--accent);outline-offset:-4px}
+.vc-video-cover-label{position:absolute;left:clamp(16px,3vw,30px);bottom:clamp(16px,3vw,26px);display:grid;gap:6px;max-width:75%;text-shadow:0 2px 12px #000}
+.vc-video-cover-label b{font-size:clamp(16px,2.4vw,24px);letter-spacing:-.03em}
+.vc-video-cover-label small{color:#ffffffbd;font-size:10px;font-weight:800;letter-spacing:.14em}
+@media(max-width:620px){.vc-video-play{width:54px;height:54px}.vc-video-play svg{width:23px;height:23px}.vc-video-cover-label{max-width:88%}}
