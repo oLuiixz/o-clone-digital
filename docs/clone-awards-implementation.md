@@ -12,7 +12,7 @@
 - Prêmios configuráveis, sem valores definidos. Revisar regras legais antes do lançamento público.
 
 ## Modelo inicial de pontuação
-10 desafios por nível (150 desafios por trilha). Cada desafio do mesmo nível vale igual em todas as trilhas. Valores por nível: 30, 40, 50, ... 170 XP. Soma dos valores de níveis = 1.500; multiplicado por 10 desafios = 15.000 XP por trilha. A ativação da temporada deve validar que contagem e pontuação são equivalentes entre trilhas.
+10 desafios por nível (150 desafios por trilha; 750 no total nas cinco trilhas). Cada desafio do mesmo nível vale igual em todas as trilhas. Valores por nível: 30, 40, 50, ... 170 XP. Soma dos valores de níveis = 1.500; multiplicado por 10 desafios = 15.000 XP por trilha. A ativação da temporada deve validar que contagem e pontuação são equivalentes entre trilhas.
 
 ## Trilhas iniciais
 1. Negócio Dark — materiais próprios/licenciados e respeito aos direitos de terceiros.
@@ -33,6 +33,6 @@
 ## Próximas etapas
 1. Revisar migration e integrar ao fluxo de deploy documentado.
 2. Implementar camada de domínio/API com validações e operações atômicas.
-3. Criar catálogo de 750 desafios (5 trilhas × 15 níveis × 10 desafios), com atividades práticas equivalentes e evidências claras.
+3. Catálogo de 750 desafios gerado em `db/seeds/clone_awards_750_challenges.sql` (5 trilhas × 15 níveis × 10 desafios), com evidências e XP equivalente por nível. Revisar a qualidade pedagógica antes de ativar.
 4. Implementar UI do aluno e painel administrativo no visual atual.
 5. Testar pontuação, trocas de trilha, submissões duplicadas, acesso inativo, temporadas e permissões antes de abrir PR para revisão.
