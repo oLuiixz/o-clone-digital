@@ -16,6 +16,7 @@ async function ensureTable(sql) {
   )`;
   await sql`CREATE INDEX IF NOT EXISTS community_messages_created_idx ON community_messages (created_at DESC)`;
   await sql`CREATE TABLE IF NOT EXISTS community_presence (account_id UUID PRIMARY KEY REFERENCES member_accounts(id) ON DELETE CASCADE, last_seen_at TIMESTAMPTZ NOT NULL DEFAULT now())`;
+  await sql`CREATE TABLE IF NOT EXISTS community_member_tags (id BIGSERIAL PRIMARY KEY, account_id UUID NOT NULL REFERENCES member_accounts(id) ON DELETE CASCADE, tag VARCHAR(40) NOT NULL, created_at TIMESTAMPTZ NOT NULL DEFAULT now(), UNIQUE(account_id, tag))`;
 }
 
 export async function GET(request) {
