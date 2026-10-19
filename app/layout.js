@@ -5,8 +5,11 @@ import GlobalAnnouncements from "./components/GlobalAnnouncements";
 import PushOptInPrompt from "./components/PushOptInPrompt";
 
 export const metadata = {
-  title: "O Clone Digital | Da pesquisa à sua própria oferta",
-  description: "Uma jornada educacional organizada para pesquisar referências, analisar ofertas, estruturar um produto próprio e preparar seu primeiro teste.",
+  metadataBase: new URL("https://oclonedigital.xyz"),
+  title: "O Clone Digital | Comece com um plano. Avance com método.",
+  description: "Pesquise referências, analise ofertas e estruture seu próprio produto com uma jornada prática e organizada.",
+  openGraph: { type: "website", url: "https://oclonedigital.xyz/", siteName: "O Clone Digital", title: "O Clone Digital | Comece com um plano. Avance com método.", description: "Pesquise referências, analise ofertas e estruture seu próprio produto com uma jornada prática e organizada.", images: [{ url: "/imagens/og-clone-digital.svg", width: 1200, height: 630, alt: "O Clone Digital — Comece com um plano. Avance com método." }] },
+  twitter: { card: "summary_large_image", title: "O Clone Digital | Comece com um plano. Avance com método.", description: "Pesquise referências, analise ofertas e estruture seu próprio produto com uma jornada prática e organizada.", images: ["/imagens/og-clone-digital.svg"] },
   manifest: "/manifest.webmanifest",
   appleWebApp: { capable: true, statusBarStyle: "black-translucent", title: "O Clone Digital" },
   other: { "mobile-web-app-capable": "yes" },
