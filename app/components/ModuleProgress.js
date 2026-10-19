@@ -91,6 +91,17 @@ const tracks = [
     items: ["Pesquisa de mercado", "Estrutura da oferta", "Aquisição e operação responsável"],
   },
   {
+    id: "ecommerce",
+    number: "10",
+    title: "Ecommerce",
+    eyebrow: "LOJA PRÓPRIA E REVENDA",
+    description: "Escolha entre construir sua própria loja virtual ou aprender uma operação de revenda de produtos, com trilhas e conteúdos independentes.",
+    tone: "standard",
+    standalone: true,
+    slug: "ecommerce",
+    items: ["Trabalhe com Ecommerce · Loja própria e Shopify", "Revenda Ecommerce · Fornecedores, margem e operação"],
+  },
+  {
     id: "clonagem-de-oferta",
     number: "09",
     title: "Clonagem de Oferta",
@@ -137,7 +148,7 @@ export default function ModuleProgress({ modules }) {
   return <>
     <section className="stats-grid" id="progresso">
       <div className="stat-card"><span className="stat-label">SEU PROGRESSO</span><div className="stat-main">{loaded ? percent : 0}<span>%</span></div><div className="stat-foot"><span className="mini-track"><i style={{ width: (loaded ? percent : 0) + "%" }} /></span>{completed.length} de {modules.length} aulas/módulos marcados</div></div>
-      <div className="stat-card"><span className="stat-label">TRILHAS ORGANIZADAS</span><div className="stat-main">06<span className="stat-unit"> trilhas</span></div><div className="stat-foot">Escolha um caminho e avance por etapas</div></div>
+      <div className="stat-card"><span className="stat-label">TRILHAS ORGANIZADAS</span><div className="stat-main">07<span className="stat-unit"> trilhas</span></div><div className="stat-foot">Escolha um caminho e avance por etapas</div></div>
       <div className="stat-card"><span className="stat-label">ESTRUTURA DARK</span><div className="stat-main">{completedTracked}<span className="stat-unit"> / {allTrackedModules.length}</span></div><div className="stat-foot">Etapas concluídas na trilha principal e extras</div></div>
     </section>
 
