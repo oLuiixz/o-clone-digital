@@ -28,6 +28,7 @@ const seed = [
 async function ensure(sql) {
  await sql`CREATE TABLE IF NOT EXISTS tool_library (id BIGSERIAL PRIMARY KEY, name TEXT NOT NULL, description TEXT NOT NULL, category TEXT NOT NULL, pricing TEXT NOT NULL DEFAULT 'Gratuito', url TEXT NOT NULL, notes TEXT NOT NULL DEFAULT '', verified BOOLEAN NOT NULL DEFAULT false, is_active BOOLEAN NOT NULL DEFAULT true, created_at TIMESTAMPTZ NOT NULL DEFAULT now(), updated_at TIMESTAMPTZ NOT NULL DEFAULT now())`;
  const rows = await sql`SELECT COUNT(*)::int AS total FROM tool_library`;
+ await sql`UPDATE tool_library SET url = 'https://shopify.pxf.io/c/5766908/4052989/13624', updated_at = now() WHERE lower(name) = 'shopify' AND url <> 'https://shopify.pxf.io/c/5766908/4052989/13624'`;
  if (Number(rows[0]?.total || 0) === 0) for (const t of seed) await sql`INSERT INTO tool_library(name,description,category,pricing,url,notes,verified) VALUES(${t[0]},${t[1]},${t[2]},${t[3]},${t[4]},${t[5]},${t[6]})`;
  const suppliers = [
   ["SMS Full Bot","Fornecedor no Telegram para compra de números de WhatsApp e outros serviços.","Fornecedores e marketplaces","Consultar no Telegram","https://t.me/smsfull_bot?start=1028021521","Confira preços, disponibilidade, regras da plataforma e condições antes de comprar.",false],
