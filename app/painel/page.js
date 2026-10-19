@@ -76,7 +76,7 @@ export default async function Home() {
           <a className="nav-item" href="/configuracoes"><span><Icon name="settings" /></span> Configurações</a>
         </nav>
         <div className="sidebar-bottom">
-          <div className="help-card"><span className="help-icon"><Icon name="help" size={15} /></span><div><b>Precisa de ajuda?</b><p>Em breve, um espaço de suporte.</p></div></div>
+          <div className="help-card"><span className="help-icon"><Icon name="help" size={15} /></span><div className="help-copy"><b>Precisa de ajuda?</b><p>Fale com nossa comunidade.</p><a className="help-support-link" href="/comunidade">Fale com suporte <Icon name="arrow" size={12} /></a></div></div>
           <div className="profile"><div className="avatar">{member.photo_data ? <img src={member.photo_data} alt="" /> : (member.display_name || "Minha jornada").trim().slice(0,2).toUpperCase()}</div><div className="profile-copy"><b>{member.display_name || "Minha jornada"}</b><span>Área do aluno</span></div><span className="profile-menu"><Icon name="more" size={18} /></span></div>
         </div>
       </aside>
