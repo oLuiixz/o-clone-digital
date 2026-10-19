@@ -1,0 +1,16 @@
+import { NextResponse } from "next/server";
+import { isAdminRequest } from "../../../../lib/admin-auth";
+import { getDatabase } from "../../../../lib/member-auth";
+export const runtime="nodejs";
+export const dynamic="force-dynamic";
+export async function GET(){
+ if(!(await isAdminRequest())) return NextResponse.json({error:"Não autorizado."},{status:401});
+ try { const sql=getDatabase(); const rows=await sql`SELECT s.id,s.season_id,s.account_id,s.track_id,s.challenge_id,s.evidence_url,s.evidence_note,s.status,s.review_note,s.submitted_at,a.email,COALESCE(NULLIF(a.display_name,''),'Aluno') AS display_name,t.name AS track_name,c.title AS challenge_title,l.level_number FROM clone_awards_submissions s JOIN member_accounts a ON a.id=s.account_id JOIN clone_awards_tracks t ON t.id=s.track_id JOIN clone_awards_challenges c ON c.id=s.challenge_id JOIN clone_awards_levels l ON l.id=c.level_id WHERE s.status IN ('pending','resubmit') ORDER BY s.submitted_at ASC LIMIT 200`; return NextResponse.json({submissions:rows}); } catch { return NextResponse.json({error:"Migration 004 ainda não aplicada."},{status:503}); }
+}
+export async function POST(request){
+ if(!(await isAdminRequest())) return NextResponse.json({error:"Não autorizado."},{status:401});
+ let body;try{body=await request.json()}catch{return NextResponse.json({error:"Dados inválidos."},{status:400})}
+ if(!["approved","rejected","resubmit"].includes(body.status)||typeof body.submissionId!=="string")return NextResponse.json({error:"Decisão inválida."},{status:400});
+ const note=typeof body.note==="string"?body.note.trim().slice(0,1500):""; if(body.status!=="approved"&&!note)return NextResponse.json({error:"Informe o motivo ou orientação."},{status:400});
+ const sql=getDatabase();try{const rows=await sql`SELECT s.id,s.season_id,s.account_id,s.track_id,s.challenge_id,s.status,c.xp,se.status AS season_status FROM clone_awards_submissions s JOIN clone_awards_challenges c ON c.id=s.challenge_id JOIN clone_awards_seasons se ON se.id=s.season_id WHERE s.id=${body.submissionId} LIMIT 1`;const item=rows[0];if(!item)return NextResponse.json({error:"Envio não encontrado."},{status:404});if(item.status==="approved")return NextResponse.json({error:"Este envio já foi aprovado."},{status:409});if(!["active","reviewing"].includes(item.season_status))return NextResponse.json({error:"Temporada não aceita revisões."},{status:409});const reviewer="admin";await sql`UPDATE clone_awards_submissions SET status=${body.status},review_note=${note},reviewed_by=${reviewer},reviewed_at=now(),updated_at=now() WHERE id=${item.id}`;if(body.status==="approved")await sql`INSERT INTO clone_awards_xp_ledger(season_id,account_id,track_id,submission_id,source_key,entry_type,xp,reason,actor) VALUES (${item.season_id},${item.account_id},${item.track_id},${item.id},${"challenge:"+item.challenge_id},'award',${Number(item.xp)},'Desafio aprovado',${reviewer}) ON CONFLICT(season_id,account_id,source_key,entry_type) DO NOTHING`;await sql`INSERT INTO clone_awards_audit_log(season_id,account_id,actor,action,entity_type,entity_id,details) VALUES (${item.season_id},${item.account_id},${reviewer},${"submission_"+body.status},'submission',${item.id},${JSON.stringify({note})}::jsonb)`;return NextResponse.json({ok:true})}catch{return NextResponse.json({error:"Não foi possível revisar o envio."},{status:503})}
+}
