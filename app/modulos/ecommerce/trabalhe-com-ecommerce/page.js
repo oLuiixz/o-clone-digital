@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { getCurrentMember } from "../../../../../lib/member-auth";
+import { getCurrentMember } from "../../../../lib/member-auth";
 
 export const dynamic = "force-dynamic";
 
