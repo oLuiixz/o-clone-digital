@@ -51,6 +51,7 @@ function Icon({ name, size = 18 }) {
 
 import ModuleProgress from "../components/ModuleProgress";
 import MemberFeedback from "../components/MemberFeedback";
+import CommunityUnreadBadge from "../components/CommunityUnreadBadge";
 import { redirect } from "next/navigation";
 import { getCurrentMember } from "../../lib/member-auth";
 
@@ -70,7 +71,7 @@ export default async function Home() {
           <a className="nav-item" href="#modulos"><span><Icon name="modules" /></span> Módulos e aulas</a>
           <a className="nav-item" href="#atalhos"><span><Icon name="search" /></span> Pesquisa de ofertas</a>
           <a className="nav-item" href="/ferramentas"><span><Icon name="layers" /></span> Ferramentas</a>
-          <a className="nav-item" href="/comunidade"><span><Icon name="community" /></span> Comunidade</a>
+          <a className="nav-item" href="/comunidade"><span><Icon name="community" /></span><span className="nav-label">Comunidade</span><CommunityUnreadBadge memberId={member.id} /></a>
           <a className="nav-item" href="#progresso"><span><Icon name="chart" /></span> Meu progresso</a>
           <a className="nav-item" href="/configuracoes"><span><Icon name="settings" /></span> Configurações</a>
         </nav>
@@ -90,7 +91,7 @@ export default async function Home() {
               {item.icon === "community" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H5l-2 2v-9.5A7.5 7.5 0 0 1 10.5 4H12a8 8 0 0 1 8 7.5Z"/><path d="M8 11h.01M12 11h.01M16 11h.01"/></svg>}
               {item.icon === "settings" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="m19.4 15 .1.1 1.1.9-1.1 1.9-1.4-.5a7.7 7.7 0 0 1-1.5.9l-.2 1.5h-2.2l-.4-1.4a7.7 7.7 0 0 1-1.8 0l-.8 1.2-2-.9.3-1.5a7.7 7.7 0 0 1-1.3-1.3l-1.5.3-.9-2 1.2-.8a7.7 7.7 0 0 1 0-1.8l-1.2-.8.9-2 1.5.3a7.7 7.7 0 0 1 1.3-1.3l-.3-1.5 2-.9.8 1.2a7.7 7.7 0 0 1 1.8 0l.4-1.4h2.2l.2 1.5a7.7 7.7 0 0 1 1.5.9l1.4-.5 1.1 1.9-1.1.9a7.7 7.7 0 0 1 0 1.8Z"/></svg>}
             </span>
-            <span>{item.label}</span>
+            <span>{item.label}</span>{item.icon === "community" && <CommunityUnreadBadge memberId={member.id} mobile />}
           </a>
         ))}
       </nav>
