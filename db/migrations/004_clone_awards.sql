@@ -1,6 +1,6 @@
 -- Clone Awards: competition foundation.
 -- Apply manually after backup and review; never run automatically.
--- 15 levels x 10 challenges; level XP 3..17 means exactly 15,000 XP per completed track.
+-- 15 levels x 10 challenges; level XP 30..170 means exactly 15,000 XP per completed track.
 
 CREATE TABLE IF NOT EXISTS clone_awards_seasons (
  id uuid PRIMARY KEY DEFAULT gen_random_uuid(), name text NOT NULL,
