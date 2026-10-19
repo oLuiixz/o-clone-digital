@@ -71,7 +71,7 @@ export default async function Home() {
           <a className="nav-item" href="#modulos"><span><Icon name="modules" /></span> Módulos e aulas</a>
           <a className="nav-item" href="#atalhos"><span><Icon name="search" /></span> Pesquisa de ofertas</a>
           <a className="nav-item" href="/ferramentas"><span><Icon name="layers" /></span> Ferramentas</a>
-          <a className="nav-item" href="/comunidade"><span><Icon name="community" /></span><span className="nav-label">Comunidade</span><CommunityUnreadBadge memberId={member.id} /></a>
+          <a className="nav-item" href="/comunidade"><span><Icon name="community" /></span>Comunidade<CommunityUnreadBadge memberId={member.id} /></a>
           <a className="nav-item" href="#progresso"><span><Icon name="chart" /></span> Meu progresso</a>
           <a className="nav-item" href="/configuracoes"><span><Icon name="settings" /></span> Configurações</a>
         </nav>
