@@ -1,1 +1,18 @@
-.car-page{max-width:950px;margin:auto;padding:30px 18px 80px;color:var(--foreground,#f5f5f7)}.car-page>a{color:#aaa;text-decoration:none;font-size:13px}.car-page header{margin:30px 0}.car-page header span{font-size:10px;letter-spacing:.16em;color:#ff626a;font-weight:800}.car-page h1{font-size:34px;margin:8px 0}.car-page header p,.car-card>p{color:#aaa;font-size:13px;line-height:1.6}.car-card,.car-empty{border:1px solid #ffffff18;border-radius:16px;padding:20px;margin:14px 0;background:#ffffff05}.car-meta{display:flex;flex-wrap:wrap;gap:12px;color:#ff737a;font-size:11px}.car-card h2{font-size:18px}.car-card blockquote{white-space:pre-wrap;background:#0002;border-left:3px solid #e50914;margin:12px 0;padding:12px;color:#ddd;font-size:13px;line-height:1.6}.car-card a{color:#ff737a}.car-card textarea{width:100%;min-height:70px;background:#0b0b0f;color:white;border:1px solid #ffffff20;border-radius:9px;padding:12px;font:inherit;font-size:13px}.car-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.car-actions button,.car-empty button{border:0;border-radius:9px;padding:11px 13px;background:#29292f;color:white;cursor:pointer;font-weight:700;font-size:12px}.car-actions button:first-child{background:#16803d}.car-actions button:disabled{opacity:.5}.car-error{padding:12px;border:1px solid #e50914;border-radius:10px;color:#ff777e}.car-empty{color:#aaa}.
+.car-page{max-width:950px;margin:auto;padding:30px 18px 80px;color:var(--foreground,#f5f5f7)}
+.car-page>a{color:#aaa;text-decoration:none;font-size:13px}
+.car-page header{margin:30px 0}
+.car-page header span{font-size:10px;letter-spacing:.16em;color:#ff626a;font-weight:800}
+.car-page h1{font-size:34px;margin:8px 0}
+.car-page header p,.car-card>p{color:#aaa;font-size:13px;line-height:1.6}
+.car-card,.car-empty{border:1px solid #ffffff18;border-radius:16px;padding:20px;margin:14px 0;background:#ffffff05}
+.car-meta{display:flex;flex-wrap:wrap;gap:12px;color:#ff737a;font-size:11px}
+.car-card h2{font-size:18px}
+.car-card blockquote{white-space:pre-wrap;background:#0002;border-left:3px solid #e50914;margin:12px 0;padding:12px;color:#ddd;font-size:13px;line-height:1.6}
+.car-card a{color:#ff737a}
+.car-card textarea{width:100%;min-height:70px;background:#0b0b0f;color:white;border:1px solid #ffffff20;border-radius:9px;padding:12px;font:inherit;font-size:13px}
+.car-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.car-actions button,.car-empty button{border:0;border-radius:9px;padding:11px 13px;background:#29292f;color:white;cursor:pointer;font-weight:700;font-size:12px}
+.car-actions button:first-child{background:#16803d}
+.car-actions button:disabled{opacity:.5}
+.car-error{padding:12px;border:1px solid #e50914;border-radius:10px;color:#ff777e}
+.car-empty{color:#aaa}
