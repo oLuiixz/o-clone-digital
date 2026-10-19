@@ -32,6 +32,7 @@ export async function GET() {
 export async function POST(request) {
   const member = await getCurrentMember();
   if (!member) return NextResponse.json({ error: "Acesso restrito a membros ativos." }, { status: 401 });
+  if (!(await hasActiveAccess(member.email))) return NextResponse.json({ error: "Sua assinatura não está ativa para acessar o Clone Awards." }, { status: 403 });
   let body; try { body = await request.json(); } catch { return NextResponse.json({ error: "Dados inválidos." }, { status: 400 }); }
   const sql = getDatabase();
   try {
