@@ -9,7 +9,7 @@ export async function GET() {
   if (!(await hasActiveAccess(member.email))) return NextResponse.json({ error: "Sua assinatura não está ativa para acessar o Clone Awards." }, { status: 403 });
   try {
     const sql = getDatabase();
-    const seasons = await sql`SELECT id, name, starts_at, ends_at, submission_deadline, review_deadline, status FROM clone_awards_seasons WHERE status IN ('active','reviewing','closed','archived') ORDER BY starts_at DESC LIMIT 5`;
+    const seasons = await sql`SELECT id, name, starts_at, ends_at, submission_deadline, review_deadline, status FROM clone_awards_seasons WHERE status IN ('active','reviewing') ORDER BY starts_at DESC LIMIT 5`;
     const season = seasons.find(s => s.status === "active" || s.status === "reviewing") || seasons[0] || null;
     const tracks = await sql`SELECT id, slug, name, description, icon_key, sort_order FROM clone_awards_tracks WHERE is_active = true ORDER BY sort_order, name`;
     if (!season) return NextResponse.json({ season: null, tracks, enrollment: null, levels: [], leaderboard: [], history: [] });
