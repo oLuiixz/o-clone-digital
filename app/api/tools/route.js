@@ -21,7 +21,7 @@ const seed = [
 ["Resend","Serviço de envio de e-mails transacionais por API.","APIs e integrações","Gratuito / pago","https://resend.com/","Configure domínio e autenticação de e-mail antes de enviar mensagens em produção.",true],
 ["Postman","Teste e documente requisições de APIs.","APIs e integrações","Gratuito / pago","https://www.postman.com/","Nunca compartilhe tokens ou chaves em coleções públicas.",true],
 ["Google AI Studio","Experimente modelos de IA e prototipe integrações.","APIs e integrações","Gratuito / pago","https://aistudio.google.com/","Confira limites, preços e termos de uso atuais antes de integrar.",true],
-["Shopify","Plataforma de comércio eletrônico para lojas e produtos próprios.","Fornecedores e marketplaces","Pago","https://www.shopify.com/br","Compare taxas, integrações e logística antes de escolher uma plataforma.",true],
+["Shopify","Plataforma de comércio eletrônico para lojas e produtos próprios.","Fornecedores e marketplaces","Pago","https://shopify.pxf.io/c/5766908/4052989/13624","Compare taxas, integrações e logística antes de escolher uma plataforma.",true],
 ["Nuvemshop","Plataforma de e-commerce com foco no mercado brasileiro.","Fornecedores e marketplaces","Gratuito / pago","https://www.nuvemshop.com.br/","Consulte planos, meios de pagamento e integrações disponíveis.",true],
 ["Sebrae","Conteúdos e orientação para estruturar negócios e fornecedores.","Fornecedores e marketplaces","Gratuito","https://sebrae.com.br/","Use os materiais para avaliar formalização, fornecedores e viabilidade.",true]
 ];
