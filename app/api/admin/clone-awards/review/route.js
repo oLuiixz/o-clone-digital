@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { isAdminRequest } from "../../../../lib/admin-auth";
-import { getDatabase } from "../../../../lib/member-auth";
+import { isAdminRequest } from "../../../../../lib/admin-auth";
+import { getDatabase } from "../../../../../lib/member-auth";
 export const runtime="nodejs";
 export const dynamic="force-dynamic";
 export async function GET(){
