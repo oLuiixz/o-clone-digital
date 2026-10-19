@@ -1389,4 +1389,4 @@ html[data-theme="light"] .estrutura-dark-navigation button{background:#f0f2f6;co
 .mobile-nav-item{position:relative}
 .mobile-nav-item .community-unread-badge{position:absolute;top:2px;right:calc(50% - 23px);min-width:16px;height:16px;padding:0 4px;display:inline-flex;align-items:center;justify-content:center;border-radius:999px;background:#e32642;color:#fff;font-size:8px;font-weight:800;line-height:1;white-space:nowrap;z-index:2}
 
-.help-copy{min-width:0;flex:1}.help-support-link{display:inline-flex;align-items:center;gap:6px;margin-top:7px;color:var(--accent);font-size:10px;font-weight:800;text-decoration:none}.help-support-link:hover{text-decoration:underline}
+.help-copy{min-width:0;flex:1}.help-support-link{display:flex;width:100%;box-sizing:border-box;align-items:center;justify-content:center;gap:7px;margin-top:10px;padding:9px 10px;border:1px solid var(--accent);border-radius:6px;background:var(--accent);color:#fff;font-size:10px;font-weight:800;line-height:1.2;text-align:center;text-decoration:none;transition:filter .18s ease,transform .18s ease}.help-support-link:hover{filter:brightness(1.08);transform:translateY(-1px)}
