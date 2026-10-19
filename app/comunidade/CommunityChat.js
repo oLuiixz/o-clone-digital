@@ -55,6 +55,16 @@ export default function CommunityChat({ currentMemberId }) {
   }, []);
 
   useEffect(() => {
+    if (!currentMemberId) return;
+    const markRead = () => {
+      try { localStorage.setItem("ocd-community-read-" + currentMemberId, new Date().toISOString()); } catch {}
+    };
+    markRead();
+    const timer = setInterval(markRead, 4000);
+    return () => clearInterval(timer);
+  }, [currentMemberId]);
+
+  useEffect(() => {
     loadMessages(true);
     const timer = setInterval(() => loadMessages(false), 4000);
     const heartbeat = () => fetch("/api/community", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "heartbeat" }) }).catch(() => {});
