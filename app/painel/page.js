@@ -71,6 +71,7 @@ export default async function Home() {
           <a className="nav-item" href="#modulos"><span><Icon name="modules" /></span> Módulos e aulas</a>
           <a className="nav-item" href="#atalhos"><span><Icon name="search" /></span> Pesquisa de ofertas</a>
           <a className="nav-item" href="/ferramentas"><span><Icon name="layers" /></span> Ferramentas</a>
+          <a className="nav-item clone-awards-nav" href="/clone-awards"><span><Icon name="chart" /></span> Clone Awards <span className="clone-awards-tag">NOVO</span></a>
           <a className="nav-item" href="/comunidade"><span><Icon name="community" /></span>Comunidade<CommunityUnreadBadge memberId={member.id} /></a>
           <a className="nav-item" href="#progresso"><span><Icon name="chart" /></span> Meu progresso</a>
           <a className="nav-item" href="/configuracoes"><span><Icon name="settings" /></span> Configurações</a>
@@ -118,6 +119,8 @@ export default async function Home() {
           </section>
 
           <ModuleProgress modules={modules} />
+
+          <section className="section-block clone-awards-promo"><div className="clone-awards-promo-card"><div className="clone-awards-promo-copy"><span className="eyebrow muted">NOVIDADE · DESAFIOS E RANKING</span><h2>Seu próximo nível começa aqui.</h2><p>Escolha sua trilha, conclua desafios e ganhe XP com evidências aprovadas pela equipe.</p><a className="primary-button" href="/clone-awards">Entrar no Clone Awards <span><Icon name="arrow" size={15} /></span></a></div><div className="clone-awards-promo-score"><span>15</span><small>NÍVEIS</small><i></i><span>15.000</span><small>XP MÁXIMO</small></div></div></section>
 
           <section className="section-block" id="atalhos">
             <div className="section-heading"><div><div className="eyebrow muted">COMECE POR AQUI</div><h2>O que você quer construir hoje?</h2></div><span className="section-note">ATALHOS DA JORNADA</span></div>
