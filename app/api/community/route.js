@@ -42,6 +42,13 @@ export async function GET(request) {
         ORDER BY (lower(a.email) = ${ownerEmail} OR lower(a.email) = ${ownerFallbackEmail}) DESC, display_name ASC LIMIT 200`;
       return NextResponse.json({ members: members.map(item => ({ id: item.id, display_name: item.display_name || "Membro", photo_data: item.photo_data || null, online: item.last_seen_at ? Date.now() - new Date(item.last_seen_at).getTime() < 90000 : false, tags: [item.is_owner ? "Owner" : "Membro"] })) });
     }
+    const unreadSince = searchParams.get("unreadSince");
+    if (unreadSince) {
+      const sinceDate = new Date(unreadSince);
+      if (Number.isNaN(sinceDate.getTime())) return NextResponse.json({ error: "Data inválida." }, { status: 400 });
+      const unreadRows = await sql`SELECT COUNT(*)::int AS count FROM community_messages WHERE created_at > ${sinceDate} AND account_id <> ${member.id}`;
+      return NextResponse.json({ count: Number(unreadRows[0]?.count || 0) });
+    }
     const after = Number(searchParams.get("after") || 0);
     const rows = after > 0
       ? await sql`SELECT m.id, m.account_id, m.message, m.media_data, m.media_type, m.media_name, m.created_at, a.display_name, a.photo_data
