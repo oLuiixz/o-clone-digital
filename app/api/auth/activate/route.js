@@ -25,10 +25,15 @@ export async function POST(request) {
     const email = normalizeEmail(activation.email);
     if (!(await hasActiveAccess(email))) return NextResponse.json({ error: "Não encontramos uma compra aprovada ativa para esse e-mail." }, { status: 403 });
 
+    const purchaseNames = await sql`SELECT NULLIF(trim(metadata->>'customer_name'), '') AS customer_name
+      FROM orders WHERE lower(customer_email) = ${email} AND status = 'approved'
+      ORDER BY approved_at DESC NULLS LAST, created_at DESC LIMIT 1`;
+    const purchaseName = purchaseNames[0]?.customer_name?.trim().slice(0, 120) || null;
     const passwordHash = hashPassword(password);
-    const accounts = await sql`INSERT INTO member_accounts (email, password_hash, email_verified_at, updated_at)
-      VALUES (${email}, ${passwordHash}, now(), now())
+    const accounts = await sql`INSERT INTO member_accounts (email, display_name, password_hash, email_verified_at, updated_at)
+      VALUES (${email}, ${purchaseName}, ${passwordHash}, now(), now())
       ON CONFLICT (email) DO UPDATE SET password_hash = EXCLUDED.password_hash,
+        display_name = CASE WHEN (member_accounts.display_name IS NULL OR trim(member_accounts.display_name) = '' OR lower(trim(member_accounts.display_name)) = 'minha jornada') AND ${purchaseName} IS NOT NULL THEN ${purchaseName} ELSE member_accounts.display_name END,
         email_verified_at = COALESCE(member_accounts.email_verified_at, now()), updated_at = now()
       RETURNING id`;
     await createSession(accounts[0].id);
