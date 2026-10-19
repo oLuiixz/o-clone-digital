@@ -25,7 +25,7 @@ export async function GET() {
     return NextResponse.json({ season, tracks, enrollment, levels, leaderboard, history, xp: Number(mine[0]?.xp || 0) });
   } catch (error) {
     console.error("Clone Awards GET failed", error instanceof Error ? error.message : "unknown");
-    return NextResponse.json({ error: "Clone Awards ainda precisa da migration 004 no banco. Peça ao administrador para preparar o banco." }, { status: 503 });
+    return NextResponse.json({ error: "Não foi possível carregar o Clone Awards agora. A equipe técnica foi informada; tente novamente em instantes." }, { status: 503 });
   }
 }
 
