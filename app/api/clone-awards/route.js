@@ -16,7 +16,7 @@ export async function GET() {
     const enrollment = enrollments[0] || null;
     let levels = [], history = [], leaderboard = [];
     if (enrollment) {
-      levels = await sql`SELECT l.id, l.level_number, l.title, l.description, c.id AS challenge_id, c.challenge_key, c.title AS challenge_title, c.instructions, c.evidence_requirements, c.xp, c.sort_order, s.status AS submission_status, s.evidence_url, s.evidence_note, s.review_note FROM clone_awards_levels l LEFT JOIN clone_awards_challenges c ON c.level_id=l.id AND c.is_active=true LEFT JOIN clone_awards_submissions s ON s.challenge_id=c.id AND s.account_id=${member.id} AND s.season_id=${season.id} WHERE l.track_id=${enrollment.track_id} ORDER BY l.level_number,c.sort_order,c.title`;
+      levels = await sql`SELECT l.id, l.level_number, l.title, l.description, c.id AS challenge_id, c.challenge_key, c.title AS challenge_title, c.instructions, c.evidence_requirements, c.xp, c.sort_order, s.status AS submission_status, s.evidence_url, s.evidence_note, s.review_note FROM clone_awards_levels l LEFT JOIN clone_awards_challenges c ON c.level_id=l.id AND c.is_active=true LEFT JOIN clone_awards_submissions s ON s.challenge_id=c.id AND s.account_id=${member.id} AND s.season_id=${season.id} AND s.track_id=${enrollment.track_id} WHERE l.track_id=${enrollment.track_id} ORDER BY l.level_number,c.sort_order,c.title`;
       history = await sql`SELECT action, details, created_at FROM clone_awards_audit_log WHERE season_id=${season.id} AND account_id=${member.id} ORDER BY created_at DESC LIMIT 15`;
     }
     leaderboard = await sql`SELECT a.id, COALESCE(NULLIF(a.display_name,''),'Aluno') AS display_name, a.photo_data, SUM(x.xp)::int AS xp FROM clone_awards_xp_ledger x JOIN member_accounts a ON a.id=x.account_id JOIN clone_awards_enrollments e ON e.season_id=x.season_id AND e.account_id=x.account_id AND e.track_id=x.track_id WHERE x.season_id=${season.id} AND x.entry_type IN ('award','reversal','adjustment') GROUP BY a.id,a.display_name,a.photo_data ORDER BY xp DESC, min(x.created_at) ASC LIMIT 50`;
@@ -45,8 +45,12 @@ export async function POST(request) {
       if (existing.length && body.confirmReset !== true) return NextResponse.json({ error: "Trocar de trilha reinicia o progresso competitivo desta temporada. Confirme para continuar.", requiresConfirmation: true }, { status: 409 });
       if (existing.length) {
         await sql`INSERT INTO clone_awards_audit_log(season_id,account_id,actor,action,entity_type,entity_id,details) VALUES (${season.id},${member.id},${member.email},'track_changed','enrollment',${existing[0].id},${JSON.stringify({fromTrackId:existing[0].track_id,toTrackId:body.trackId,resetCompetitiveProgress:true})}::jsonb)`;
-        await sql`DELETE FROM clone_awards_xp_ledger WHERE season_id=${season.id} AND account_id=${member.id}`;
-        await sql`DELETE FROM clone_awards_submissions WHERE season_id=${season.id} AND account_id=${member.id}`;
+        const priorAwards = await sql`SELECT source_key, submission_id, track_id, xp FROM clone_awards_xp_ledger WHERE season_id=${season.id} AND account_id=${member.id} AND entry_type='award'`;
+        for (const award of priorAwards) {
+          await sql`INSERT INTO clone_awards_xp_ledger(season_id,account_id,track_id,submission_id,source_key,entry_type,xp,reason,actor)
+            VALUES (${season.id},${member.id},${award.track_id},${award.submission_id},${award.source_key},'reversal',${-Math.abs(Number(award.xp))},'Estorno de pontuação competitiva por troca de trilha',${member.email})
+            ON CONFLICT(season_id,account_id,source_key,entry_type) DO NOTHING`;
+        }
         await sql`UPDATE clone_awards_enrollments SET track_id=${body.trackId},selected_at=now(),updated_at=now() WHERE id=${existing[0].id}`;
       } else {
         await sql`INSERT INTO clone_awards_enrollments(season_id,account_id,track_id) VALUES (${season.id},${member.id},${body.trackId})`;
