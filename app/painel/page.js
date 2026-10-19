@@ -58,6 +58,8 @@ import { getCurrentMember } from "../../lib/member-auth";
 export default async function Home() {
   const member = await getCurrentMember();
   if (!member) redirect("/login");
+  const muxPlaybackId = process.env.NEXT_PUBLIC_MUX_INTRO_PLAYBACK_ID?.trim();
+  const hasIntroVideo = Boolean(muxPlaybackId && /^[a-zA-Z0-9_-]+$/.test(muxPlaybackId));
   return (
     <main className="app-shell">
       <aside className="sidebar">
@@ -116,6 +118,27 @@ export default async function Home() {
               <div className="floating-chip chip-bottom"><span>03</span> TESTAR</div>
             </div>
             <div className="hero-index">OCD / 001</div>
+          </section>
+
+          <section className="intro-section" aria-labelledby="intro-title">
+            <div className="intro-heading">
+              <div><div className="eyebrow muted">COMECE POR AQUI</div><h2 id="intro-title">Introdução ao Clone Digital</h2><p>Veja como navegar pela plataforma, encontrar as aulas e aproveitar cada ferramenta da sua jornada.</p></div>
+              <span className="intro-badge">VÍDEO-GUIA</span>
+            </div>
+            <div className="intro-player">
+              {hasIntroVideo ? (
+                <iframe
+                  src={`https://player.mux.com/${muxPlaybackId}`}
+                  title="Introdução ao Clone Digital"
+                  allow="accelerometer; encrypted-media; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : (
+                <div className="intro-placeholder">
+                  <span>▶</span><div><b>Seu vídeo de boas-vindas aparecerá aqui.</b><p>Defina NEXT_PUBLIC_MUX_INTRO_PLAYBACK_ID na Vercel após enviar o vídeo para a Mux.</p></div>
+                </div>
+              )}
+            </div>
           </section>
 
           <ModuleProgress modules={modules} />
