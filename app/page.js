@@ -2,13 +2,22 @@ import Link from "next/link";
 
 const checkoutUrl = process.env.NEXT_PUBLIC_SYNCPAY_CHECKOUT_URL || "https://link.syncpayments.com.br/VwhUi7";
 const modules = [
-  ["01","Entendendo o processo","Veja como as etapas se conectam e por onde começar."],
+  ["01","Entendendo o processo","Conheça o caminho da pesquisa ao primeiro teste."],
   ["02","Mineração de ofertas","Pesquise anúncios, páginas e referências com mais critério."],
   ["03","Análise da oferta","Observe promessa, público, criativos e estrutura."],
   ["04","Estrutura e produto","Planeje uma proposta própria a partir do que estudou."],
   ["05","Página de vendas e VSL","Organize a mensagem e apresente sua oferta com clareza."],
   ["06","Primeiro anúncio","Prepare um teste inicial e acompanhe as métricas."],
-  ["07","Integração e entrega","Entenda checkout, acesso, automação e pós-venda."]
+  ["07","Integração e entrega","Entenda checkout, acesso, automação e pós-venda."],
+  ["08","Subindo Caixa","Explore serviços digitais, afiliados e caminhos para criar uma oferta."],
+  ["09","Nicho HOT","Estude o mercado adulto com foco em pesquisa, estratégia e práticas legais."],
+  ["10","Clonagem de Oferta","Acompanhe o processo da mineração à estruturação de uma oferta própria."],
+  ["11","Vibe Coding com IA","Conheça ferramentas para criar sites e produtos digitais com apoio de IA."],
+  ["12","Revenda Streaming","Veja conceitos de operação, painéis, atendimento e renovação com fornecedores autorizados."],
+  ["13","Dinheiro com Facebook","Explore conteúdo original, páginas, Reels e possibilidades de monetização orgânica."],
+  ["14","Dinheiro com TikTok","Trabalhe ganchos, vídeos curtos, retenção e oportunidades de monetização."],
+  ["15","Ecommerce","Conheça nicho, loja virtual, Shopify, pagamentos, marketing e métricas."],
+  ["16","Estrutura Dark","Organize referências, posicionamento e estrutura de um projeto digital."]
 ];
 const faqs = [
   ["O que é o O Clone Digital?","É uma plataforma educacional organizada por etapas para ajudar você a pesquisar referências, analisar ofertas, estruturar um produto próprio e preparar um primeiro teste de anúncio."],
@@ -47,7 +56,7 @@ export default function SalesPage(){
     <div className="sales-stage-card">
      <div className="sales-stage-top"><div className="sales-stage-brand"><span className="sales-stage-mark">C</span><span>O CLONE <b>DIGITAL</b><small>ÁREA DE APRENDIZADO</small></span></div><span className="sales-live"><i/> SUA JORNADA</span></div>
      <div className="sales-stage-welcome"><span>SEU PRÓXIMO PASSO</span><h2>Transforme pesquisa<br/>em direção.</h2><p>Uma etapa de cada vez. Um processo que você consegue acompanhar.</p></div>
-     <div className="sales-stage-progress"><div><span>JORNADA DE APRENDIZADO</span><b>07 etapas</b></div><div className="sales-stage-progress-track"><span/></div></div>
+     <div className="sales-stage-progress"><div><span>JORNADA DE APRENDIZADO</span><b>16 módulos</b></div><div className="sales-stage-progress-track"><span/></div></div>
      <div className="sales-stage-modules">{modules.slice(0,3).map(([n,title,desc])=><div className={n==="01"?"sales-stage-module is-active":"sales-stage-module"} key={n}><span>{n}</span><div><b>{title}</b><small>{desc}</small></div><span className="sales-stage-arrow"><ArrowUpRight/></span></div>)}</div>
      <div className="sales-stage-bottom"><span><i/> CONTEÚDO ORGANIZADO POR ETAPAS</span><span>OCD / 01</span></div>
     </div>
@@ -61,28 +70,28 @@ export default function SalesPage(){
   </section>
   <div className="sales-proof-strip"><div><span>01</span><b>Clareza no caminho</b></div><i/><div><span>02</span><b>Pesquisa com critério</b></div><i/><div><span>03</span><b>Estrutura própria</b></div><i/><div><span>04</span><b>Teste consciente</b></div></div>
   <section className="sales-section sales-method" id="metodo">
-   <div className="sales-section-heading"><div><div className="sales-kicker"><span/> A IDEIA POR TRÁS DO MÉTODO</div><h2>Você não precisa<br/>fazer tudo <em>no escuro.</em></h2></div><p>O mercado digital pode parecer confuso quando cada informação está em um lugar. O O Clone Digital organiza as etapas para você entender o que pesquisar, o que observar e qual pode ser o próximo passo.</p></div>
+   <div className="sales-section-heading"><div><div className="sales-kicker"><span/> A IDEIA POR TRÁS DO MÉTODO</div><h2>Você não precisa<br/>fazer tudo <em>no escuro.</em></h2></div><p>O mercado digital pode parecer confuso quando cada informação está em um lugar. O O Clone Digital reúne módulos temáticos para você explorar diferentes caminhos: pesquisa e estruturação de ofertas, criação com IA, ecommerce, conteúdo orgânico e operação digital.</p></div>
    <div className="sales-method-grid">
     <article className="sales-method-card sales-method-card-featured"><span className="sales-card-index">01 / PESQUISA</span><div className="sales-method-symbol"><SearchIcon/></div><h3>Encontre referências para estudar</h3><p>Aprenda a pesquisar ofertas e anúncios públicos, reunir referências e registrar o que vale investigar melhor.</p><span className="sales-card-line"/></article>
     <article className="sales-method-card"><span className="sales-card-index">02 / ANÁLISE</span><div className="sales-method-symbol"><LayoutIcon/></div><h3>Entenda a estrutura por trás da oferta</h3><p>Observe promessa, público, criativos, página e VSL sem confundir referência com garantia de resultado.</p><span className="sales-card-line"/></article>
     <article className="sales-method-card"><span className="sales-card-index">03 / EXECUÇÃO</span><div className="sales-method-symbol"><ArrowUpRight/></div><h3>Organize uma oferta que seja sua</h3><p>Use o que aprendeu para planejar produto, comunicação e um teste inicial com mais clareza.</p><span className="sales-card-line"/></article>
    </div>
   </section>
-  <section className="sales-journey" id="jornada"><div className="sales-journey-head"><div><div className="sales-kicker"><span/> UMA JORNADA EM ETAPAS</div><h2>Do primeiro estudo<br/>ao primeiro <em>teste.</em></h2></div><p>Conteúdo organizado para avançar com consistência, sem pular direto para a parte mais difícil.</p></div>
+  <section className="sales-journey" id="jornada"><div className="sales-journey-head"><div><div className="sales-kicker"><span/> UMA JORNADA EM ETAPAS</div><h2>Do primeiro estudo<br/>ao primeiro <em>teste.</em></h2></div><p>São 16 módulos temáticos para explorar conforme seu objetivo, com conteúdos que vão da análise de ofertas à criação digital, ecommerce e estratégias orgânicas.</p></div>
    <div className="sales-module-list">{modules.map(([n,title,desc])=><article className="sales-module-row" key={n}><span className="sales-module-number">{n}</span><div className="sales-module-copy"><h3>{title}</h3><p>{desc}</p></div><span className="sales-module-arrow"><ArrowUpRight/></span></article>)}</div>
-   <p className="sales-journey-note">O conteúdo é educacional. As etapas podem ser ajustadas conforme a evolução do material.</p>
+   <p className="sales-journey-note">Os módulos e materiais disponíveis podem receber atualizações. O acesso não representa garantia de vendas, renda ou resultados.</p>
   </section>
   <section className="sales-section sales-fit"><div className="sales-fit-intro"><div className="sales-kicker"><span/> FEITO PARA APRENDER FAZENDO</div><h2>Mais organização.<br/><em>Menos dispersão.</em></h2><p>Uma base para quem quer parar de pular entre ideias e começar a trabalhar com um processo mais claro.</p><a className="sales-text-link" href="#oferta">Quero conhecer a plataforma <Arrow/></a></div>
    <div className="sales-fit-list"><div><span><Check/></span><p><b>Para quem está começando</b><small>Entenda a sequência antes de tentar executar tudo ao mesmo tempo.</small></p></div><div><span><Check/></span><p><b>Para quem precisa de direção</b><small>Organize a pesquisa, as observações e as decisões em etapas.</small></p></div><div><span><Check/></span><p><b>Para quem quer criar algo próprio</b><small>Estude estruturas como referência e desenvolva sua própria comunicação e entrega.</small></p></div><div><span><Check/></span><p><b>Para quem quer testar com consciência</b><small>Prepare-se para avaliar dados e aprender com os testes, sem promessas irreais.</small></p></div></div>
   </section>
-  <section className="sales-offer-section" id="oferta"><div className="sales-offer-glow" aria-hidden="true"/><div className="sales-offer-copy"><div className="sales-kicker"><span/> SEU PRÓXIMO PASSO</div><h2>Comece com um plano.<br/><em>Avance com método.</em></h2><p>Conheça a jornada do O Clone Digital e organize o seu próximo passo no mercado digital.</p><div className="sales-offer-checks"><span><Check/> Jornada dividida em 7 etapas</span><span><Check/> Conteúdo educacional e prático</span><span><Check/> Acesso vinculado ao e-mail da compra</span></div></div>
-   <div className="sales-offer-card"><div className="sales-offer-card-top"><img src="/imagens/E900F1F7-AFCC-42AA-AA22-F92B83E84AF8.png" alt=""/><span>O CLONE DIGITAL</span></div><div className="sales-offer-name">ACESSO À PLATAFORMA</div><h3>O Clone Digital</h3><p>Uma jornada organizada para pesquisar, analisar, estruturar e testar.</p>
+  <section className="sales-offer-section" id="oferta"><div className="sales-offer-glow" aria-hidden="true"/><div className="sales-offer-copy"><div className="sales-kicker"><span/> SEU PRÓXIMO PASSO</div><h2>Comece com um plano.<br/><em>Avance com método.</em></h2><p>Conheça a jornada do O Clone Digital e organize o seu próximo passo no mercado digital.</p><div className="sales-offer-checks"><span><Check/> 16 módulos organizados por tema</span><span><Check/> Conteúdo educacional e prático</span><span><Check/> Acesso vinculado ao e-mail da compra</span></div></div>
+   <div className="sales-offer-card"><div className="sales-offer-card-top"><img src="/imagens/E900F1F7-AFCC-42AA-AA22-F92B83E84AF8.png" alt=""/><span>O CLONE DIGITAL</span></div><div className="sales-offer-name">ACESSO À PLATAFORMA</div><h3>O Clone Digital</h3><p>Uma plataforma com módulos sobre pesquisa de ofertas, criação digital com IA, ecommerce, conteúdo orgânico e outros caminhos do mercado digital.</p>
     <div className="sales-offer-pricing"><span className="sales-offer-price-label">CONDIÇÃO ESPECIAL DE LANÇAMENTO</span><div className="sales-offer-price"><span>R$</span> 17<small>,90</small></div><span className="sales-offer-price-note">Pagamento único · Sem mensalidade</span></div>
     {checkoutUrl?<a className="sales-button sales-button-primary sales-buy-button" href={checkoutUrl} target="_blank" rel="noreferrer">Quero acessar agora <Arrow/></a>:<div className="sales-checkout-pending"><b>Checkout SyncPay pendente</b><span>O link oficial de compra ainda precisa ser configurado para ativar a finalização nesta página.</span></div>}
     <Link className="sales-offer-login" href="/login">Já comprou? Entre na área do aluno <Arrow/></Link><div className="sales-offer-secure"><span><ShieldIcon/></span> Compra somente pelo checkout oficial configurado</div>
    </div>
   </section>
   <section className="sales-faq sales-section" id="duvidas"><div className="sales-faq-heading"><div className="sales-kicker"><span/> PERGUNTAS FREQUENTES</div><h2>Antes de <em>começar.</em></h2><p>Informação clara para você decidir com tranquilidade.</p></div><div className="sales-faq-list">{faqs.map(([q,a])=><details key={q} className="sales-faq-item"><summary>{q}<span>+</span></summary><p>{a}</p></details>)}</div></section>
-  <footer className="sales-footer"><Link className="sales-brand" href="/"><img src="/imagens/E900F1F7-AFCC-42AA-AA22-F92B83E84AF8.png" alt=""/><span>O CLONE <b>DIGITAL</b><small>LABORATÓRIO DE OFERTAS</small></span></Link><p>Aprendizado, pesquisa e execução com responsabilidade.</p><div><Link href="/login">Área do aluno</Link><a href="#metodo">O método</a><a href="#duvidas">Dúvidas</a></div><small>© {new Date().getFullYear()} O Clone Digital. Conteúdo educacional. Resultados não são garantidos.</small></footer>
+  <footer className="sales-footer"><Link className="sales-brand" href="/"><img src="/imagens/E900F1F7-AFCC-42AA-AA22-F92B83E84AF8.png" alt=""/><span>O CLONE <b>DIGITAL</b><small>LABORATÓRIO DE OFERTAS</small></span></Link><p>Aprendizado digital, pesquisa e execução com responsabilidade.</p><div><Link href="/login">Área do aluno</Link><a href="#metodo">O método</a><a href="#duvidas">Dúvidas</a></div><small>© {new Date().getFullYear()} O Clone Digital. Conteúdo educacional. Resultados não são garantidos.</small></footer>
  </main>
 }
