@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
-import { getCurrentMember, getDatabase } from "../../../lib/member-auth";
+import { getCurrentMember, getDatabase, hasActiveAccess } from "../../../lib/member-auth";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
   const member = await getCurrentMember();
   if (!member) return NextResponse.json({ error: "Acesso restrito a membros ativos." }, { status: 401 });
+  if (!(await hasActiveAccess(member.email))) return NextResponse.json({ error: "Sua assinatura não está ativa para acessar o Clone Awards." }, { status: 403 });
   try {
     const sql = getDatabase();
     const seasons = await sql`SELECT id, name, starts_at, ends_at, submission_deadline, review_deadline, status FROM clone_awards_seasons WHERE status IN ('active','reviewing','closed','archived') ORDER BY starts_at DESC LIMIT 5`;
