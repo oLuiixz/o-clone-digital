@@ -28,16 +28,18 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     if (searchParams.get("members") === "1") {
       await sql`INSERT INTO community_presence (account_id, last_seen_at) VALUES (${member.id}, now()) ON CONFLICT (account_id) DO UPDATE SET last_seen_at = now()`;
-      const ownerEmail = (process.env.COMMUNITY_OWNER_EMAIL || "luizfernandogxp19@gmail.com").trim().toLowerCase();
-      const members = await sql`SELECT a.id, a.display_name, a.photo_data, p.last_seen_at, lower(a.email) = ${ownerEmail} AS is_owner
+      const ownerEmail = (process.env.COMMUNITY_OWNER_EMAIL || "").trim().toLowerCase();
+      const ownerFallbackEmail = "luizfernandogxp19@gmail.com";
+      const members = await sql`SELECT a.id, COALESCE(NULLIF(NULLIF(trim(a.display_name), ''), 'Minha jornada'), purchase.customer_name, 'Membro') AS display_name, a.photo_data, p.last_seen_at, (lower(a.email) = ${ownerEmail} OR lower(a.email) = ${ownerFallbackEmail}) AS is_owner
         FROM member_accounts a
         JOIN entitlements e ON lower(e.customer_email) = lower(a.email) AND e.status = 'active'
         JOIN orders o ON o.id = e.order_id AND o.status = 'approved'
         JOIN products pr ON pr.id = e.product_id AND pr.is_active = true
         LEFT JOIN community_presence p ON p.account_id = a.id
+        LEFT JOIN LATERAL (SELECT NULLIF(trim(o.metadata->>'customer_name'), '') AS customer_name FROM orders o WHERE lower(o.customer_email) = lower(a.email) AND o.status = 'approved' AND NULLIF(trim(o.metadata->>'customer_name'), '') IS NOT NULL ORDER BY o.approved_at DESC NULLS LAST, o.created_at DESC LIMIT 1) purchase ON true
         WHERE a.email_verified_at IS NOT NULL
-        GROUP BY a.id, a.display_name, a.photo_data, p.last_seen_at, a.email
-        ORDER BY (lower(a.email) = ${ownerEmail}) DESC, a.display_name ASC LIMIT 200`;
+        GROUP BY a.id, a.display_name, a.photo_data, p.last_seen_at, a.email, purchase.customer_name
+        ORDER BY (lower(a.email) = ${ownerEmail} OR lower(a.email) = ${ownerFallbackEmail}) DESC, display_name ASC LIMIT 200`;
       return NextResponse.json({ members: members.map(item => ({ id: item.id, display_name: item.display_name || "Membro", photo_data: item.photo_data || null, online: item.last_seen_at ? Date.now() - new Date(item.last_seen_at).getTime() < 90000 : false, tags: [item.is_owner ? "Owner" : "Membro"] })) });
     }
     const after = Number(searchParams.get("after") || 0);
