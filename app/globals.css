@@ -1390,3 +1390,18 @@ html[data-theme="light"] .estrutura-dark-navigation button{background:#f0f2f6;co
 .mobile-nav-item .community-unread-badge{position:absolute;top:2px;right:calc(50% - 23px);min-width:16px;height:16px;padding:0 4px;display:inline-flex;align-items:center;justify-content:center;border-radius:999px;background:#e32642;color:#fff;font-size:8px;font-weight:800;line-height:1;white-space:nowrap;z-index:2}
 
 .help-copy{min-width:0;flex:1}.help-support-link{display:flex;width:100%;box-sizing:border-box;align-items:center;justify-content:center;gap:7px;margin-top:10px;padding:9px 10px;border:1px solid var(--accent);border-radius:6px;background:var(--accent);color:#fff;font-size:10px;font-weight:800;line-height:1.2;text-align:center;text-decoration:none;transition:filter .18s ease,transform .18s ease}.help-support-link:hover{filter:brightness(1.08);transform:translateY(-1px)}
+
+/* Clone Awards dashboard entry: inherit member theme and accent */
+.clone-awards-nav{border-color:color-mix(in srgb,var(--accent) 22%,transparent);background:color-mix(in srgb,var(--accent) 5%,transparent);color:var(--text)}
+.clone-awards-nav>span:first-child{color:var(--accent)}
+.clone-awards-tag{margin-left:auto;width:auto!important;padding:4px 6px;border-radius:4px;background:color-mix(in srgb,var(--accent) 14%,var(--panel));color:var(--accent);font:800 8px 'DM Mono',monospace;letter-spacing:.5px}
+.clone-awards-promo-card{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:clamp(22px,4vw,36px);border:1px solid color-mix(in srgb,var(--accent) 28%,var(--line));border-radius:12px;background:radial-gradient(ellipse at 90% 20%,color-mix(in srgb,var(--accent) 13%,transparent),transparent 42%),var(--panel);color:var(--text);overflow:hidden}
+.clone-awards-promo-copy{max-width:600px}
+.clone-awards-promo-copy h2{font-size:clamp(22px,3vw,30px);letter-spacing:-.8px;margin:10px 0}
+.clone-awards-promo-copy p{font-size:12px;line-height:1.8;color:var(--muted);margin:0 0 20px}
+.clone-awards-promo-card .primary-button{background:var(--accent);color:#fff}
+.clone-awards-promo-score{display:grid;grid-template-columns:auto auto;align-items:baseline;gap:2px 9px;padding:20px;border-left:1px solid var(--line);flex-shrink:0}
+.clone-awards-promo-score span{font-size:28px;font-weight:800;letter-spacing:-1px;color:var(--accent)}
+.clone-awards-promo-score small{font:9px 'DM Mono',monospace;color:var(--muted)}
+.clone-awards-promo-score i{grid-column:1/-1;height:1px;background:var(--line);margin:8px 0}
+@media(max-width:650px){.clone-awards-promo-card{align-items:flex-start;flex-direction:column}.clone-awards-promo-score{border-left:0;border-top:1px solid var(--line);padding:15px 0 0;width:100%}}
