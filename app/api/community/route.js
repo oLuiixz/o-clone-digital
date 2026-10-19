@@ -26,7 +26,7 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const after = Number(searchParams.get("after") || 0);
     const rows = after > 0
-      ? await sql`SELECT m.id, m.message, m.media_data, m.media_type, m.media_name, m.created_at, a.display_name, a.photo_data
+      ? await sql`SELECT m.id, m.account_id, m.message, m.media_data, m.media_type, m.media_name, m.created_at, a.display_name, a.photo_data
           FROM community_messages m JOIN member_accounts a ON a.id = m.account_id
           WHERE m.id > ${after} ORDER BY m.id ASC LIMIT 100`
       : await sql`SELECT m.id, m.message, m.media_data, m.media_type, m.media_name, m.created_at, a.display_name, a.photo_data
