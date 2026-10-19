@@ -78,6 +78,6 @@ export async function POST(request) {
     return NextResponse.json({ error: "Ação desconhecida." }, { status: 400 });
   } catch (error) {
     console.error("Clone Awards POST failed", error instanceof Error ? error.message : "unknown");
-    return NextResponse.json({ error: "Não foi possível concluir a ação. Confirme se a migration 004 foi aplicada." }, { status: 503 });
+    return NextResponse.json({ error: "Não foi possível concluir a ação agora. Tente novamente em instantes." }, { status: 503 });
   }
 }
