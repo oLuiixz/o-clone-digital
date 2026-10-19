@@ -86,6 +86,7 @@ export async function POST(request) {
   if (!nextStatus) return Response.json({ received: true, ignored: true, reason: "unsupported_status" });
 
   const email = typeof payload.customer?.email === "string" ? payload.customer.email.trim().toLowerCase() : "";
+  const customerName = String(payload.customer?.name ?? payload.customer?.full_name ?? [payload.customer?.first_name, payload.customer?.last_name].filter(Boolean).join(" ")).trim().slice(0, 120);
   const amount = Number(transaction.amount);
   const currency = String(transaction.currency || "BRL").toUpperCase();
   if (!validEmail(email) || !Number.isFinite(amount) || amount < 0 || currency.length !== 3) {
@@ -142,6 +143,7 @@ export async function POST(request) {
     const metadata = JSON.stringify({
       event: payload.event, eventId, paymentMethod: transaction.payment_method ?? null,
       checkoutReference: checkoutReference || null, previousStatus: transaction.previous_status ?? null,
+      customer_name: customerName || null,
     });
 
     const saved = await sql`
