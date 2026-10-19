@@ -25,7 +25,14 @@ export default async function EcommercePage() {
         :root[data-theme="light"] .ecommerce-hub .eh-tag{background:#eef1f4;color:var(--text,#20242a);border-color:var(--line,#dce0e6)}
         :root[data-theme="light"] .ecommerce-hub .eh-cta{border-color:var(--line,#dce0e6)}
       
-      `}</style>
+      `}
+        :root[data-theme="light"] .ecommerce-hub{background:var(--bg,#f5f6f8);color:var(--text,#20242a)}
+        :root[data-theme="light"] .ecommerce-hub .eh-hero{background:linear-gradient(120deg,#fff,#f0f3f6);border-color:var(--line,#dce0e6)}
+        :root[data-theme="light"] .ecommerce-hub .eh-back,:root[data-theme="light"] .ecommerce-hub .eh-hero p,:root[data-theme="light"] .ecommerce-hub .eh-card p,:root[data-theme="light"] .ecommerce-hub .eh-note{color:var(--muted,#626975)}
+        :root[data-theme="light"] .ecommerce-hub .eh-card{background:var(--card,#fff);border-color:var(--line,#dce0e6)}
+        :root[data-theme="light"] .ecommerce-hub .eh-tag{background:#eef1f4;color:var(--text,#20242a);border-color:var(--line,#dce0e6)}
+        :root[data-theme="light"] .ecommerce-hub .eh-cta{border-color:var(--line,#dce0e6)}
+</style>
       <div className="eh-wrap">
         <Link className="eh-back" href="/painel">← Voltar ao painel</Link>
         <section className="eh-hero">
