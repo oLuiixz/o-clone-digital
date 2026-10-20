@@ -36,7 +36,7 @@ export async function POST(request) {
   let body; try { body = await request.json(); } catch { return NextResponse.json({ error: "Dados inválidos." }, { status: 400 }); }
   const sql = getDatabase();
   try {
-    const seasons = await sql`SELECT id,status,starts_at,ends_at,submission_deadline FROM clone_awards_seasons WHERE status IN ('active','reviewing') AND starts_at <= now() AND ends_at >= now() ORDER BY starts_at DESC LIMIT 1`;
+    const seasons = await sql`SELECT id,status,starts_at,ends_at,submission_deadline FROM clone_awards_seasons WHERE status = 'active' AND starts_at <= now() AND ends_at >= now() ORDER BY starts_at DESC LIMIT 1`;
     const season = seasons[0];
     if (!season) return NextResponse.json({ error: "Não há temporada ativa no momento." }, { status: 409 });
     if (body.action === "select-track") {
