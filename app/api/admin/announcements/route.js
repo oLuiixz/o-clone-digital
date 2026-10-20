@@ -20,6 +20,9 @@ export async function POST(request){
  try{
   const rows=await sql`INSERT INTO global_announcements(title,message,target_url,is_published,published_at) VALUES(${title},${message},${targetUrl},true,now()) RETURNING *`;
   const announcement=rows[0]; let attempted=0,sent=0,pushError=null;
+  if(!process.env.VAPID_PUBLIC_KEY||!process.env.VAPID_PRIVATE_KEY){
+   pushError="O aviso foi publicado, mas as notificações push não estão configuradas.";
+  }
   if(process.env.VAPID_PUBLIC_KEY&&process.env.VAPID_PRIVATE_KEY){
    try {
     webpush.setVapidDetails(process.env.VAPID_SUBJECT||"mailto:suporte@oclonedigital.xyz",process.env.VAPID_PUBLIC_KEY,process.env.VAPID_PRIVATE_KEY);
