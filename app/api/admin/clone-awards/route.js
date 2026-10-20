@@ -26,7 +26,7 @@ export async function POST(request){
  try{
   if(b.action==="create-season"){
    const name=String(b.name||"").trim().slice(0,120);const start=new Date(b.startsAt),end=new Date(b.endsAt),submission=new Date(b.submissionDeadline),review=new Date(b.reviewDeadline);
-   if(!name||[start,end,submission,review].some(d=>Number.isNaN(d.getTime()))||!(start<end&&start<=submission&&submission<=review))return json({error:"Informe nome e datas válidas: início < fim, envio até o prazo de revisão."},400);
+   if(!name||[start,end,submission,review].some(d=>Number.isNaN(d.getTime()))||!(start<end&&start<=submission&&submission<=end&&submission<=review))return json({error:"Informe datas válidas: início antes do fim e prazo de envio entre o início e o fim da temporada, antes do prazo de revisão."},400);
    if(b.status==="active"){const active=await sql`SELECT id FROM clone_awards_seasons WHERE status='active' LIMIT 1`;if(active.length)return json({error:"Já existe uma temporada ativa. Encerre-a antes de ativar outra."},409)}
    const rows=await sql`INSERT INTO clone_awards_seasons(name,starts_at,ends_at,submission_deadline,review_deadline,status,created_by) VALUES(${name},${start.toISOString()},${end.toISOString()},${submission.toISOString()},${review.toISOString()},'draft','admin') RETURNING id`;
    return json({ok:true,id:rows[0].id},201);
@@ -36,10 +36,10 @@ export async function POST(request){
    if(b.status==="active"){
     const active=await sql`SELECT id FROM clone_awards_seasons WHERE status='active' AND id<>${b.id} LIMIT 1`;
     if(active.length)return json({error:"Já existe outra temporada ativa."},409);
-    const target=await sql`SELECT starts_at,ends_at,submission_deadline FROM clone_awards_seasons WHERE id=${b.id} LIMIT 1`;
+    const target=await sql`SELECT starts_at,ends_at,submission_deadline,review_deadline FROM clone_awards_seasons WHERE id=${b.id} LIMIT 1`;
     if(!target.length)return json({error:"Temporada não encontrada."},404);
     const season=target[0],now=Date.now();
-    if(new Date(season.starts_at).getTime()>now||new Date(season.ends_at).getTime()<=now||new Date(season.submission_deadline).getTime()<now)
+    if(new Date(season.starts_at).getTime()>now||new Date(season.ends_at).getTime()<=now||new Date(season.submission_deadline).getTime()<now||new Date(season.submission_deadline).getTime()>new Date(season.ends_at).getTime()||new Date(season.review_deadline).getTime()<new Date(season.submission_deadline).getTime())
       return json({error:"Só é possível ativar uma temporada dentro do período de vigência e antes do prazo final de envio. Para uma temporada futura, mantenha o rascunho até a data de início."},409);
     const trackCount=await sql`SELECT COUNT(*)::int AS count FROM clone_awards_tracks WHERE is_active=true`;
     if(Number(trackCount[0]?.count)!==5)return json({error:"A temporada não pode ser ativada: o catálogo precisa ter exatamente 5 trilhas ativas."},409);
