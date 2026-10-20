@@ -15,15 +15,23 @@ export async function POST(request) {
 
   try {
     const sql = getDatabase();
-    // Claim the token atomically so two concurrent requests cannot reuse it.
-    const claimed = await sql`UPDATE member_activation_tokens
-      SET used_at = now()
+    // Check eligibility before consuming the one-time token. A token must remain
+    // usable if the associated purchase has no active access yet.
+    const candidates = await sql`SELECT id, email FROM member_activation_tokens
       WHERE token_hash = ${hashToken(token)} AND used_at IS NULL AND expires_at > now()
-      RETURNING id, email`;
-    if (!claimed.length) return NextResponse.json({ error: "Link inválido, expirado ou já utilizado. Solicite um novo." }, { status: 400 });
-    const activation = claimed[0];
+      LIMIT 1`;
+    if (!candidates.length) return NextResponse.json({ error: "Link inválido, expirado ou já utilizado. Solicite um novo." }, { status: 400 });
+    const activation = candidates[0];
     const email = normalizeEmail(activation.email);
     if (!(await hasActiveAccess(email))) return NextResponse.json({ error: "Não encontramos uma compra aprovada ativa para esse e-mail." }, { status: 403 });
+
+    // Claim atomically after eligibility validation so concurrent requests cannot
+    // reuse the same token.
+    const claimed = await sql`UPDATE member_activation_tokens
+      SET used_at = now()
+      WHERE id = ${activation.id} AND used_at IS NULL AND expires_at > now()
+      RETURNING id`;
+    if (!claimed.length) return NextResponse.json({ error: "Link inválido, expirado ou já utilizado. Solicite um novo." }, { status: 400 });
 
     const purchaseNames = await sql`SELECT NULLIF(trim(metadata->>'customer_name'), '') AS customer_name
       FROM orders WHERE lower(customer_email) = ${email} AND status = 'approved'
