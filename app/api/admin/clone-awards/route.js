@@ -33,6 +33,20 @@ export async function POST(request){
   }
   if(b.action==="season-status"){
    const allowed=["draft","scheduled","active","reviewing","closed","archived"];if(!allowed.includes(b.status)||!b.id)return json({error:"Status inválido."},400);
+   const current=await sql`SELECT status FROM clone_awards_seasons WHERE id=${b.id} LIMIT 1`;
+   if(!current.length)return json({error:"Temporada não encontrada."},404);
+   const transitions={
+    draft:["scheduled","active","archived"],
+    scheduled:["draft","active","archived"],
+    active:["reviewing","closed"],
+    reviewing:["closed"],
+    closed:["archived"],
+    archived:[]
+   };
+   if(current[0].status!==b.status&&!transitions[current[0].status]?.includes(b.status)){
+    return json({error:"Transição de status não permitida. Temporadas encerradas ou arquivadas não podem ser reativadas; finalize a revisão antes de arquivar."},409);
+   }
+   if(current[0].status===b.status)return json({ok:true});
    if(b.status==="active"){
     const active=await sql`SELECT id FROM clone_awards_seasons WHERE status='active' AND id<>${b.id} LIMIT 1`;
     if(active.length)return json({error:"Já existe outra temporada ativa."},409);
