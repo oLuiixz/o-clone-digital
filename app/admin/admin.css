@@ -343,3 +343,26 @@ html[data-theme="light"] .admin-top-actions .feedback-nav-link{color:#25252d!imp
 .admin-page[data-theme="light"] p,.admin-page[data-theme="light"] small,.admin-page[data-theme="light"] .admin-section table th,.admin-page.theme-light p,.admin-page.theme-light small,.admin-page.theme-light .admin-section table th,.admin-page[data-admin-theme="light"] p,.admin-page[data-admin-theme="light"] small,.admin-page[data-admin-theme="light"] .admin-section table th{color:#5f6b7a}
 .admin-page[data-theme="light"] .admin-top-search,.admin-page[data-theme="light"] .admin-section input,.admin-page[data-theme="light"] .admin-section textarea,.admin-page[data-theme="light"] .admin-section select,.admin-page.theme-light .admin-top-search,.admin-page.theme-light .admin-section input,.admin-page.theme-light .admin-section textarea,.admin-page.theme-light .admin-section select,.admin-page[data-admin-theme="light"] .admin-top-search,.admin-page[data-admin-theme="light"] .admin-section input,.admin-page[data-admin-theme="light"] .admin-section textarea,.admin-page[data-admin-theme="light"] .admin-section select{background:#fff!important;color:#17202c!important;border-color:#cbd5e1!important}
 .admin-page[data-theme="light"] .admin-top-actions .secondary,.admin-page.theme-light .admin-top-actions .secondary,.admin-page[data-admin-theme="light"] .admin-top-actions .secondary{background:#fff;color:#253246;border-color:#cbd5e1}
+
+
+/* Final viewport/layout fixes */
+.admin-shell{width:calc(100% - 250px)!important;max-width:calc(100% - 250px)!important;margin-left:250px!important;min-width:0!important;overflow-x:clip!important}
+.admin-page{width:100%;max-width:100%;overflow-x:clip!important}
+.admin-top{box-sizing:border-box;width:100%;max-width:100%;min-width:0}
+.admin-top-search{flex:1 1 220px;min-width:180px}
+.admin-top-actions{flex:0 1 auto;min-width:0;max-width:100%;flex-wrap:wrap}
+.admin-overview-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+.admin-overview-lower{grid-template-columns:minmax(0,1.45fr) minmax(0,1fr)!important}
+.admin-overview-card,.admin-overview-panel,.admin-section,.admin-heading{min-width:0}
+.admin-overview-card{overflow-wrap:anywhere}
+.admin-recent-order{min-width:0}
+.admin-recent-order-main{min-width:0;overflow-wrap:anywhere}
+.admin-trend-chart{min-width:0}
+html[data-theme="light"] .admin-page{color-scheme:light;background:#f3f5fa!important;color:#17202c!important}
+html[data-theme="light"] .admin-overview-card,html[data-theme="light"] .admin-overview-panel,html[data-theme="light"] .admin-section,html[data-theme="light"] .stat-card{background:#fff!important;color:#17202c!important;border-color:#dce2eb!important;box-shadow:0 4px 18px #1b2b4510!important}
+html[data-theme="light"] .admin-heading h1,html[data-theme="light"] .admin-heading h2,html[data-theme="light"] .admin-section h2,html[data-theme="light"] .admin-overview-card strong,html[data-theme="light"] .admin-recent-order strong,html[data-theme="light"] .overview-panel-heading h2{color:#17202c!important}
+html[data-theme="light"] .admin-heading p,html[data-theme="light"] .admin-section p,html[data-theme="light"] .admin-overview-card small,html[data-theme="light"] .admin-overview-card span,html[data-theme="light"] .admin-recent-order small,html[data-theme="light"] .admin-section table th{color:#5f6b7a}
+html[data-theme="light"] .admin-top-search,html[data-theme="light"] .admin-top-search input,html[data-theme="light"] .admin-section input,html[data-theme="light"] .admin-section textarea,html[data-theme="light"] .admin-section select{background:#fff!important;color:#17202c!important;border-color:#cbd5e1!important}
+html[data-theme="light"] .admin-top-actions .secondary{background:#fff!important;color:#253246!important;border-color:#cbd5e1!important}
+@media(max-width:1100px){.admin-shell{width:calc(100% - 220px)!important;max-width:calc(100% - 220px)!important;margin-left:220px!important;padding-left:18px;padding-right:18px}.admin-overview-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.admin-overview-lower{grid-template-columns:minmax(0,1fr)!important}}
+@media(max-width:700px){.admin-shell{width:100%!important;max-width:100%!important;margin-left:0!important;padding:0 0 18px}.admin-overview-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.admin-overview-lower{grid-template-columns:minmax(0,1fr)!important}.admin-top-actions{width:100%;justify-content:flex-start}.admin-top-search{flex:1 1 100%;width:100%}}
