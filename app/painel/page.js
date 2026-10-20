@@ -59,6 +59,8 @@ import { getCurrentMember } from "../../lib/member-auth";
 export default async function Home() {
   const member = await getCurrentMember();
   if (!member) redirect("/login");
+  const muxPlaybackId = process.env.NEXT_PUBLIC_MUX_INTRO_PLAYBACK_ID?.trim();
+  const hasIntroVideo = Boolean(muxPlaybackId && /^[a-zA-Z0-9_-]+$/.test(muxPlaybackId));
   return (
     <main className="app-shell">
       <aside className="sidebar">
@@ -119,7 +121,23 @@ export default async function Home() {
             <div className="hero-index">OCD / 001</div>
           </section>
 
+          <section className="intro-section" aria-labelledby="intro-title">
+            <div className="intro-heading">
+              <div><div className="eyebrow muted">COMECE POR AQUI</div><h2 id="intro-title">Introdução ao Clone Digital</h2><p>Veja como navegar pela plataforma, encontrar as aulas e aproveitar cada ferramenta da sua jornada.</p></div>
+              <span className="intro-badge">VÍDEO-GUIA</span>
+            </div>
+            <div className="intro-player">
+              {hasIntroVideo ? (
+                <iframe src={`https://player.mux.com/${muxPlaybackId}`} title="Introdução ao Clone Digital" allow="accelerometer; encrypted-media; picture-in-picture" allowFullScreen />
+              ) : (
+                <div className="intro-placeholder"><span>▶</span><div><b>Seu vídeo de boas-vindas aparecerá aqui.</b><p>Defina NEXT_PUBLIC_MUX_INTRO_PLAYBACK_ID na Vercel após enviar o vídeo para a Mux.</p></div></div>
+              )}
+            </div>
+          </section>
+
           <ModuleProgress modules={modules} />
+
+          <section className="section-block clone-awards-promo"><div className="clone-awards-promo-card"><div className="clone-awards-promo-copy"><span className="eyebrow muted">NOVIDADE · DESAFIOS E RANKING</span><h2>Seu próximo nível começa aqui.</h2><p>Escolha sua trilha, conclua desafios e ganhe XP com evidências aprovadas pela equipe.</p><a className="primary-button" href="/clone-awards">Entrar no Clone Awards <span><Icon name="arrow" size={15} /></span></a></div><div className="clone-awards-promo-score"><span>15</span><small>NÍVEIS</small><i></i><span>15.000</span><small>XP MÁXIMO</small></div></div></section>
 
           <section className="section-block" id="atalhos">
             <div className="section-heading"><div><div className="eyebrow muted">COMECE POR AQUI</div><h2>O que você quer construir hoje?</h2></div><span className="section-note">ATALHOS DA JORNADA</span></div>
