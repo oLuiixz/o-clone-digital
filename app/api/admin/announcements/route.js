@@ -15,7 +15,7 @@ export async function POST(request){
  const title=String(body?.title||"").trim().slice(0,120), message=String(body?.message||"").trim().slice(0,2000);
  let targetUrl=String(body?.targetUrl||"").trim().slice(0,500)||null;
  if(!title||!message) return NextResponse.json({error:"Informe o título e a mensagem."},{status:400});
- if(targetUrl){try{const u=new URL(targetUrl,"https://www.oclonedigital.xyz"); if(!["https:","http:"].includes(u.protocol)) throw new Error(); targetUrl=u.origin==="https://www.oclonedigital.xyz"?u.pathname+u.search+u.hash:u.href;}catch{return NextResponse.json({error:"Link inválido."},{status:400})}}
+ if(targetUrl){try{const u=new URL(targetUrl,"https://www.oclonedigital.xyz"); if(u.protocol!=="https:") throw new Error(); targetUrl=u.origin==="https://www.oclonedigital.xyz"?u.pathname+u.search+u.hash:u.href;}catch{return NextResponse.json({error:"Informe um link HTTPS válido ou um caminho interno, como /painel."},{status:400})}}
  const sql=getDatabase();
  try{
   const rows=await sql`INSERT INTO global_announcements(title,message,target_url,is_published,published_at) VALUES(${title},${message},${targetUrl},true,now()) RETURNING *`;
@@ -43,7 +43,13 @@ export async function PATCH(request){
  if(!(await isAdminRequest())) return NextResponse.json({error:"Não autorizado."},{status:401});
  let body;try{body=await request.json()}catch{return NextResponse.json({error:"Dados inválidos."},{status:400})}
  const id=Number(body?.id);if(!Number.isSafeInteger(id)||id<1)return NextResponse.json({error:"Aviso inválido."},{status:400});
- const sql=getDatabase();const rows=await sql`UPDATE global_announcements SET is_published=false,deactivated_at=now() WHERE id=${id} RETURNING id`;
- if(!rows.length)return NextResponse.json({error:"Aviso não encontrado."},{status:404});
- return NextResponse.json({ok:true});
+ try {
+  const sql=getDatabase();
+  const rows=await sql`UPDATE global_announcements SET is_published=false,deactivated_at=now() WHERE id=${id} RETURNING id`;
+  if(!rows.length)return NextResponse.json({error:"Aviso não encontrado."},{status:404});
+  return NextResponse.json({ok:true});
+ } catch(e) {
+  console.error("Deactivate announcement failed",e?.message||"unknown_error");
+  return NextResponse.json({error:"Não foi possível desativar o aviso agora."},{status:500});
+ }
 }
