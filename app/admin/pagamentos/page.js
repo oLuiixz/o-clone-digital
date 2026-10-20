@@ -6,7 +6,7 @@ import "./payments.css";
 
 const money = (value, currency = "BRL") => new Intl.NumberFormat("pt-BR", { style: "currency", currency: String(currency || "BRL").trim() }).format(Number(value || 0) / 100);
 const date = value => value ? new Date(value).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" }) : "—";
-const statusLabel = value => ({ approved: "Aprovado", pending: "Pendente", refunded: "Reembolsado", cancelled: "Cancelado", active: "Ativo", revoked: "Revogado" }[value] || value || "—");
+const statusLabel = value => ({ approved: "Aprovado", pending: "Pendente", refunded: "Reembolsado", chargeback: "Contestado", failed: "Falhou", cancelled: "Cancelado", canceled: "Cancelado", expired: "Expirado", active: "Ativo", revoked: "Revogado" }[value] || value || "—");
 
 export default function AdminPaymentsPage() {
   const [orders, setOrders] = useState([]);
@@ -42,9 +42,9 @@ export default function AdminPaymentsPage() {
   const revenue = approved.reduce((sum, order) => sum + Number(order.amount || 0), 0);
 
   if (checking) return <main className="admin-page admin-payments-route"><div className="admin-shell"><p>Verificando sessão administrativa…</p></div></main>;
-  if (!authenticated) return <main className="admin-page"><div className="admin-main"><section className="admin-panel"><p className="eyebrow">O CLONE DIGITAL · ACESSO RESTRITO</p><h1>Pagamentos</h1><p>Entre pelo <Link href="/admin">painel administrativo</Link> para acessar esta área.</p><Link className="primary-button" href="/admin">Ir para o login administrativo</Link></section></div></main>;
+  if (!authenticated) return <main className="admin-page admin-payments-route"><div className="admin-main"><section className="admin-panel"><p className="eyebrow">O CLONE DIGITAL · ACESSO RESTRITO</p><h1>Pagamentos</h1><p>Entre pelo <Link href="/admin">painel administrativo</Link> para acessar esta área.</p><Link className="primary-button" href="/admin">Ir para o login administrativo</Link></section></div></main>;
 
-  return <main className="admin-page">
+  return <main className="admin-page admin-payments-route">
     <aside className="admin-sidebar">
       <Link className="admin-sidebar-brand" href="/admin"><span className="admin-logo-mark">OC</span><span>O CLONE <b>DIGITAL</b><small>PAINEL ADMINISTRATIVO</small></span></Link>
       <nav className="admin-sidebar-nav" aria-label="Navegação administrativa">
