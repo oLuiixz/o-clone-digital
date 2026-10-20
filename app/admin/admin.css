@@ -401,3 +401,26 @@ html[data-theme="light"] .admin-page .admin-heading p,html[data-theme="light"] .
  .admin-page .admin-top{gap:10px}
 }
 @media(prefers-reduced-motion:reduce){.admin-page>.admin-sidebar{transition:none!important}}
+
+/* Clone Awards admin module */
+.admin-page .ca-admin{margin-top:26px;padding:24px;border:1px solid var(--admin-border,#ffffff18);border-radius:18px;background:var(--admin-card,#ffffff04)}
+.admin-page .ca-admin-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 22px;border-bottom:1px solid #ffffff16;padding-bottom:12px}
+.admin-page .ca-admin-tabs button{border:1px solid #ffffff18;border-radius:9px;padding:9px 12px;background:#ffffff06;color:inherit;font:inherit;font-size:12px;cursor:pointer}
+.admin-page .ca-admin-tabs button.active{border-color:#e50914;background:#e509141a;color:#ff737a}
+.admin-page .ca-admin-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:14px 0 22px;padding:18px;border:1px solid #ffffff14;border-radius:13px;background:#ffffff03}
+.admin-page .ca-admin-field{display:flex;flex-direction:column;gap:7px;min-width:0;color:var(--admin-muted,#aaa);font-size:12px;font-weight:600}
+.admin-page .ca-admin-field input,.admin-page .ca-admin-field textarea,.admin-page .ca-admin-field select,.admin-page .ca-admin-review input,.admin-page .ca-admin-review select{width:100%;min-width:0;border:1px solid #ffffff20;border-radius:9px;background:#101014;color:inherit;padding:11px;font:inherit;font-size:13px}
+.admin-page .ca-admin-field textarea{min-height:84px;resize:vertical}
+.admin-page .ca-admin-form>button{justify-self:start}
+.admin-page .ca-admin-list{display:grid;gap:12px}
+.admin-page .ca-admin-item{min-width:0;border:1px solid #ffffff18;border-radius:13px;padding:16px;background:#ffffff03}
+.admin-page .ca-admin-item p,.admin-page .ca-admin-item small{color:var(--admin-muted,#aaa);font-size:12px;line-height:1.6;overflow-wrap:anywhere}
+.admin-page .ca-admin-item-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.admin-page .ca-admin-item-head>a{color:#ff737a;font-size:12px}
+.admin-page .ca-admin-review{display:grid;grid-template-columns:minmax(160px,.65fr) minmax(200px,1fr) auto;gap:9px;margin-top:14px}
+.admin-page .ca-admin-review button{white-space:nowrap}
+.admin-page .ca-admin-evidence{white-space:pre-wrap;overflow-wrap:anywhere;border-left:2px solid #e50914;padding:10px 12px;background:#ffffff05}
+.admin-page .ca-admin-notice{color:#8de2a9}
+.admin-page .ca-admin-rank{display:flex;align-items:center;gap:14px}
+.admin-page .ca-admin-rank>div{flex:1;min-width:0}
+@media(max-width:700px){.admin-page .ca-admin{padding:14px}.admin-page .ca-admin-form{grid-template-columns:1fr;padding:12px}.admin-page .ca-admin-review{grid-template-columns:1fr}.admin-page .ca-admin-review button{white-space:normal}}
