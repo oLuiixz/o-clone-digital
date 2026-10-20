@@ -75,14 +75,13 @@ export async function POST(request){
    if(!b.id||!["approved","rejected","resubmit"].includes(b.status))return json({error:"Decisão inválida."},400);
    const note=String(b.note||"").trim().slice(0,2000);
    if(b.status!=="approved"&&!note)return json({error:"Inclua uma orientação para o aluno."},400);
-   const rows=await sql`SELECT s.id,s.status,s.season_id,s.account_id,s.track_id,s.challenge_id,c.xp FROM clone_awards_submissions s JOIN clone_awards_challenges c ON c.id=s.challenge_id WHERE s.id=${b.id} AND s.status IN ('pending','resubmit','rejected') LIMIT 1`;
+   const rows=await sql`SELECT s.id,s.status,s.season_id,s.account_id,s.track_id,s.challenge_id,c.xp,se.status AS season_status FROM clone_awards_submissions s JOIN clone_awards_challenges c ON c.id=s.challenge_id AND c.track_id=s.track_id JOIN clone_awards_enrollments e ON e.season_id=s.season_id AND e.account_id=s.account_id AND e.track_id=s.track_id JOIN clone_awards_seasons se ON se.id=s.season_id WHERE s.id=${b.id} AND s.status IN ('pending','resubmit','rejected') LIMIT 1`;
    if(!rows.length)return json({error:"Envio já revisado ou não encontrado."},409);
    const s=rows[0];
-   await sql`UPDATE clone_awards_submissions SET status=${b.status},review_note=${note||null},reviewed_by='admin',reviewed_at=now(),updated_at=now() WHERE id=${s.id} AND status IN ('pending','resubmit','rejected')`;
-   if(b.status==="approved"){
-    await sql`INSERT INTO clone_awards_xp_ledger(season_id,account_id,track_id,submission_id,source_key,entry_type,xp,reason,actor) VALUES(${s.season_id},${s.account_id},${s.track_id},${s.id},${"submission:"+s.id},'award',${Number(s.xp)} ,'Evidência aprovada','admin') ON CONFLICT(season_id,account_id,source_key,entry_type) DO NOTHING`;
-   }
-   await sql`INSERT INTO clone_awards_audit_log(season_id,account_id,actor,action,entity_type,entity_id,details) VALUES(${s.season_id},${s.account_id},'admin',${"submission_"+b.status},'submission',${s.id},${JSON.stringify({note})}::jsonb)`;
+   if(!["active","reviewing"].includes(s.season_status))return json({error:"Temporada não aceita revisões."},409);
+   const reviewer="admin";
+   const updated=await sql`WITH changed AS (UPDATE clone_awards_submissions SET status=${b.status},review_note=${note||null},reviewed_by=${reviewer},reviewed_at=now(),updated_at=now() WHERE id=${s.id} AND status IN ('pending','resubmit','rejected') RETURNING id,season_id,account_id,track_id,challenge_id), award AS (INSERT INTO clone_awards_xp_ledger(season_id,account_id,track_id,submission_id,source_key,entry_type,xp,reason,actor) SELECT changed.season_id,changed.account_id,changed.track_id,changed.id,'challenge:'||changed.challenge_id::text,'award',c.xp,'Evidência aprovada',${reviewer} FROM changed JOIN clone_awards_challenges c ON c.id=changed.challenge_id WHERE ${b.status}='approved' ON CONFLICT(season_id,account_id,source_key,entry_type) DO NOTHING RETURNING id), audit AS (INSERT INTO clone_awards_audit_log(season_id,account_id,actor,action,entity_type,entity_id,details) SELECT changed.season_id,changed.account_id,${reviewer},${"submission_"+b.status},'submission',changed.id,${JSON.stringify({note})}::jsonb FROM changed RETURNING id) SELECT id FROM changed`;
+   if(!updated.length)return json({error:"Este envio já foi revisado por outra ação."},409);
    return json({ok:true});
   }
   return json({error:"Ação administrativa desconhecida."},400);
