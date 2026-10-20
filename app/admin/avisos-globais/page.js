@@ -1,5 +1,3 @@
-import { redirect } from "next/navigation";
-
-export default function AvisosGlobaisPage() {
-  redirect("/admin/announcements");
-}
+"use client";
+import AdminSectionPage from "../admin-section-page";
+export default function Page(){return <AdminSectionPage mode="announcements"/>;}
