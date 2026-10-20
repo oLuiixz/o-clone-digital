@@ -1,0 +1,32 @@
+.admin-payments-route{padding:0 24px 28px 0;min-height:100vh;background:#050606;color:#edf2f5}
+.admin-payments-route .admin-shell{margin-left:252px;padding:24px 26px 28px;min-width:0}
+.admin-payments-route .admin-topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:0 0 24px;padding:0 0 20px;border-bottom:1px solid #202426}
+.admin-payments-route .admin-topbar h1{font-size:30px;letter-spacing:-.7px;margin:7px 0;color:#edf2f6}
+.admin-payments-route .admin-topbar p{margin:0;color:#9ba8b4;font-size:12px}
+.admin-payments-route .admin-stats-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0 0 18px}
+.admin-payments-route .admin-stat-card,.admin-payments-route .admin-panel{min-width:0;border:1px solid #202426;border-radius:10px;background:#090b0c;padding:18px}
+.admin-payments-route .admin-stat-card span,.admin-payments-route .admin-stat-card small{display:block;color:#9ba8b4;font-size:12px}
+.admin-payments-route .admin-stat-card strong{display:block;margin:12px 0 6px;font-size:26px;letter-spacing:-.5px;color:#f5f7f8;overflow-wrap:anywhere}
+.admin-payments-route .admin-stat-card small{font-size:10px;color:#75818a}
+.admin-payments-route .admin-panel{margin:0 0 18px}
+.admin-payments-route .admin-panel-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.admin-payments-route .admin-panel-heading h2{font-size:17px;margin:5px 0 0}
+.admin-payments-route .heading-count{font-size:11px;color:#aeb8bf;border:1px solid #282d30;background:#101415;border-radius:20px;padding:5px 9px;white-space:nowrap}
+.admin-payments-route .admin-toolbar{display:flex;gap:10px;margin-bottom:14px}
+.admin-payments-route .admin-toolbar input,.admin-payments-route .admin-toolbar select{min-height:38px;min-width:0;border:1px solid #282d30;border-radius:7px;background:#070909;color:#edf2f5;padding:0 11px;font:inherit;font-size:12px}
+.admin-payments-route .admin-toolbar input{flex:1}
+.admin-payments-route .admin-table-wrap{width:100%;overflow:auto}
+.admin-payments-route .admin-table{width:100%;border-collapse:collapse;text-align:left;font-size:12px}
+.admin-payments-route .admin-table th{padding:11px 10px;color:#89959e;font-weight:500;border-bottom:1px solid #252a2d;white-space:nowrap}
+.admin-payments-route .admin-table td{padding:12px 10px;border-bottom:1px solid #1c2022;color:#cdd5da;vertical-align:top}
+.admin-payments-route .admin-table td strong,.admin-payments-route .admin-table td small{display:block}
+.admin-payments-route .admin-table td strong{font-weight:600;color:#edf2f5;overflow-wrap:anywhere}
+.admin-payments-route .admin-table td small{margin-top:4px;color:#75818a;font-size:10px}
+.admin-payments-route .status-pill{display:inline-flex;border:1px solid #282d30;border-radius:20px;padding:4px 8px;font-size:10px;white-space:nowrap}
+.admin-payments-route .status-pill.success{background:#0a3023;color:#68e0ad;border-color:#18513b}
+.admin-payments-route .status-pill.warning{background:#30250d;color:#f1c66d;border-color:#55411a}
+.admin-payments-route .status-pill.neutral{background:#101415;color:#bac4cb}
+.admin-payments-route .admin-muted{margin:14px 0 0;color:#75818a;font-size:11px;line-height:1.6}
+.admin-payments-route footer{display:flex;justify-content:space-between;gap:12px;border-top:1px solid #202426;padding-top:16px;color:#75818a;font-size:10px;letter-spacing:.5px}
+@media(max-width:1100px){.admin-payments-route .admin-shell{margin-left:220px;padding:20px 16px}.admin-payments-route .admin-stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.admin-payments-route{padding:0 10px 18px}.admin-payments-route .admin-sidebar{position:relative;width:auto;inset:auto;padding:12px;margin:0 -10px 12px;border-right:0;border-bottom:1px solid #202426}.admin-payments-route .admin-sidebar-nav{display:flex;overflow-x:auto;gap:5px;margin-top:10px}.admin-payments-route .admin-sidebar-nav a{white-space:nowrap;flex:0 0 auto}.admin-payments-route .admin-shell{margin:0;padding:10px 0 18px}.admin-payments-route .admin-topbar{align-items:flex-start;flex-direction:column}.admin-payments-route .admin-topbar h1{font-size:26px}.admin-payments-route .admin-stats-grid{gap:8px}.admin-payments-route .admin-stat-card{padding:12px}.admin-payments-route .admin-stat-card strong{font-size:20px}.admin-payments-route .admin-toolbar{flex-direction:column}.admin-payments-route .admin-panel{padding:13px 10px}.admin-payments-route footer{flex-direction:column}}
