@@ -19,16 +19,21 @@ export async function POST(request){
  const sql=getDatabase();
  try{
   const rows=await sql`INSERT INTO global_announcements(title,message,target_url,is_published,published_at) VALUES(${title},${message},${targetUrl},true,now()) RETURNING *`;
-  const announcement=rows[0]; let attempted=0,sent=0;
+  const announcement=rows[0]; let attempted=0,sent=0,pushError=null;
   if(process.env.VAPID_PUBLIC_KEY&&process.env.VAPID_PRIVATE_KEY){
-   webpush.setVapidDetails(process.env.VAPID_SUBJECT||"mailto:suporte@oclonedigital.xyz",process.env.VAPID_PUBLIC_KEY,process.env.VAPID_PRIVATE_KEY);
-   const subs=await sql`SELECT endpoint,p256dh,auth FROM member_push_subscriptions`; attempted=subs.length;
-   const payload=JSON.stringify({title:"O Clone Digital · "+title,body:message.slice(0,180),url:targetUrl||"/painel",tag:"ocd-announcement-"+announcement.id});
-   const results=await Promise.allSettled(subs.map(async s=>{try{await webpush.sendNotification({endpoint:s.endpoint,keys:{p256dh:s.p256dh,auth:s.auth}},payload,{TTL:86400,urgency:"normal"});return true;}catch(e){if(e?.statusCode===404||e?.statusCode===410) await sql`DELETE FROM member_push_subscriptions WHERE endpoint=${s.endpoint}`;throw e;}}));
-   sent=results.filter(r=>r.status==="fulfilled").length;
-   await sql`UPDATE global_announcements SET push_attempted=${attempted},push_sent=${sent} WHERE id=${announcement.id}`;
+   try {
+    webpush.setVapidDetails(process.env.VAPID_SUBJECT||"mailto:suporte@oclonedigital.xyz",process.env.VAPID_PUBLIC_KEY,process.env.VAPID_PRIVATE_KEY);
+    const subs=await sql`SELECT endpoint,p256dh,auth FROM member_push_subscriptions`; attempted=subs.length;
+    const payload=JSON.stringify({title:"O Clone Digital · "+title,body:message.slice(0,180),url:targetUrl||"/painel",tag:"ocd-announcement-"+announcement.id});
+    const results=await Promise.allSettled(subs.map(async s=>{try{await webpush.sendNotification({endpoint:s.endpoint,keys:{p256dh:s.p256dh,auth:s.auth}},payload,{TTL:86400,urgency:"normal"});return true;}catch(e){if(e?.statusCode===404||e?.statusCode===410) await sql`DELETE FROM member_push_subscriptions WHERE endpoint=${s.endpoint}`;throw e;}}));
+    sent=results.filter(r=>r.status==="fulfilled").length;
+    await sql`UPDATE global_announcements SET push_attempted=${attempted},push_sent=${sent} WHERE id=${announcement.id}`;
+   } catch(pushFailure) {
+    pushError="O aviso foi publicado, mas não foi possível concluir o envio das notificações push.";
+    console.error("Announcement push delivery failed",pushFailure?.message||"unknown_error");
+   }
   }
-  return NextResponse.json({announcement,push:{attempted,sent}});
+  return NextResponse.json({announcement,push:{attempted,sent,error:pushError}});
  }catch(e){console.error("Publish announcement failed",e?.message);return NextResponse.json({error:"Não foi possível publicar o aviso. Confira o banco e os logs."},{status:500})}
 }
 export async function PATCH(request){
