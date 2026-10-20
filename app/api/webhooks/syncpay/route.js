@@ -36,7 +36,10 @@ function validEmail(value) {
 function statusFor(status) {
   const value = String(status ?? "").toLowerCase();
   if (["completed", "paid", "approved", "succeeded"].includes(value)) return "approved";
-  if (["refunded", "refund", "estornado", "refunded_partial"].includes(value)) return "refunded";
+  // Do not treat a partial refund as a full refund: the current entitlement model only
+  // supports full revocation. Unknown partial-refund events are acknowledged as ignored
+  // until an explicit business rule and partial-refund status are implemented.
+  if (["refunded", "refund", "estornado"].includes(value)) return "refunded";
   if (["chargeback", "chargedback", "disputed", "med"].includes(value)) return "chargeback";
   if (["failed", "refused", "declined", "canceled", "cancelled", "expired"].includes(value)) return "failed";
   if (["pending", "waiting_payment", "processing", "created"].includes(value)) return "pending";
