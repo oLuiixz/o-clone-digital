@@ -17,6 +17,10 @@ export default function AdminPaymentsPage() {
   const [error, setError] = useState("");
   const [filter, setFilter] = useState("all");
   const [query, setQuery] = useState("");
+  const [theme,setTheme] = useState("dark");
+  const [mobileMenuOpen,setMobileMenuOpen] = useState(false);
+  useEffect(()=>{try{const saved=JSON.parse(localStorage.getItem("ocd-user-settings")||"null");const t=saved?.theme==="light"?"light":"dark";setTheme(t);document.documentElement.dataset.theme=t;}catch{}},[]);
+  const toggleTheme=()=>{const next=theme==="dark"?"light":"dark";setTheme(next);document.documentElement.dataset.theme=next;try{const saved=JSON.parse(localStorage.getItem("ocd-user-settings")||"{}");localStorage.setItem("ocd-user-settings",JSON.stringify({...saved,theme:next}));}catch{}};
 
   const load = useCallback(async () => {
     setLoading(true); setError("");
@@ -45,15 +49,16 @@ export default function AdminPaymentsPage() {
   if (!authenticated) return <main className="admin-page admin-payments-route"><div className="admin-main"><section className="admin-panel"><p className="eyebrow">O CLONE DIGITAL · ACESSO RESTRITO</p><h1>Pagamentos</h1><p>Entre pelo <Link href="/admin">painel administrativo</Link> para acessar esta área.</p><Link className="primary-button" href="/admin">Ir para o login administrativo</Link></section></div></main>;
 
   return <main className="admin-page admin-payments-route">
-    <aside className="admin-sidebar">
+    {mobileMenuOpen && <button type="button" className="payments-menu-backdrop" aria-label="Fechar menu" onClick={() => setMobileMenuOpen(false)} />}
+    <aside className={"admin-sidebar" + (mobileMenuOpen ? " payments-sidebar-open" : "")}>
       <Link className="admin-sidebar-brand" href="/admin"><span className="admin-logo-mark">OC</span><span>O CLONE <b>DIGITAL</b><small>PAINEL ADMINISTRATIVO</small></span></Link>
       <nav className="admin-sidebar-nav" aria-label="Navegação administrativa">
-        <Link href="/admin">Dashboard</Link><Link className="is-active" href="/admin/pagamentos">Pagamentos</Link><Link href="/admin#acesso-gratuito">Acesso gratuito</Link><Link href="/admin#historico">Histórico</Link><Link href="/admin#avisos-globais">Anúncios</Link><Link href="/admin/feedback">Feedbacks</Link><Link href="/admin/ferramentas">Ferramentas</Link><Link href="/admin/configuracoes">Configurações</Link>
+        <Link href="/admin">Dashboard</Link><Link className="is-active" href="/admin/pagamentos">Pagamentos</Link><Link href="/admin/acesso-gratuito">Acesso gratuito</Link><Link href="/admin/historico">Histórico</Link><Link href="/admin/avisos-globais">Anúncios</Link><Link href="/admin/feedbacks">Feedbacks</Link><Link href="/admin/ferramentas">Ferramentas</Link><Link href="/admin/configuracoes">Configurações</Link>
       </nav>
       <div className="admin-sidebar-bottom"><Link href="/painel">Abrir área de membros ↗</Link></div>
     </aside>
-    <div className="admin-main">
-      <header className="admin-topbar"><div><span className="eyebrow">GESTÃO FINANCEIRA</span><h1>Pagamentos</h1><p>Pedidos, aprovações e concessão de acesso em um só lugar.</p></div><button className="secondary" disabled={loading} onClick={load}>{loading ? "Atualizando…" : "Atualizar dados"}</button></header>
+    <div className="admin-shell">
+      <header className="admin-topbar"><button type="button" className="payments-mobile-menu" aria-expanded={mobileMenuOpen} onClick={() => setMobileMenuOpen(v => !v)}>☰ Menu</button><div><span className="eyebrow">GESTÃO FINANCEIRA</span><h1>Pagamentos</h1><p>Pedidos, aprovações e concessão de acesso em um só lugar.</p></div><div className="payments-header-actions"><button className="secondary payments-theme-toggle" type="button" onClick={toggleTheme}>{theme==="dark"?"☀ Tema claro":"☾ Tema escuro"}</button><button className="secondary" disabled={loading} onClick={load}>{loading ? "Atualizando…" : "Atualizar dados"}</button></div></header>
       {error && <div className="settings-warning" role="alert">{error}</div>}
       <section className="admin-stats-grid">
         <article className="admin-stat-card"><span>Receita aprovada</span><strong>{money(revenue)}</strong><small>Somatório dos pedidos aprovados carregados</small></article>
