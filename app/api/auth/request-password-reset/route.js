@@ -28,8 +28,18 @@ export async function POST(request) {
   }
 
   let url;
-  try { url = new URL("/redefinir-senha", base); }
-  catch {
+  try {
+    const configuredUrl = new URL(base);
+    const isLocalDevelopment = process.env.NODE_ENV !== "production" &&
+      configuredUrl.protocol === "http:" &&
+      ["localhost", "127.0.0.1"].includes(configuredUrl.hostname);
+    if ((configuredUrl.protocol !== "https:" && !isLocalDevelopment) ||
+        configuredUrl.username || configuredUrl.password) {
+      throw new Error("Unsafe application URL");
+    }
+    url = new URL("/redefinir-senha", configuredUrl.origin);
+  } catch {
+    console.error("Password reset request failed: NEXT_PUBLIC_APP_URL must be a valid HTTPS URL.");
     return NextResponse.json({ error: "A recuperação está temporariamente indisponível." }, { status: 503 });
   }
 
