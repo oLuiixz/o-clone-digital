@@ -40,7 +40,7 @@ export async function POST(request) {
     const season = seasons[0];
     if (!season) return NextResponse.json({ error: "Não há temporada ativa no momento." }, { status: 409 });
     if (body.action === "select-track") {
-      if (new Date(season.submission_deadline) < new Date()) return NextResponse.json({ error: "O prazo para selecionar ou trocar de trilha terminou." }, { status: 409 });
+      if (new Date(season.submission_deadline) <= new Date()) return NextResponse.json({ error: "O prazo para selecionar ou trocar de trilha terminou." }, { status: 409 });
       const tracks = await sql`SELECT id FROM clone_awards_tracks WHERE id=${body.trackId} AND is_active=true LIMIT 1`;
       if (!tracks.length) return NextResponse.json({ error: "Trilha inválida." }, { status: 400 });
       const existing = await sql`SELECT id,track_id FROM clone_awards_enrollments WHERE season_id=${season.id} AND account_id=${member.id} LIMIT 1`;
@@ -62,7 +62,7 @@ export async function POST(request) {
       return NextResponse.json({ ok: true });
     }
     if (body.action === "submit-evidence") {
-      if (season.status !== "active" || new Date(season.submission_deadline) < new Date()) return NextResponse.json({ error: "O prazo de envio desta temporada terminou." }, { status: 409 });
+      if (season.status !== "active" || new Date(season.submission_deadline) <= new Date()) return NextResponse.json({ error: "O prazo de envio desta temporada terminou." }, { status: 409 });
       const enrollment = await sql`SELECT track_id FROM clone_awards_enrollments WHERE season_id=${season.id} AND account_id=${member.id} LIMIT 1`;
       if (!enrollment.length) return NextResponse.json({ error: "Escolha uma trilha antes de enviar desafios." }, { status: 409 });
       const challenge = await sql`SELECT c.id,c.track_id FROM clone_awards_challenges c WHERE c.id=${body.challengeId} AND c.track_id=${enrollment[0].track_id} AND c.is_active=true LIMIT 1`;
