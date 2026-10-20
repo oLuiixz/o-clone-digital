@@ -47,14 +47,44 @@ export async function POST(request) {
       if (existing.length && existing[0].track_id === body.trackId) return NextResponse.json({ ok: true, unchanged: true });
       if (existing.length && body.confirmReset !== true) return NextResponse.json({ error: "Trocar de trilha reinicia o progresso competitivo desta temporada. Confirme para continuar.", requiresConfirmation: true }, { status: 409 });
       if (existing.length) {
-        await sql`INSERT INTO clone_awards_audit_log(season_id,account_id,actor,action,entity_type,entity_id,details) VALUES (${season.id},${member.id},${member.email},'track_changed','enrollment',${existing[0].id},${JSON.stringify({fromTrackId:existing[0].track_id,toTrackId:body.trackId,resetCompetitiveProgress:true})}::jsonb)`;
-        const priorAwards = await sql`SELECT source_key, submission_id, track_id, xp FROM clone_awards_xp_ledger WHERE season_id=${season.id} AND account_id=${member.id} AND entry_type='award'`;
-        for (const award of priorAwards) {
-          await sql`INSERT INTO clone_awards_xp_ledger(season_id,account_id,track_id,submission_id,source_key,entry_type,xp,reason,actor)
-            VALUES (${season.id},${member.id},${award.track_id},${award.submission_id},${award.source_key},'reversal',${-Math.abs(Number(award.xp))},'Estorno de pontuação competitiva por troca de trilha',${member.email})
-            ON CONFLICT(season_id,account_id,source_key,entry_type) DO NOTHING`;
-        }
-        await sql`UPDATE clone_awards_enrollments SET track_id=${body.trackId},selected_at=now(),updated_at=now() WHERE id=${existing[0].id}`;
+        // Audit, score reversals, and enrollment change are one transaction. A partial
+        // failure must never leave the member with a new track and only some XP reversed.
+        const changed = await sql`
+          WITH locked AS (
+            SELECT id, track_id FROM clone_awards_enrollments
+            WHERE id = ${existing[0].id}
+              AND season_id = ${season.id}
+              AND account_id = ${member.id}
+              AND track_id = ${existing[0].track_id}
+            FOR UPDATE
+          ),
+          audit AS (
+            INSERT INTO clone_awards_audit_log(season_id,account_id,actor,action,entity_type,entity_id,details)
+            SELECT ${season.id},${member.id},${member.email},'track_changed','enrollment',locked.id,
+              ${JSON.stringify({fromTrackId:existing[0].track_id,toTrackId:body.trackId,resetCompetitiveProgress:true})}::jsonb
+            FROM locked
+            RETURNING id
+          ),
+          reversals AS (
+            INSERT INTO clone_awards_xp_ledger(season_id,account_id,track_id,submission_id,source_key,entry_type,xp,reason,actor)
+            SELECT x.season_id,x.account_id,x.track_id,x.submission_id,x.source_key,'reversal',-ABS(x.xp),
+              'Estorno de pontuação competitiva por troca de trilha',${member.email}
+            FROM clone_awards_xp_ledger x
+            JOIN locked ON x.season_id = ${season.id} AND x.account_id = ${member.id}
+            WHERE x.entry_type = 'award'
+            ON CONFLICT(season_id,account_id,source_key,entry_type) DO NOTHING
+            RETURNING id
+          ),
+          updated AS (
+            UPDATE clone_awards_enrollments e
+            SET track_id = ${body.trackId}, selected_at = now(), updated_at = now()
+            FROM locked
+            WHERE e.id = locked.id
+            RETURNING e.id
+          )
+          SELECT id FROM updated
+        `;
+        if (!changed.length) return NextResponse.json({ error: "A trilha foi alterada em outra ação. Atualize a página e tente novamente." }, { status: 409 });
       } else {
         await sql`INSERT INTO clone_awards_enrollments(season_id,account_id,track_id) VALUES (${season.id},${member.id},${body.trackId})`;
         await sql`INSERT INTO clone_awards_audit_log(season_id,account_id,actor,action,entity_type,details) VALUES (${season.id},${member.id},${member.email},'track_selected','enrollment',${JSON.stringify({trackId:body.trackId})}::jsonb)`;
