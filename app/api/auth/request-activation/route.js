@@ -7,14 +7,10 @@ export const dynamic = "force-dynamic";
 
 export async function POST(request) {
   let body;
-  try {
-    body = await request.json();
-  } catch {
-    return NextResponse.json({ error: "Requisição inválida." }, { status: 400 });
-  }
+  try { body = await request.json(); }
+  catch { return NextResponse.json({ error: "Requisição inválida." }, { status: 400 }); }
 
   const email = normalizeEmail(body?.email);
-  // Keep this regex single-escaped: double escaping here rejects valid addresses.
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 320) {
     return NextResponse.json({ error: "Informe um e-mail válido." }, { status: 400 });
   }
@@ -43,15 +39,17 @@ export async function POST(request) {
     }
 
     const token = createOpaqueToken();
+    const activationUrl = getActivationUrl(token);
+    const emailContent = activationEmailContent({ activationUrl });
     const tokenHash = hashToken(token);
     const expiresAt = new Date(Date.now() + 30 * 60 * 1000).toISOString();
+
+    // Remove expired/consumed tokens so repeated requests do not grow this table forever.
+    await sql`DELETE FROM member_activation_tokens WHERE expires_at <= now() OR used_at IS NOT NULL`;
     await sql`INSERT INTO member_activation_tokens (email, token_hash, expires_at)
       VALUES (${email}, ${tokenHash}, ${expiresAt})`;
 
-    const activationUrl = getActivationUrl(token);
-    const emailContent = activationEmailContent({ activationUrl });
     await sendResendEmail({ to: email, ...emailContent });
-
     return NextResponse.json(generic);
   } catch (error) {
     console.error("Activation request failed", error instanceof Error ? error.message : "unknown_error");
