@@ -48,13 +48,24 @@ export async function POST(request) {
       orderId = existing[0].id;
       renewed = true;
     } else {
-      const orderRows = await sql`INSERT INTO orders (product_id, customer_email, provider, status, amount, currency, approved_at, metadata)
-        VALUES (${productId}, ${email}, 'admin_free', 'approved', 0, ${products[0].currency || "BRL"}, now(),
-        jsonb_build_object('source','manual_admin','customer_name',${name}::text,'notes',${notes}::text))
-        RETURNING id`;
-      orderId = orderRows[0].id;
-      await sql`INSERT INTO entitlements (order_id, product_id, customer_email, status)
-        VALUES (${orderId}, ${productId}, ${email}, 'active')`;
+      // Create the approved order and its entitlement atomically. If either insert fails,
+      // PostgreSQL rolls back the statement instead of leaving an orphan order behind.
+      const grantRows = await sql`
+        WITH created_order AS (
+          INSERT INTO orders (product_id, customer_email, provider, status, amount, currency, approved_at, metadata)
+          VALUES (${productId}, ${email}, 'admin_free', 'approved', 0, ${products[0].currency || "BRL"}, now(),
+            jsonb_build_object('source','manual_admin','customer_name',${name}::text,'notes',${notes}::text))
+          RETURNING id
+        ),
+        created_entitlement AS (
+          INSERT INTO entitlements (order_id, product_id, customer_email, status)
+          SELECT id, ${productId}, ${email}, 'active' FROM created_order
+          RETURNING order_id
+        )
+        SELECT order_id FROM created_entitlement
+      `;
+      if (!grantRows.length) throw new Error("manual_access_grant_failed");
+      orderId = grantRows[0].order_id;
     }
 
     const token = createOpaqueToken();
