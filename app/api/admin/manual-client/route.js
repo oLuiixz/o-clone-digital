@@ -31,6 +31,9 @@ export async function POST(request) {
   }
 
   try {
+    // Validate required delivery configuration before creating an order or entitlement.
+    const base = getAppBaseUrl();
+    if (!base) return NextResponse.json({ error: "URL do site não configurada. Confira NEXT_PUBLIC_APP_URL na Vercel." }, { status: 503 });
     const sql = getDatabase();
     const products = await sql`SELECT id, name, currency FROM products WHERE id = ${productId} AND is_active = true LIMIT 1`;
     if (!products.length) return NextResponse.json({ error: "Produto não encontrado ou inativo." }, { status: 404 });
@@ -54,8 +57,6 @@ export async function POST(request) {
         VALUES (${orderId}, ${productId}, ${email}, 'active')`;
     }
 
-    const base = getAppBaseUrl();
-    if (!base) return NextResponse.json({ error: "URL do site não configurada. Confira NEXT_PUBLIC_APP_URL na Vercel." }, { status: 503 });
     const token = createOpaqueToken();
     const expires = new Date(Date.now() + 30 * 60 * 1000).toISOString();
     await sql`INSERT INTO member_activation_tokens (email, token_hash, expires_at) VALUES (${email}, ${hashToken(token)}, ${expires})`;
