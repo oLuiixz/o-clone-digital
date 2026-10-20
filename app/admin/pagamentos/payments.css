@@ -41,3 +41,42 @@
 .admin-payments-route .admin-table{min-width:760px}
 @media(max-width:1100px){.admin-payments-route>.admin-shell{width:calc(100% - 220px);max-width:calc(100% - 220px);margin-left:220px;padding:20px 16px}.admin-payments-route .admin-stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){.admin-payments-route{padding:0;width:100%;max-width:100vw}.admin-payments-route .admin-sidebar{position:relative;width:auto;inset:auto;margin:0;max-height:none}.admin-payments-route>.admin-shell{width:100%;max-width:100%;margin:0;padding:14px 12px 20px}.admin-payments-route .admin-stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.admin-payments-route .admin-topbar{flex-direction:column;align-items:flex-start}.admin-payments-route .admin-table-wrap{margin-right:-2px}}
+
+/* Payments route: shared theme and responsive layout */
+.admin-payments-route{background:var(--admin-page-bg,#050606);color:var(--admin-page-text,#edf2f5);min-height:100vh}
+.admin-payments-route .admin-shell{box-sizing:border-box;width:calc(100% - 252px);max-width:calc(100% - 252px);margin-left:252px;padding:24px 26px 28px;min-width:0}
+.admin-payments-route .admin-topbar{flex-wrap:wrap}
+.admin-payments-route .payments-header-actions{display:flex;gap:8px;align-items:center}
+.admin-payments-route .payments-mobile-menu{display:none}
+html[data-theme="light"] .admin-payments-route{--admin-page-bg:#f3f5fa;--admin-page-text:#17202c;background:#f3f5fa!important;color:#17202c!important;color-scheme:light}
+html[data-theme="light"] .admin-payments-route .admin-topbar h1,html[data-theme="light"] .admin-payments-route .admin-panel-heading h2{color:#17202c!important}
+html[data-theme="light"] .admin-payments-route .admin-topbar p,html[data-theme="light"] .admin-payments-route .admin-stat-card span,html[data-theme="light"] .admin-payments-route .admin-stat-card small,html[data-theme="light"] .admin-payments-route .admin-muted{color:#5f6b7a!important}
+html[data-theme="light"] .admin-payments-route .admin-stat-card,html[data-theme="light"] .admin-payments-route .admin-panel{background:#fff!important;color:#17202c!important;border-color:#dce2eb!important;box-shadow:0 4px 18px #1b2b4510}
+html[data-theme="light"] .admin-payments-route .admin-stat-card strong,html[data-theme="light"] .admin-payments-route .admin-table td strong{color:#17202c!important}
+html[data-theme="light"] .admin-payments-route .admin-table td{color:#334155!important;border-color:#e2e8f0!important}
+html[data-theme="light"] .admin-payments-route .admin-table th{color:#64748b!important;border-color:#e2e8f0!important}
+html[data-theme="light"] .admin-payments-route .admin-toolbar input,html[data-theme="light"] .admin-payments-route .admin-toolbar select{background:#fff!important;color:#17202c!important;border-color:#cbd5e1!important}
+html[data-theme="light"] .admin-payments-route .admin-sidebar{background:#fff!important;border-color:#dce2eb!important;color:#17202c!important}
+html[data-theme="light"] .admin-payments-route .admin-sidebar-brand{color:#17202c!important;border-color:#e2e8f0!important}
+html[data-theme="light"] .admin-payments-route .admin-sidebar-nav a{color:#475569!important}
+html[data-theme="light"] .admin-payments-route .admin-sidebar-nav a:hover,html[data-theme="light"] .admin-payments-route .admin-sidebar-nav a.is-active{background:#fee2e2!important;color:#991b1b!important}
+html[data-theme="light"] .admin-payments-route .admin-sidebar-bottom{border-color:#e2e8f0!important}
+html[data-theme="light"] .admin-payments-route .admin-sidebar-bottom a{color:#334155!important}
+html[data-theme="light"] .admin-payments-route .payments-theme-toggle,html[data-theme="light"] .admin-payments-route .admin-topbar .secondary{background:#fff!important;color:#253246!important;border-color:#cbd5e1!important}
+@media(max-width:1100px){.admin-payments-route .admin-shell{width:calc(100% - 220px);max-width:calc(100% - 220px);margin-left:220px;padding:20px 16px}}
+@media(max-width:700px){
+ .admin-payments-route .admin-shell{width:100%;max-width:100%;margin:0;padding:12px 12px 22px}
+ .admin-payments-route .payments-mobile-menu{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:0 13px;border:1px solid #30343b;border-radius:9px;background:#111318;color:#fff;font-weight:600}
+ .admin-payments-route .payments-menu-backdrop{display:block;position:fixed;inset:0;z-index:9998;background:#0009}
+ .admin-payments-route>.admin-sidebar{position:fixed!important;inset:0 auto 0 0!important;width:min(290px,86vw)!important;height:100dvh!important;z-index:9999!important;margin:0!important;padding:18px 14px!important;display:flex!important;flex-direction:column!important;overflow-y:auto!important;transform:translateX(-105%);transition:transform .2s ease;background:#050606!important}
+ .admin-payments-route>.admin-sidebar.payments-sidebar-open{transform:translateX(0);box-shadow:18px 0 48px #0008}
+ .admin-payments-route .admin-sidebar-nav{display:grid!important;grid-template-columns:1fr!important;overflow:visible!important;white-space:normal!important}
+ .admin-payments-route .admin-sidebar-nav a{min-height:43px;white-space:normal!important}
+ .admin-payments-route .admin-sidebar-bottom{display:block!important;margin-top:auto!important}
+ .admin-payments-route .admin-topbar{gap:12px}
+ .admin-payments-route .admin-topbar h1{font-size:26px}
+ .admin-payments-route .payments-header-actions{width:100%;flex-wrap:wrap}
+ .admin-payments-route .admin-stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .admin-payments-route .admin-table{min-width:760px}
+}
+html[data-theme="light"] .admin-payments-route .payments-mobile-menu{background:#fff;color:#17202c;border-color:#cbd5e1}
