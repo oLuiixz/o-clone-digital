@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createSession, getDatabase, hashPassword, hashToken, normalizeEmail, hasActiveAccess } from "../../../../lib/member-auth";
+import { createSession, getDatabase, hashPassword, hashToken, normalizeEmail } from "../../../../lib/member-auth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -15,35 +15,62 @@ export async function POST(request) {
 
   try {
     const sql = getDatabase();
-    // Check eligibility before consuming the one-time token. A token must remain
-    // usable if the associated purchase has no active access yet.
-    const candidates = await sql`SELECT id, email FROM member_activation_tokens
-      WHERE token_hash = ${hashToken(token)} AND used_at IS NULL AND expires_at > now()
-      LIMIT 1`;
-    if (!candidates.length) return NextResponse.json({ error: "Link inválido, expirado ou já utilizado. Solicite um novo." }, { status: 400 });
-    const activation = candidates[0];
-    const email = normalizeEmail(activation.email);
-    if (!(await hasActiveAccess(email))) return NextResponse.json({ error: "Não encontramos uma compra aprovada ativa para esse e-mail." }, { status: 403 });
-
-    // Claim atomically after eligibility validation so concurrent requests cannot
-    // reuse the same token.
-    const claimed = await sql`UPDATE member_activation_tokens
-      SET used_at = now()
-      WHERE id = ${activation.id} AND used_at IS NULL AND expires_at > now()
-      RETURNING id`;
-    if (!claimed.length) return NextResponse.json({ error: "Link inválido, expirado ou já utilizado. Solicite um novo." }, { status: 400 });
-
-    const purchaseNames = await sql`SELECT NULLIF(trim(metadata->>'customer_name'), '') AS customer_name
-      FROM orders WHERE lower(customer_email) = ${email} AND status = 'approved'
-      ORDER BY approved_at DESC NULLS LAST, created_at DESC LIMIT 1`;
-    const purchaseName = purchaseNames[0]?.customer_name?.trim().slice(0, 120) || null;
+    const emailHash = hashToken(token);
     const passwordHash = hashPassword(password);
-    const accounts = await sql`INSERT INTO member_accounts (email, display_name, password_hash, email_verified_at, updated_at)
-      VALUES (${email}, ${purchaseName}, ${passwordHash}, now(), now())
-      ON CONFLICT (email) DO UPDATE SET password_hash = EXCLUDED.password_hash,
-        display_name = CASE WHEN (member_accounts.display_name IS NULL OR trim(member_accounts.display_name) = '' OR lower(trim(member_accounts.display_name)) = 'minha jornada') AND ${purchaseName} IS NOT NULL THEN ${purchaseName} ELSE member_accounts.display_name END,
-        email_verified_at = COALESCE(member_accounts.email_verified_at, now()), updated_at = now()
-      RETURNING id`;
+    // Validate purchase, claim the one-time token, and create the account in one
+    // PostgreSQL statement. A failed validation cannot burn the activation token.
+    const accounts = await sql`
+      WITH eligible AS (
+        SELECT t.id, t.email,
+          (SELECT NULLIF(trim(o.metadata->>'customer_name'), '')
+           FROM orders o
+           WHERE lower(o.customer_email) = lower(t.email) AND o.status = 'approved'
+           ORDER BY o.approved_at DESC NULLS LAST, o.created_at DESC
+           LIMIT 1) AS purchase_name
+        FROM member_activation_tokens t
+        WHERE t.token_hash = ${emailHash}
+          AND t.used_at IS NULL
+          AND t.expires_at > now()
+          AND EXISTS (
+            SELECT 1 FROM entitlements e
+            JOIN products p ON p.id = e.product_id AND p.is_active = true
+            JOIN orders o ON o.id = e.order_id AND o.status = 'approved'
+            WHERE lower(e.customer_email) = lower(t.email) AND e.status = 'active'
+          )
+          AND NOT EXISTS (
+            SELECT 1 FROM member_accounts a
+            WHERE lower(a.email) = lower(t.email) AND a.password_hash IS NOT NULL
+          )
+        FOR UPDATE OF t
+      ),
+      claimed AS (
+        UPDATE member_activation_tokens t
+        SET used_at = now()
+        FROM eligible e
+        WHERE t.id = e.id AND t.used_at IS NULL AND t.expires_at > now()
+        RETURNING lower(e.email) AS email, e.purchase_name
+      ),
+      account AS (
+        INSERT INTO member_accounts (email, display_name, password_hash, email_verified_at, updated_at)
+        SELECT email, purchase_name, ${passwordHash}, now(), now()
+        FROM claimed
+        ON CONFLICT (email) DO UPDATE SET
+          password_hash = EXCLUDED.password_hash,
+          display_name = CASE
+            WHEN (member_accounts.display_name IS NULL OR trim(member_accounts.display_name) = ''
+              OR lower(trim(member_accounts.display_name)) = 'minha jornada')
+              AND EXCLUDED.display_name IS NOT NULL
+            THEN EXCLUDED.display_name ELSE member_accounts.display_name END,
+          email_verified_at = COALESCE(member_accounts.email_verified_at, now()),
+          updated_at = now()
+        WHERE member_accounts.password_hash IS NULL
+        RETURNING id
+      )
+      SELECT id FROM account
+    `;
+    if (!accounts.length) {
+      return NextResponse.json({ error: "Link inválido, expirado ou já utilizado, ou não encontramos uma compra aprovada ativa para esse e-mail. Solicite um novo link se necessário." }, { status: 400 });
+    }
     await createSession(accounts[0].id);
     return NextResponse.json({ ok: true, redirect: "/painel" });
   } catch (error) {
