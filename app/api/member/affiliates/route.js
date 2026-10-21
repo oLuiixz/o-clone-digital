@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 import { NextResponse } from "next/server";
 import { getCurrentMember, getDatabase, hasActiveAccess } from "../../../../lib/member-auth";
 
