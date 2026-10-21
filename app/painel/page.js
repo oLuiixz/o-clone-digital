@@ -60,7 +60,13 @@ export default async function Home() {
   const member = await getCurrentMember();
   if (!member) redirect("/login");
   const muxPlaybackId = process.env.NEXT_PUBLIC_MUX_INTRO_PLAYBACK_ID?.trim();
-  const hasIntroVideo = Boolean(muxPlaybackId && /^[a-zA-Z0-9_-]+$/.test(muxPlaybackId));
+  const streamableIntroVideoId = process.env.NEXT_PUBLIC_STREAMABLE_INTRO_VIDEO_ID?.trim() || "9xrXdsYz";
+  const hasMuxIntroVideo = Boolean(muxPlaybackId && /^[a-zA-Z0-9_-]+$/.test(muxPlaybackId));
+  const hasStreamableIntroVideo = /^[a-zA-Z0-9_-]+$/.test(streamableIntroVideoId);
+  const hasIntroVideo = hasMuxIntroVideo || hasStreamableIntroVideo;
+  const introVideoSrc = hasMuxIntroVideo
+    ? `https://player.mux.com/${muxPlaybackId}`
+    : `https://streamable.com/e/${streamableIntroVideoId}?autoplay=0`;
   return (
     <main className="app-shell">
       <aside className="sidebar">
@@ -128,9 +134,9 @@ export default async function Home() {
             </div>
             <div className="intro-player">
               {hasIntroVideo ? (
-                <iframe src={`https://player.mux.com/${muxPlaybackId}`} title="Introdução ao Clone Digital" allow="accelerometer; encrypted-media; picture-in-picture" allowFullScreen />
+                <iframe src={introVideoSrc} title="Introdução ao Clone Digital" loading="lazy" referrerPolicy="strict-origin-when-cross-origin" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowFullScreen />
               ) : (
-                <div className="intro-placeholder"><span>▶</span><div><b>Seu vídeo de boas-vindas aparecerá aqui.</b><p>Defina NEXT_PUBLIC_MUX_INTRO_PLAYBACK_ID na Vercel após enviar o vídeo para a Mux.</p></div></div>
+                <div className="intro-placeholder"><span>▶</span><div><b>Seu vídeo de boas-vindas aparecerá aqui.</b><p>O vídeo de introdução será carregado aqui assim que o player estiver disponível.</p></div></div>
               )}
             </div>
           </section>
