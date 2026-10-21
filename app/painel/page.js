@@ -59,14 +59,9 @@ import { getCurrentMember } from "../../lib/member-auth";
 export default async function Home() {
   const member = await getCurrentMember();
   if (!member) redirect("/login");
-  const muxPlaybackId = process.env.NEXT_PUBLIC_MUX_INTRO_PLAYBACK_ID?.trim();
-  const streamableIntroVideoId = process.env.NEXT_PUBLIC_STREAMABLE_INTRO_VIDEO_ID?.trim() || "9xrXdsYz";
-  const hasMuxIntroVideo = Boolean(muxPlaybackId && /^[a-zA-Z0-9_-]+$/.test(muxPlaybackId));
-  const hasStreamableIntroVideo = /^[a-zA-Z0-9_-]+$/.test(streamableIntroVideoId);
-  const hasIntroVideo = hasMuxIntroVideo || hasStreamableIntroVideo;
-  const introVideoSrc = hasMuxIntroVideo
-    ? `https://player.mux.com/${muxPlaybackId}`
-    : `https://streamable.com/e/${streamableIntroVideoId}?autoplay=0`;
+  const muxPlaybackId = process.env.NEXT_PUBLIC_MUX_INTRO_PLAYBACK_ID?.trim() || "mgN2kqnutNCUldElTEPuti02w1FhI1hq75ru02yB3nd6I";
+  const hasIntroVideo = /^[a-zA-Z0-9_-]+$/.test(muxPlaybackId);
+  const introVideoSrc = hasIntroVideo ? `https://player.mux.com/${muxPlaybackId}?metadata-video-title=Introducao%20ao%20Clone%20Digital&autoplay=false` : "";
   return (
     <main className="app-shell">
       <aside className="sidebar">
