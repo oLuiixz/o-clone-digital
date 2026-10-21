@@ -33,6 +33,10 @@ function validEmail(value) {
   return typeof value === "string" && value.length <= 320 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
+  // Do not treat a partial refund as a full refund: the current entitlement model only
+  // supports full revocation. Unknown partial-refund events are acknowledged as ignored
+  // until an explicit business rule and partial-refund status are implemented.
+
 function statusFor(status) {
   const value = String(status ?? "").toLowerCase();
   if (["completed", "paid", "approved", "succeeded"].includes(value)) return "approved";
@@ -120,15 +124,16 @@ export async function POST(request) {
     claimedId = claimed[0].id;
 
     const products = await sql`
-      SELECT p.id, p.is_active
+      SELECT p.id, p.is_active, m.is_active AS mapping_active
       FROM product_provider_mappings m
       JOIN products p ON p.id = m.product_id
       WHERE m.provider = ${PROVIDER}
         AND m.provider_product_id = ${productReference}
-        AND m.is_active = true
       LIMIT 1
     `;
-    if (!products.length || (nextStatus === "approved" && !products[0].is_active)) {
+    // Existing orders must remain eligible for refund/chargeback processing if a mapping or product is disabled.
+    // Active flags only block granting new access on an approval event.
+    if (!products.length || (nextStatus === "approved" && (!products[0].is_active || !products[0].mapping_active))) {
       await sql`UPDATE payment_events SET processing_status = 'ignored', processed_at = now(),
         error_code = 'product_not_configured' WHERE id = ${claimedId}`;
       return Response.json({ received: true, ignored: true, reason: "product_not_configured" });

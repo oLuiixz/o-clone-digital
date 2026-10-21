@@ -9,11 +9,12 @@ const modules = [
   { number: "08", slug: "subindo-caixa", title: "Subindo Caixa", description: "Explore caminhos práticos para criar renda no digital e transformar habilidades em ofertas.", lessons: "O método 🔥 · Serviços digitais · Afiliados · Produto próprio", status: "Novo módulo", progress: 0 },
   { number: "09", slug: "nicho-hot", title: "🔥 Nicho HOT 🔞", description: "Explore oportunidades no mercado adulto com estratégia, responsabilidade e foco em ofertas legais.", lessons: "Pesquisa de mercado · Oferta · Aquisição de tráfego · Conversão · Compliance", status: "Novo módulo", progress: 0 },
   { number: "10", slug: "clonagem-de-oferta", title: "Clonagem de Oferta", description: "Da mineração à entrega: estruture uma oferta própria com um processo completo.", lessons: "Processo · Mineração · Análise · Produto · Página/VSL · Anúncio · Entrega", status: "Novo módulo", progress: 0 },
-  { number: "10", slug: "vibe-coding", title: "Vibe Coding (IA)", description: "Crie sites, sistemas e produtos digitais com ChatGPT e ferramentas de desenvolvimento.", lessons: "ChatGPT · GitHub · Vercel · Neon · Supabase · Resend · Apify · UI", status: "Novo módulo", progress: 0 },
-  { number: "11", slug: "revenda-streaming", title: "Revenda Streaming", description: "Estruture uma operação de IPTV com fornecedores autorizados, painéis, clientes e receita recorrente.", lessons: "Fornecedores · Painéis · Clientes · Renovações · Vendas", status: "Novo módulo", progress: 0 },
-  { number: "12", slug: "dinheiro-facebook", title: "Dinheiro com Facebook (Orgânico)", description: "Crie conteúdo original, construa comunidade e explore monetização orgânica responsável.", lessons: "Páginas · Reels · Stories · Conteúdo · Monetização · Analytics", status: "Novo módulo", progress: 0 },
-  { number: "13", slug: "dinheiro-tiktok", title: "Dinheiro com TikTok (Orgânico)", description: "Aprenda conteúdo curto, retenção e oportunidades de monetização orgânica.", lessons: "Posicionamento · Ganchos · Vídeos · Comunidade · Monetização", status: "Novo módulo", progress: 0 },
-  { number: "14", slug: "ecommerce", title: "Ecommerce", description: "Aprenda a planejar uma loja virtual, trabalhar com Shopify e organizar vendas, operação e métricas.", lessons: "Nicho · Shopify · Catálogo · Pagamentos · Marketing · Métricas · Lançamento", status: "Novo módulo", progress: 0 },
+  { number: "11", slug: "vibe-coding", title: "Vibe Coding (IA)", description: "Crie sites, sistemas e produtos digitais com ChatGPT e ferramentas de desenvolvimento.", lessons: "ChatGPT · GitHub · Vercel · Neon · Supabase · Resend · Apify · UI", status: "Novo módulo", progress: 0 },
+  { number: "12", slug: "revenda-streaming", title: "Revenda Streaming", description: "Estruture uma operação de IPTV com fornecedores autorizados, painéis, clientes e receita recorrente.", lessons: "Fornecedores · Painéis · Clientes · Renovações · Vendas", status: "Novo módulo", progress: 0 },
+  { number: "13", slug: "dinheiro-facebook", title: "Dinheiro com Facebook (Orgânico)", description: "Crie conteúdo original, construa comunidade e explore monetização orgânica responsável.", lessons: "Páginas · Reels · Stories · Conteúdo · Monetização · Analytics", status: "Novo módulo", progress: 0 },
+  { number: "14", slug: "dinheiro-tiktok", title: "Dinheiro com TikTok (Orgânico)", description: "Aprenda conteúdo curto, retenção e oportunidades de monetização orgânica.", lessons: "Posicionamento · Ganchos · Vídeos · Comunidade · Monetização", status: "Novo módulo", progress: 0 },
+  { number: "15", slug: "ecommerce", title: "Ecommerce", description: "Aprenda a planejar uma loja virtual, trabalhar com Shopify e organizar vendas, operação e métricas.", lessons: "Nicho · Shopify · Catálogo · Pagamentos · Marketing · Métricas · Lançamento", status: "Novo módulo", progress: 0 },
+  { number: "16", slug: "estrutura-dark", title: "Estrutura Dark", description: "Organize referências, posicionamento e a estrutura de um projeto digital com uma jornada dedicada.", lessons: "Estrutura · Referências · Conteúdo validado · Prompts", status: "Novo módulo", progress: 0 },
 ];
 
 const quickLinks = [
@@ -58,6 +59,14 @@ import { getCurrentMember } from "../../lib/member-auth";
 export default async function Home() {
   const member = await getCurrentMember();
   if (!member) redirect("/login");
+  const muxPlaybackId = process.env.NEXT_PUBLIC_MUX_INTRO_PLAYBACK_ID?.trim();
+  const streamableIntroVideoId = process.env.NEXT_PUBLIC_STREAMABLE_INTRO_VIDEO_ID?.trim() || "9xrXdsYz";
+  const hasMuxIntroVideo = Boolean(muxPlaybackId && /^[a-zA-Z0-9_-]+$/.test(muxPlaybackId));
+  const hasStreamableIntroVideo = /^[a-zA-Z0-9_-]+$/.test(streamableIntroVideoId);
+  const hasIntroVideo = hasMuxIntroVideo || hasStreamableIntroVideo;
+  const introVideoSrc = hasMuxIntroVideo
+    ? `https://player.mux.com/${muxPlaybackId}`
+    : `https://streamable.com/e/${streamableIntroVideoId}?autoplay=0`;
   return (
     <main className="app-shell">
       <aside className="sidebar">
@@ -71,6 +80,7 @@ export default async function Home() {
           <a className="nav-item" href="#modulos"><span><Icon name="modules" /></span> Módulos e aulas</a>
           <a className="nav-item" href="#atalhos"><span><Icon name="search" /></span> Pesquisa de ofertas</a>
           <a className="nav-item" href="/ferramentas"><span><Icon name="layers" /></span> Ferramentas</a>
+          <a className="nav-item clone-awards-nav" href="/clone-awards"><span><Icon name="chart" /></span> Clone Awards <span className="clone-awards-tag">NOVO</span></a>
           <a className="nav-item" href="/comunidade"><span><Icon name="community" /></span>Comunidade<CommunityUnreadBadge memberId={member.id} /></a>
           <a className="nav-item" href="#progresso"><span><Icon name="chart" /></span> Meu progresso</a>
           <a className="nav-item" href="/configuracoes"><span><Icon name="settings" /></span> Configurações</a>
@@ -117,7 +127,23 @@ export default async function Home() {
             <div className="hero-index">OCD / 001</div>
           </section>
 
+          <section className="intro-section" aria-labelledby="intro-title">
+            <div className="intro-heading">
+              <div><div className="eyebrow muted">COMECE POR AQUI</div><h2 id="intro-title">Introdução ao Clone Digital</h2><p>Veja como navegar pela plataforma, encontrar as aulas e aproveitar cada ferramenta da sua jornada.</p></div>
+              <span className="intro-badge">VÍDEO-GUIA</span>
+            </div>
+            <div className="intro-player">
+              {hasIntroVideo ? (
+                <iframe src={introVideoSrc} title="Introdução ao Clone Digital" loading="lazy" referrerPolicy="strict-origin-when-cross-origin" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowFullScreen />
+              ) : (
+                <div className="intro-placeholder"><span>▶</span><div><b>Seu vídeo de boas-vindas aparecerá aqui.</b><p>O vídeo de introdução será carregado aqui assim que o player estiver disponível.</p></div></div>
+              )}
+            </div>
+          </section>
+
           <ModuleProgress modules={modules} />
+
+          <section className="section-block clone-awards-promo"><div className="clone-awards-promo-card"><div className="clone-awards-promo-copy"><span className="eyebrow muted">NOVIDADE · DESAFIOS E RANKING</span><h2>Seu próximo nível começa aqui.</h2><p>Escolha sua trilha, conclua desafios e ganhe XP com evidências aprovadas pela equipe.</p><a className="primary-button" href="/clone-awards">Entrar no Clone Awards <span><Icon name="arrow" size={15} /></span></a></div><div className="clone-awards-promo-score"><span>15</span><small>NÍVEIS</small><i></i><span>15.000</span><small>XP MÁXIMO</small></div></div></section>
 
           <section className="section-block" id="atalhos">
             <div className="section-heading"><div><div className="eyebrow muted">COMECE POR AQUI</div><h2>O que você quer construir hoje?</h2></div><span className="section-note">ATALHOS DA JORNADA</span></div>

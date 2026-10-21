@@ -31,6 +31,9 @@ export async function POST(request) {
   }
 
   try {
+    // Validate required delivery configuration before creating an order or entitlement.
+    const base = getAppBaseUrl();
+    if (!base) return NextResponse.json({ error: "URL do site não configurada. Confira NEXT_PUBLIC_APP_URL na Vercel." }, { status: 503 });
     const sql = getDatabase();
     const products = await sql`SELECT id, name, currency FROM products WHERE id = ${productId} AND is_active = true LIMIT 1`;
     if (!products.length) return NextResponse.json({ error: "Produto não encontrado ou inativo." }, { status: 404 });
@@ -45,17 +48,26 @@ export async function POST(request) {
       orderId = existing[0].id;
       renewed = true;
     } else {
-      const orderRows = await sql`INSERT INTO orders (product_id, customer_email, provider, status, amount, currency, approved_at, metadata)
-        VALUES (${productId}, ${email}, 'admin_free', 'approved', 0, ${products[0].currency || "BRL"}, now(),
-        jsonb_build_object('source','manual_admin','customer_name',${name}::text,'notes',${notes}::text))
-        RETURNING id`;
-      orderId = orderRows[0].id;
-      await sql`INSERT INTO entitlements (order_id, product_id, customer_email, status)
-        VALUES (${orderId}, ${productId}, ${email}, 'active')`;
+      // Create the approved order and its entitlement atomically. If either insert fails,
+      // PostgreSQL rolls back the statement instead of leaving an orphan order behind.
+      const grantRows = await sql`
+        WITH created_order AS (
+          INSERT INTO orders (product_id, customer_email, provider, status, amount, currency, approved_at, metadata)
+          VALUES (${productId}, ${email}, 'admin_free', 'approved', 0, ${products[0].currency || "BRL"}, now(),
+            jsonb_build_object('source','manual_admin','customer_name',${name}::text,'notes',${notes}::text))
+          RETURNING id
+        ),
+        created_entitlement AS (
+          INSERT INTO entitlements (order_id, product_id, customer_email, status)
+          SELECT id, ${productId}, ${email}, 'active' FROM created_order
+          RETURNING order_id
+        )
+        SELECT order_id FROM created_entitlement
+      `;
+      if (!grantRows.length) throw new Error("manual_access_grant_failed");
+      orderId = grantRows[0].order_id;
     }
 
-    const base = getAppBaseUrl();
-    if (!base) return NextResponse.json({ error: "URL do site não configurada. Confira NEXT_PUBLIC_APP_URL na Vercel." }, { status: 503 });
     const token = createOpaqueToken();
     const expires = new Date(Date.now() + 30 * 60 * 1000).toISOString();
     await sql`INSERT INTO member_activation_tokens (email, token_hash, expires_at) VALUES (${email}, ${hashToken(token)}, ${expires})`;
