@@ -45,7 +45,10 @@ export async function POST(request) {
   try {
     const sql = getDatabase();
     const existing = await sql`SELECT id, status, code FROM affiliates WHERE account_id = ${member.id} LIMIT 1`;
-    if (existing.length) return NextResponse.json({ affiliate: existing[0], message: "Sua solicitação já existe." });
+    if (existing.length) {
+      const updated = await sql`UPDATE affiliates SET syncpay_recipient_id = ${recipientId}, updated_at = now() WHERE account_id = ${member.id} RETURNING id, code, status, commission_percent, syncpay_recipient_id, created_at`;
+      return NextResponse.json({ affiliate: updated[0], message: "Identificador SyncPay salvo. A solicitação segue sujeita à validação administrativa." });
+    }
     const code = makeCode(member.display_name, member.email);
     const rows = await sql`
       INSERT INTO affiliates (account_id, code, status, commission_percent, syncpay_recipient_id)
