@@ -1,4 +1,3 @@
-import crypto from "node:crypto";
 import { neon } from "@neondatabase/serverless";
 
 export const runtime = "nodejs";
@@ -93,7 +92,9 @@ export async function POST(request) {
     orderId = orders[0].id;
 
     const webhookToken = process.env.SYNCPAY_CASHIN_WEBHOOK_TOKEN;
-    const appUrl = (process.env.NEXT_PUBLIC_APP_URL || "https://www.oclonedigital.xyz").replace(/\/$/, "");
+    const configuredUrl = new URL(process.env.NEXT_PUBLIC_APP_URL || "https://www.oclonedigital.xyz");
+    if (configuredUrl.hostname === "oclonedigital.xyz") configuredUrl.hostname = "www.oclonedigital.xyz";
+    const appUrl = configuredUrl.origin;
     if (!webhookToken || !/^[a-f0-9]{32,128}$/i.test(webhookToken)) {
       await sql`UPDATE orders SET status = 'failed', updated_at = now(), metadata = metadata || ${JSON.stringify({ checkout_error: "webhook_not_configured" })}::jsonb WHERE id = ${orderId}`;
       return Response.json({ error: "Checkout Pix ainda não foi habilitado no servidor." }, { status: 503 });
