@@ -64,7 +64,7 @@ export async function PUT(request) {
         const target = "https://oclonedigital.xyz/ao-vivo";
         if (process.env.RESEND_API_KEY && process.env.RESEND_FROM_EMAIL) {
           const esc = value => String(value ?? "").replace(/[&<>"']/g, ch => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[ch]));
-          await Promise.allSettled(members.filter(m => m.email).map(m => sendResendEmail({ to: m.email, subject: title, text: textBody + " " + target, html: `<div style="font-family:Arial,sans-serif;background:#15151b;color:#f4f4f5;padding:28px;border-radius:12px"><h1>${title}</h1><p>Olá ${esc(m.display_name || "aluno")},</p><p>${textBody}</p><a href="${target}" style="color:white;background:#ff3045;padding:12px 18px;border-radius:8px;text-decoration:none">Assistir à live</a></div>` }))));
+          await Promise.allSettled(members.filter(m => m.email).map(m => sendResendEmail({ to: m.email, subject: title, text: textBody + " " + target, html: `<div style="font-family:Arial,sans-serif;background:#15151b;color:#f4f4f5;padding:28px;border-radius:12px"><h1>${title}</h1><p>Olá ${esc(m.display_name || "aluno")},</p><p>${textBody}</p><a href="${target}" style="color:white;background:#ff3045;padding:12px 18px;border-radius:8px;text-decoration:none">Assistir à live</a></div>` })));
         }
         if (process.env.VAPID_PUBLIC_KEY && process.env.VAPID_PRIVATE_KEY && process.env.VAPID_SUBJECT) {
           webpush.setVapidDetails(process.env.VAPID_SUBJECT, process.env.VAPID_PUBLIC_KEY, process.env.VAPID_PRIVATE_KEY);
