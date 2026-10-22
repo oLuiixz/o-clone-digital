@@ -73,9 +73,11 @@ export async function POST(request) {
       LIMIT 1
     `;
     if (!matches.length) {
-      await sql`UPDATE payment_events SET processing_status = 'ignored', processed_at = now(),
-        error_code = 'order_not_found' WHERE id = ${claimedId}`;
-      return Response.json({ received: true, ignored: true, reason: "order_not_found" });
+      // A very fast provider callback can arrive before the checkout stores the returned identifier.
+      // Return 503 so the provider retries instead of permanently acknowledging a transient race.
+      await sql`UPDATE payment_events SET processing_status = 'failed', error_code = 'order_not_found_yet'
+        WHERE id = ${claimedId}`;
+      return Response.json({ error: "Pedido ainda não localizado; tente novamente." }, { status: 503 });
     }
 
     const order = matches[0];
