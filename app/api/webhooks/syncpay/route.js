@@ -186,6 +186,38 @@ export async function POST(request) {
     `;
     const order = saved[0];
 
+    // Affiliate attribution is best-effort and isolated from payment/access processing.
+    // The buyer must have submitted the same email before checkout. One commission per order.
+    try {
+      if (["refunded", "chargeback"].includes(order.status)) {
+        await sql`UPDATE affiliate_commissions SET status = 'reversed', updated_at = now() WHERE order_id = ${order.id} AND status <> 'paid'`;
+        await sql`UPDATE affiliate_commissions SET status = 'reversed', updated_at = now() WHERE order_id = ${order.id} AND status = 'paid'`;
+      } else if (order.status === "approved") {
+        const attribution = await sql`
+          SELECT aa.id AS attribution_id, aa.affiliate_id, a.commission_percent
+          FROM affiliate_attributions aa
+          JOIN affiliates a ON a.id = aa.affiliate_id AND a.status = 'approved'
+          JOIN member_accounts ma ON ma.id = a.account_id AND lower(ma.email) <> ${email}
+          WHERE lower(aa.customer_email) = ${email}
+            AND aa.expires_at > now()
+            AND aa.converted_order_id IS NULL
+          ORDER BY aa.created_at DESC
+          LIMIT 1
+        `;
+        if (attribution.length) {
+          const commissionCents = Math.max(0, Math.round(amountCents * Number(attribution[0].commission_percent) / 100));
+          await sql`
+            INSERT INTO affiliate_commissions (affiliate_id, order_id, order_amount_cents, commission_cents, status)
+            VALUES (${attribution[0].affiliate_id}, ${order.id}, ${amountCents}, ${commissionCents}, 'approved')
+            ON CONFLICT (order_id) DO NOTHING
+          `;
+          await sql`UPDATE affiliate_attributions SET converted_order_id = ${order.id} WHERE id = ${attribution[0].attribution_id} AND converted_order_id IS NULL`;
+        }
+      }
+    } catch (affiliateError) {
+      console.error("Affiliate commission processing skipped", affiliateError instanceof Error ? affiliateError.message : "unknown_error");
+    }
+
     if (order.status === "approved") {
       await sql`
         INSERT INTO entitlements (order_id, product_id, customer_email, status, granted_at, updated_at)
