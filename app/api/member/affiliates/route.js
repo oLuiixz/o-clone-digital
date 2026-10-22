@@ -18,7 +18,7 @@ export async function GET() {
   if (!(await hasActiveAccess(member.email))) return NextResponse.json({ error: "É necessário ter uma compra ativa." }, { status: 403 });
   try {
     const sql = getDatabase();
-    const rows = await sql`SELECT id, code, status, commission_percent, created_at FROM affiliates WHERE account_id = ${member.id} LIMIT 1`;
+    const rows = await sql`SELECT id, code, status, commission_percent, syncpay_recipient_id, created_at FROM affiliates WHERE account_id = ${member.id} LIMIT 1`;
     if (!rows.length) return NextResponse.json({ affiliate: null, eligible: true });
     const affiliate = rows[0];
     const counts = await sql`
@@ -35,20 +35,23 @@ export async function GET() {
   }
 }
 
-export async function POST() {
+export async function POST(request) {
   const member = await getCurrentMember();
   if (!member) return NextResponse.json({ error: "Entre na plataforma para continuar." }, { status: 401 });
   if (!(await hasActiveAccess(member.email))) return NextResponse.json({ error: "Somente compradores com acesso ativo podem solicitar afiliação." }, { status: 403 });
+  let body; try { body = await request.json(); } catch { return NextResponse.json({ error: "Informe o identificador da conta SyncPay." }, { status: 400 }); }
+  const recipientId = String(body?.syncpay_recipient_id || "").trim();
+  if (!/^[a-zA-Z0-9_-]{3,120}$/.test(recipientId)) return NextResponse.json({ error: "Informe um identificador SyncPay válido." }, { status: 400 });
   try {
     const sql = getDatabase();
     const existing = await sql`SELECT id, status, code FROM affiliates WHERE account_id = ${member.id} LIMIT 1`;
     if (existing.length) return NextResponse.json({ affiliate: existing[0], message: "Sua solicitação já existe." });
     const code = makeCode(member.display_name, member.email);
     const rows = await sql`
-      INSERT INTO affiliates (account_id, code, status, commission_percent)
-      VALUES (${member.id}, ${code}, 'pending', 40)
-      ON CONFLICT (account_id) DO UPDATE SET updated_at = now()
-      RETURNING id, code, status, commission_percent, created_at
+      INSERT INTO affiliates (account_id, code, status, commission_percent, syncpay_recipient_id)
+      VALUES (${member.id}, ${code}, 'pending', 40, ${recipientId})
+      ON CONFLICT (account_id) DO UPDATE SET syncpay_recipient_id = EXCLUDED.syncpay_recipient_id, updated_at = now()
+      RETURNING id, code, status, commission_percent, syncpay_recipient_id, created_at
     `;
     return NextResponse.json({ affiliate: rows[0], message: "Solicitação enviada para análise." }, { status: 201 });
   } catch (error) {
