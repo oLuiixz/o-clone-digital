@@ -74,6 +74,22 @@ export async function POST(request) {
   const sql = neon(databaseUrl);
   let orderId;
   try {
+    // This first-party checkout is affiliate-only. Require a current attribution
+    // for the same buyer email before creating any order or requesting a Pix charge.
+    const eligibleReferral = await sql`
+      SELECT aa.id
+      FROM affiliate_attributions aa
+      JOIN affiliates a ON a.id = aa.affiliate_id AND a.status = 'approved'
+      WHERE lower(aa.customer_email) = ${email}
+        AND aa.expires_at > now()
+        AND aa.converted_order_id IS NULL
+      ORDER BY aa.created_at DESC
+      LIMIT 1
+    `;
+    if (!eligibleReferral.length) {
+      return Response.json({ error: "Este checkout é exclusivo para compras por indicação. Volte ao link do seu afiliado e use o mesmo e-mail." }, { status: 403 });
+    }
+
     const products = await sql`SELECT id, price_amount FROM products WHERE slug = ${PRODUCT_SLUG} AND is_active = true LIMIT 1`;
     if (!products.length) return Response.json({ error: "Produto indisponível no momento." }, { status: 503 });
     const product = products[0];
