@@ -109,7 +109,35 @@ export async function POST(request) {
         ON CONFLICT (order_id) DO UPDATE SET customer_email = EXCLUDED.customer_email,
           status = 'active', revoked_at = NULL, revocation_reason = NULL, updated_at = now()
       `;
-      await sendMemberAccessEmail(updated.customer_email);
+      if (order.status !== "approved") await sendMemberAccessEmail(updated.customer_email);
+
+      // Track affiliate commission only after verified payment; do not perform SyncPay split here.
+      try {
+        const attribution = await sql`
+          SELECT aa.id AS attribution_id, aa.affiliate_id, a.commission_percent
+          FROM affiliate_attributions aa
+          JOIN affiliates a ON a.id = aa.affiliate_id AND a.status = 'approved'
+          JOIN member_accounts ma ON ma.id = a.account_id AND lower(ma.email) <> ${updated.customer_email}
+          WHERE lower(aa.customer_email) = ${updated.customer_email}
+            AND aa.expires_at > now()
+            AND aa.converted_order_id IS NULL
+          ORDER BY aa.created_at DESC
+          LIMIT 1
+        `;
+        if (attribution.length) {
+          const amountCents = Number(order.amount);
+          const commissionCents = Math.max(0, Math.round(amountCents * Number(attribution[0].commission_percent) / 100));
+          await sql`
+            INSERT INTO affiliate_commissions (affiliate_id, order_id, order_amount_cents, commission_cents, status)
+            VALUES (${attribution[0].affiliate_id}, ${updated.id}, ${amountCents}, ${commissionCents}, 'approved')
+            ON CONFLICT (order_id) DO NOTHING
+          `;
+          await sql`UPDATE affiliate_attributions SET converted_order_id = ${updated.id}
+            WHERE id = ${attribution[0].attribution_id} AND converted_order_id IS NULL`;
+        }
+      } catch (affiliateError) {
+        console.error("SyncPay cash-in affiliate attribution skipped", affiliateError instanceof Error ? affiliateError.message : "unknown_error");
+      }
     } else if (["refunded", "chargeback"].includes(updated.status)) {
       await sql`UPDATE entitlements SET status = 'revoked',
         revoked_at = COALESCE(revoked_at, now()), revocation_reason = ${updated.status}, updated_at = now()
