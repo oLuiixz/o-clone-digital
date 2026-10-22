@@ -28,6 +28,8 @@ const navigation = [
   { icon: "modules", label: "Módulos", href: "#modulos" },
   { icon: "files", label: "Ferramentas", href: "/ferramentas" },
   { icon: "community", label: "Comunidade", href: "/comunidade" },
+  { icon: "home", label: "Ao Vivo", href: "/ao-vivo" },
+  { icon: "modules", label: "Afiliados", href: "/afiliados" },
   { icon: "settings", label: "Configurações", href: "/configuracoes" },
 ];
 
