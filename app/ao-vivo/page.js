@@ -32,7 +32,7 @@ export default async function AoVivoPage({ searchParams }) {
   let configuredValue = process.env.NEXT_PUBLIC_YOUTUBE_LIVE_ID || "";
   try {
     const sql = getDatabase();
-    const settings = await sql\`SELECT video_url FROM live_stream_settings WHERE id = true LIMIT 1\`;
+    const settings = await sql`SELECT video_url FROM live_stream_settings WHERE id = true LIMIT 1`;
     if (settings[0]?.video_url) configuredValue = settings[0].video_url;
   } catch (error) {
     console.error("Live page settings unavailable", error instanceof Error ? error.message : "unknown_error");
