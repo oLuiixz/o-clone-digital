@@ -1,5 +1,3 @@
-"use server";
-
 import { redirect } from "next/navigation";
 import { getCurrentMember, hasActiveAccess } from "../../lib/member-auth";
 
