@@ -24,12 +24,15 @@ const quickLinks = [
 ];
 
 const navigation = [
-  { icon: "home", label: "Início", href: "#inicio" },
-  { icon: "modules", label: "Módulos", href: "#modulos" },
-  { icon: "files", label: "Ferramentas", href: "/ferramentas" },
+  { icon: "home", label: "Visão geral", href: "#inicio" },
+  { icon: "modules", label: "Módulos e aulas", href: "#modulos" },
+  { icon: "search", label: "Pesquisa de ofertas", href: "#atalhos" },
+  { icon: "layers", label: "Ferramentas", href: "/ferramentas" },
+  { icon: "chart", label: "Clone Awards", href: "/clone-awards" },
   { icon: "community", label: "Comunidade", href: "/comunidade" },
   { icon: "home", label: "Ao Vivo", href: "/ao-vivo" },
   { icon: "modules", label: "Afiliados", href: "/afiliados" },
+  { icon: "chart", label: "Meu progresso", href: "#progresso" },
   { icon: "settings", label: "Configurações", href: "/configuracoes" },
 ];
 
@@ -79,6 +82,8 @@ export default async function Home() {
           <a className="nav-item" href="/ferramentas"><span><Icon name="layers" /></span> Ferramentas</a>
           <a className="nav-item clone-awards-nav" href="/clone-awards"><span><Icon name="chart" /></span> Clone Awards <span className="clone-awards-tag">NOVO</span></a>
           <a className="nav-item" href="/comunidade"><span><Icon name="community" /></span>Comunidade<CommunityUnreadBadge memberId={member.id} /></a>
+          <a className="nav-item" href="/ao-vivo"><span><Icon name="home" /></span> Ao Vivo</a>
+          <a className="nav-item" href="/afiliados"><span><Icon name="modules" /></span> Afiliados</a>
           <a className="nav-item" href="#progresso"><span><Icon name="chart" /></span> Meu progresso</a>
           <a className="nav-item" href="/configuracoes"><span><Icon name="settings" /></span> Configurações</a>
         </nav>
@@ -96,6 +101,9 @@ export default async function Home() {
               {item.icon === "modules" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>}
               {item.icon === "files" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H10l2 2h5.5A2.5 2.5 0 0 1 20 9.5v8a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 17.5Z"/><path d="M4 10h16"/></svg>}
               {item.icon === "community" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H5l-2 2v-9.5A7.5 7.5 0 0 1 10.5 4H12a8 8 0 0 1 8 7.5Z"/><path d="M8 11h.01M12 11h.01M16 11h.01"/></svg>}
+              {item.icon === "search" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="10.8" cy="10.8" r="6.3"/><path d="m16 16 4.2 4.2"/></svg>}
+              {item.icon === "layers" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5M3 16l9 5 9-5"/></svg>}
+              {item.icon === "chart" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19V5M4 19h16"/><path d="m7 15 4-4 3 2 5-6"/></svg>}
               {item.icon === "settings" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="m19.4 15 .1.1 1.1.9-1.1 1.9-1.4-.5a7.7 7.7 0 0 1-1.5.9l-.2 1.5h-2.2l-.4-1.4a7.7 7.7 0 0 1-1.8 0l-.8 1.2-2-.9.3-1.5a7.7 7.7 0 0 1-1.3-1.3l-1.5.3-.9-2 1.2-.8a7.7 7.7 0 0 1 0-1.8l-1.2-.8.9-2 1.5.3a7.7 7.7 0 0 1 1.3-1.3l-.3-1.5 2-.9.8 1.2a7.7 7.7 0 0 1 1.8 0l.4-1.4h2.2l.2 1.5a7.7 7.7 0 0 1 1.5.9l1.4-.5 1.1 1.9-1.1.9a7.7 7.7 0 0 1 0 1.8Z"/></svg>}
             </span>
             <span>{item.label}</span>{item.icon === "community" && <CommunityUnreadBadge memberId={member.id} mobile />}
