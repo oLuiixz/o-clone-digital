@@ -29,7 +29,7 @@ export default function AffiliateCheckoutLink({ checkoutUrl }) {
     finally { setBusy(false); }
   }
   return <>
-    {referral ? <form onSubmit={continueToCheckout} style={{ margin: "14px 0", padding: 14, border: "1px solid #38383f", borderRadius: 12, background: "#15151b" }}>
+    {referral === null ? <button type="button" disabled className="sales-button sales-button-primary sales-buy-button" style={{ width: "100%", justifyContent: "center", opacity: .65 }}>Verificando indicação…</button> : referral ? <form onSubmit={continueToCheckout} style={{ margin: "14px 0", padding: 14, border: "1px solid #38383f", borderRadius: 12, background: "#15151b" }}>
       <label htmlFor="affiliate-customer-email" style={{ display: "block", fontSize: 13, color: "#d4d4d8", marginBottom: 8 }}>Você veio por indicação. Informe o e-mail que usará na compra para registrar a indicação.</label>
       <input id="affiliate-customer-email" type="email" autoComplete="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="seu@email.com" style={{ width: "100%", boxSizing: "border-box", padding: 12, borderRadius: 9, border: "1px solid #3f3f46", background: "#0b0b0f", color: "#fff" }} />
       {error && <p role="alert" style={{ color: "#fca5a5", fontSize: 13 }}>{error}</p>}
