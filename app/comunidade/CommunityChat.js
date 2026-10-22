@@ -20,6 +20,7 @@ function MessageMedia({ item }) {
 export default function CommunityChat({ currentMemberId }) {
   const [messages, setMessages] = useState([]);
   const [draft, setDraft] = useState("");
+  const [replyTo, setReplyTo] = useState(null);
   const [file, setFile] = useState(null);
   const [fileData, setFileData] = useState("");
   const [loading, setLoading] = useState(true);
@@ -94,13 +95,13 @@ export default function CommunityChat({ currentMemberId }) {
     if ((!draft.trim() && !fileData) || sending) return;
     setSending(true); setError("");
     try {
-      const response = await fetch("/api/community", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ message: draft.trim(), mediaData: fileData, mediaType: file?.type || "", mediaName: file?.name || "" }) });
+      const response = await fetch("/api/community", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ message: draft.trim(), mediaData: fileData, mediaType: file?.type || "", mediaName: file?.name || "", replyToId: replyTo?.id || null }) });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Não foi possível enviar.");
       const newMessage = data.message;
       setMessages(old => [...old, newMessage].slice(-150));
       lastId.current = Math.max(lastId.current, Number(newMessage.id));
-      setDraft(""); setFile(null); setFileData("");
+      setDraft(""); setFile(null); setFileData(""); setReplyTo(null);
       if (inputRef.current) inputRef.current.value = "";
     } catch (e) { setError(e.message || "Não foi possível enviar a mensagem."); }
     finally { setSending(false); }
@@ -116,8 +117,10 @@ export default function CommunityChat({ currentMemberId }) {
         return <article className={mine ? "community-message mine" : "community-message"} key={item.id}>
           <div className="community-avatar">{item.photo_data ? <img src={item.photo_data} alt="" /> : initials(item.display_name)}</div>
           <div className="community-message-body"><div className="community-message-meta"><b>{mine ? "Você" : (item.display_name || "Membro")}</b><time>{shortTime(item.created_at)}</time></div>
+            {item.parent_message_id && <div className="community-reply-quote"><strong>Respondendo a {item.parent_display_name || "um membro"}</strong><p>{item.parent_message || "Mensagem original"}</p></div>}
             {item.message && <p className="community-message-text">{item.message}</p>}
             <MessageMedia item={item} />
+            {String(item.account_id || "") !== String(currentMemberId) && <button className="community-reply-button" type="button" onClick={() => { setReplyTo({ id: item.id, name: item.display_name || "Membro", message: item.message || "Mídia compartilhada" }); setError(""); }}>Responder</button>}
           </div>
         </article>;
       })}
@@ -125,6 +128,7 @@ export default function CommunityChat({ currentMemberId }) {
     </div>
     {error && <div className="community-error" role="status">{error}</div>}
     <form className="community-composer" onSubmit={send}>
+      {replyTo && <div className="community-reply-preview"><div><strong>Respondendo a {replyTo.name}</strong><span>{replyTo.message}</span></div><button type="button" onClick={() => setReplyTo(null)} aria-label="Cancelar resposta">×</button></div>}
       {file && <div className="community-file-preview"><span>{file.type.startsWith("image/") ? "Imagem" : file.type.startsWith("video/") ? "Vídeo" : "Áudio"} selecionado: {file.name}</span><button type="button" onClick={() => { setFile(null); setFileData(""); if (inputRef.current) inputRef.current.value = ""; }} aria-label="Remover anexo">×</button></div>}
       <textarea value={draft} onChange={e => setDraft(e.target.value)} maxLength={2000} placeholder="Escreva para a comunidade…" rows={2} aria-label="Mensagem" />
       <div className="community-composer-bottom"><div className="community-attach-group"><label className="community-attach" title="Anexar imagem, vídeo ou áudio"><input ref={inputRef} type="file" accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,audio/mpeg,audio/mp4,audio/ogg,audio/webm,audio/wav" onChange={selectFile} /><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="m21.4 11.1-8.9 8.9a5.5 5.5 0 0 1-7.8-7.8l9.2-9.1a3.7 3.7 0 0 1 5.2 5.2l-9.2 9.1a1.9 1.9 0 0 1-2.6-2.6l8.6-8.6"/></svg><span>Anexar mídia</span></label><span className="community-size-note">Até 1,2 MB por arquivo</span></div><button className="community-send" type="submit" disabled={sending || (!draft.trim() && !fileData)}>{sending ? "Enviando…" : "Enviar"} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></button></div>
