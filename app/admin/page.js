@@ -34,6 +34,7 @@ export default function AdminPage(){
           <a href="/admin/historico" onClick={() => setMobileMenuOpen(false)}><Icon name="history" size={17}/> Histórico</a>
           <a href="/admin/avisos-globais" onClick={() => setMobileMenuOpen(false)}><Icon name="bell" size={17}/> Anúncios globais</a>
           <a href="/admin/afiliados" onClick={() => setMobileMenuOpen(false)}><Icon name="user-plus" size={17}/> Afiliados</a>
+          <a href="/admin/ao-vivo" onClick={() => setMobileMenuOpen(false)}><Icon name="home" size={17}/> Configurar Ao Vivo</a>
           <a href="/admin/feedbacks" onClick={() => setMobileMenuOpen(false)}><Icon name="message-square" size={17}/> Feedbacks</a>
           <a href="#clone-awards-admin" onClick={() => setMobileMenuOpen(false)}><Icon name="trophy" size={17}/> Clone Awards</a>
           <a href="/admin/ferramentas" onClick={() => setMobileMenuOpen(false)}><Icon name="wrench" size={17}/> Ferramentas</a>
