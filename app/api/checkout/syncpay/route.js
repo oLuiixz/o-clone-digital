@@ -78,9 +78,9 @@ export async function POST(request) {
     // This first-party checkout is affiliate-only. Require a current attribution
     // for the same buyer email before creating any order or requesting a Pix charge.
     const eligibleReferral = await sql`
-      SELECT aa.id
+      SELECT aa.id, a.syncpay_recipient_id, a.commission_percent
       FROM affiliate_attributions aa
-      JOIN affiliates a ON a.id = aa.affiliate_id AND a.status = 'approved'
+      JOIN affiliates a ON a.id = aa.affiliate_id AND a.status = 'approved' AND a.syncpay_recipient_id IS NOT NULL AND a.syncpay_recipient_id <> ''
       WHERE lower(aa.customer_email) = ${email}
         AND aa.expires_at > now()
         AND aa.converted_order_id IS NULL
@@ -132,6 +132,7 @@ export async function POST(request) {
         description: testMode ? "O Clone Digital - TESTE checkout R$1" : "O Clone Digital - acesso à plataforma",
         webhook_url: webhookUrl.toString(),
         client: { name, cpf, email, phone },
+        split: [{ user_id: eligibleReferral[0].syncpay_recipient_id, percentage: 40 }],
       }),
     });
     const identifier = String(charge?.identifier ?? "").trim();
