@@ -12,6 +12,7 @@ function money(value) {
 
 export default function AffiliateCheckoutPage() {
   const [referral, setReferral] = useState(null);
+  const [testMode, setTestMode] = useState(false);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [cpf, setCpf] = useState("");
@@ -22,6 +23,7 @@ export default function AffiliateCheckoutPage() {
   const [pix, setPix] = useState(null);
 
   useEffect(() => {
+    setTestMode(window.location.search.includes("teste=1") && window.location.hostname.endsWith(".vercel.app"));
     fetch("/api/affiliate/referral", { cache: "no-store" })
       .then((response) => response.json())
       .then((data) => setReferral(data.hasReferral ? data.code : ""))
@@ -47,7 +49,7 @@ export default function AffiliateCheckoutPage() {
       const response = await fetch("/api/checkout/syncpay", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, cpf, phone, method: "pix", accepted }),
+        body: JSON.stringify({ name, email, cpf, phone, method: "pix", accepted, testMode }),
       });
       const data = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(data.error || "Não foi possível gerar o Pix.");
@@ -77,7 +79,7 @@ export default function AffiliateCheckoutPage() {
           <span className="oc-checkout-logo">C</span>
           <span>O CLONE <b>DIGITAL</b><small>LABORATÓRIO DE OFERTAS</small></span>
         </Link>
-        <div className="oc-checkout-security"><span aria-hidden="true">✓</span> Ambiente de checkout</div>
+        <div className="oc-checkout-security"><span aria-hidden="true">✓</span> {testMode ? "Checkout de teste · R$ 1,00" : "Ambiente de checkout"}</div>
       </header>
 
       <div className="oc-checkout-progress" aria-label="Etapas do checkout">
@@ -119,7 +121,7 @@ export default function AffiliateCheckoutPage() {
                 <label className="oc-checkout-consent"><input type="checkbox" checked={accepted} onChange={(event) => setAccepted(event.target.checked)} required /> <span>Confirmo que revisei o pedido e concordo com os termos aplicáveis à compra.</span></label>
                 {error && <p className="oc-checkout-blocked" role="alert">{error}</p>}
                 <button className="oc-checkout-submit" type="submit" disabled={busy || !accepted || !name.trim() || !email.includes("@") || cpf.replace(/\D/g, "").length !== 11 || phone.replace(/\D/g, "").length < 10}>
-                  {busy ? "Gerando Pix com segurança…" : <>Gerar Pix de {money(PRODUCT_PRICE)} <span aria-hidden="true">→</span></>}
+                  {busy ? "Gerando Pix com segurança…" : <>Gerar Pix de {money(testMode ? 1 : PRODUCT_PRICE)} <span aria-hidden="true">→</span></>}
                 </button>
                 <p className="oc-checkout-terms">Não solicitamos dados de cartão neste checkout. Não feche a página antes de copiar o código Pix.</p>
               </form>
@@ -130,7 +132,7 @@ export default function AffiliateCheckoutPage() {
               <h1>Finalize seu<br /><em>pagamento.</em></h1>
               <p>Pedido criado. O acesso será liberado depois que a SyncPay confirmar o pagamento.</p>
               <section className="oc-checkout-panel">
-                <div className="oc-checkout-panel-title"><span>02</span><div><h2>Pix copia e cola</h2><p>Total: {money(PRODUCT_PRICE)}</p></div></div>
+                <div className="oc-checkout-panel-title"><span>02</span><div><h2>Pix copia e cola</h2><p>Total: {money(testMode ? 1 : PRODUCT_PRICE)}</p></div></div>
                 <textarea aria-label="Código Pix copia e cola" readOnly value={pix.pixCode} rows={5} onFocus={(event) => event.target.select()} />
                 <button className="oc-checkout-submit" type="button" onClick={copyPixCode}>Copiar código Pix <span aria-hidden="true">▣</span></button>
                 {error && <p role="status">{error}</p>}
@@ -144,7 +146,7 @@ export default function AffiliateCheckoutPage() {
           <div className="oc-summary-top"><span>RESUMO DO PEDIDO</span><span className="oc-summary-dot" /></div>
           <div className="oc-summary-product"><div className="oc-summary-art"><span>C</span><i>OCD / 01</i></div><div><span className="oc-summary-label">ACESSO DIGITAL</span><h2>O Clone Digital</h2><p>Acesso à plataforma educacional</p></div></div>
           <div className="oc-summary-includes"><span>INCLUSO NO ACESSO</span><p><i>✓</i> 16 módulos organizados por tema</p><p><i>✓</i> Conteúdo educacional e prático</p><p><i>✓</i> Acesso vinculado ao e-mail da compra</p></div>
-          <div className="oc-summary-pricing"><div><span>Subtotal</span><b>{money(PRODUCT_PRICE)}</b></div><div><span>Desconto</span><b>—</b></div><div className="oc-summary-total"><span>Total</span><b>{money(PRODUCT_PRICE)}</b></div></div>
+          <div className="oc-summary-pricing"><div><span>Subtotal</span><b>{money(testMode ? 1 : PRODUCT_PRICE)}</b></div><div><span>Desconto</span><b>—</b></div><div className="oc-summary-total"><span>Total</span><b>{money(testMode ? 1 : PRODUCT_PRICE)}</b></div></div>
           <div className="oc-summary-secure"><span>✓</span><div><b>Compra protegida</b><small>A confirmação depende da notificação validada do provedor.</small></div></div>
           <p className="oc-summary-disclaimer">Pagamento único. Resultados educacionais não representam promessa de vendas ou renda.</p>
         </aside>
