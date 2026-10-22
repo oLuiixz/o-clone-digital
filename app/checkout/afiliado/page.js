@@ -16,6 +16,7 @@ export default function AffiliateCheckoutPage() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [cpf, setCpf] = useState("");
+  const [phone, setPhone] = useState("");
   const [accepted, setAccepted] = useState(false);
 
   useEffect(() => {
@@ -57,6 +58,7 @@ export default function AffiliateCheckoutPage() {
               <label>Nome completo<input value={name} onChange={(event) => setName(event.target.value)} autoComplete="name" placeholder="Como podemos te chamar?" /></label>
               <label>E-mail<input value={email} onChange={(event) => setEmail(event.target.value)} type="email" autoComplete="email" placeholder="voce@exemplo.com.br" /></label>
               <label>CPF <span className="optional">conforme exigido pelo meio de pagamento</span><input value={cpf} onChange={(event) => setCpf(event.target.value)} inputMode="numeric" autoComplete="off" placeholder="000.000.000-00" /></label>
+              <label>Celular<input value={phone} onChange={(event) => setPhone(event.target.value)} type="tel" inputMode="tel" autoComplete="tel" placeholder="(11) 99999-9999" /></label>
             </div>
             {isAffiliateCheckout && <div className="oc-checkout-referral"><span aria-hidden="true">✓</span><div><b>Indicação reconhecida</b><small>Seu pedido será associado à indicação elegível. A comissão só é registrada após confirmação válida do pagamento.</small></div></div>}
           </section>
