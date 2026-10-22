@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getCurrentMember, hasActiveAccess } from "../../lib/member-auth";
+import { getCurrentMember, hasActiveAccess, getDatabase } from "../../lib/member-auth";
 
 function getYoutubeId(value) {
   const raw = String(value || "").trim();
@@ -29,7 +29,15 @@ export default async function AoVivoPage({ searchParams }) {
 
   const params = await searchParams;
   const queryId = getYoutubeId(params?.video);
-  const configuredId = getYoutubeId(process.env.NEXT_PUBLIC_YOUTUBE_LIVE_ID);
+  let configuredValue = process.env.NEXT_PUBLIC_YOUTUBE_LIVE_ID || "";
+  try {
+    const sql = getDatabase();
+    const settings = await sql\`SELECT video_url FROM live_stream_settings WHERE id = true LIMIT 1\`;
+    if (settings[0]?.video_url) configuredValue = settings[0].video_url;
+  } catch (error) {
+    console.error("Live page settings unavailable", error instanceof Error ? error.message : "unknown_error");
+  }
+  const configuredId = getYoutubeId(configuredValue);
   const videoId = queryId || configuredId;
   const embedUrl = videoId ? `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=0&rel=0` : "";
 
@@ -63,7 +71,7 @@ export default async function AoVivoPage({ searchParams }) {
           <section style={{ border: "1px solid var(--border, #27272a)", borderRadius: 18, padding: "clamp(22px, 4vw, 36px)", background: "var(--card, #121216)" }}>
             <h2 style={{ marginTop: 0, fontSize: 22 }}>Próximas transmissões</h2>
             <p style={{ lineHeight: 1.7, opacity: 0.78 }}>Estamos preparando a programação das lives. O player aparecerá aqui quando a transmissão do YouTube estiver configurada.</p>
-            <p style={{ fontSize: 13, opacity: 0.65, lineHeight: 1.6 }}>Configuração técnica: defina a variável de ambiente NEXT_PUBLIC_YOUTUBE_LIVE_ID com o ID de um vídeo/live do YouTube para exibir o player automaticamente. Também é possível abrir uma transmissão específica acrescentando ?video=ID à URL.</p>
+            <p style={{ fontSize: 13, opacity: 0.65, lineHeight: 1.6 }}>A administração pode configurar o link da transmissão em /admin/ao-vivo. Também é possível abrir uma transmissão específica acrescentando ?video=ID à URL.</p>
           </section>
         )}
         <div style={{ marginTop: 24, border: "1px solid var(--border, #27272a)", borderRadius: 14, padding: 18 }}>
