@@ -71,6 +71,7 @@ export async function POST(request) {
     return Response.json({ error: "Confira nome, e-mail, CPF, celular e aceite os termos. No momento, somente Pix está disponível." }, { status: 400 });
   }
 
+  const testMode = process.env.VERCEL_ENV === "preview" && body?.testMode === true;
   const sql = neon(databaseUrl);
   let orderId;
   try {
@@ -93,7 +94,7 @@ export async function POST(request) {
     const products = await sql`SELECT id, price_amount FROM products WHERE slug = ${PRODUCT_SLUG} AND is_active = true LIMIT 1`;
     if (!products.length) return Response.json({ error: "Produto indisponível no momento." }, { status: 503 });
     const product = products[0];
-    const amountCents = Number(product.price_amount);
+    const amountCents = testMode ? 100 : Number(product.price_amount);
     if (!Number.isInteger(amountCents) || amountCents < 100) {
       return Response.json({ error: "Preço do produto não está configurado corretamente." }, { status: 503 });
     }
@@ -102,7 +103,7 @@ export async function POST(request) {
     const orders = await sql`
       INSERT INTO orders (product_id, customer_email, provider, status, amount, currency, metadata, updated_at)
       VALUES (${product.id}, ${email}, ${PROVIDER}, 'pending', ${amountCents}, 'BRL',
-        ${JSON.stringify({ source: "first_party_pix_checkout", customer_name: name, created_by: "checkout_api" })}::jsonb, now())
+        ${JSON.stringify({ source: "first_party_pix_checkout", customer_name: name, created_by: "checkout_api", test_mode: testMode })}::jsonb, now())
       RETURNING id
     `;
     orderId = orders[0].id;
@@ -128,7 +129,7 @@ export async function POST(request) {
       },
       body: JSON.stringify({
         amount: amountCents / 100,
-        description: "O Clone Digital - acesso à plataforma",
+        description: testMode ? "O Clone Digital - TESTE checkout R$1" : "O Clone Digital - acesso à plataforma",
         webhook_url: webhookUrl.toString(),
         client: { name, cpf, email, phone },
       }),
@@ -152,6 +153,7 @@ export async function POST(request) {
       payment: { method: "pix", status: "pending", pixCode, identifier },
       amount: amountCents,
       currency: "BRL",
+      testMode,
     }, { status: 201 });
   } catch (error) {
     if (orderId) {
