@@ -29,7 +29,7 @@ export async function POST(request) {
   const expectedToken = process.env.SYNCPAY_CASHIN_WEBHOOK_TOKEN;
   const urlToken = new URL(request.url).searchParams.get("token");
   const authorization = request.headers.get("authorization") || "";
-  const bearerToken = /^Bearer\\s+(.+)$/i.exec(authorization)?.[1]?.trim() || "";
+  const bearerToken = /^Bearer\s+(.+)$/i.exec(authorization)?.[1]?.trim() || "";
   // Per-charge callbacks can carry the secret in the URL. Also accept the documented
   // legacy Bearer form, but never accept an unsigned event without one of these secrets.
   const receivedToken = bearerToken || urlToken;
