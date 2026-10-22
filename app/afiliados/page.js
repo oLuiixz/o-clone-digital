@@ -8,6 +8,7 @@ export default function AfiliadosPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [syncpayRecipientId, setSyncpayRecipientId] = useState("");
 
   async function load() {
     setError("");
@@ -23,7 +24,7 @@ export default function AfiliadosPage() {
   async function apply() {
     setBusy(true); setError(""); setMessage("");
     try {
-      const response = await fetch("/api/member/affiliates", { method: "POST" });
+      const response = await fetch("/api/member/affiliates", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ syncpay_recipient_id: syncpayRecipientId.trim() }) });
       const body = await response.json();
       if (!response.ok) throw new Error(body.error || "Não foi possível enviar a solicitação.");
       setMessage(body.message || "Solicitação enviada.");
@@ -48,14 +49,15 @@ export default function AfiliadosPage() {
       {data && !affiliate && <section style={{ marginTop: 30, border: "1px solid #27272a", borderRadius: 18, padding: 24, background: "#121216" }}>
         <h2 style={{ fontSize: 22, marginTop: 0 }}>Torne-se um afiliado</h2>
         <p style={{ color: "#a1a1aa", lineHeight: 1.7 }}>A afiliação é exclusiva para compradores com acesso ativo ao O Clone Digital. Ao solicitar, sua inscrição ficará pendente até a aprovação administrativa.</p>
-        <button onClick={apply} disabled={busy} style={{ border: 0, borderRadius: 10, padding: "13px 18px", background: "#ff3045", color: "#fff", fontWeight: 700, cursor: busy ? "wait" : "pointer", opacity: busy ? .7 : 1 }}>{busy ? "Enviando..." : "Solicitar afiliação"}</button>
+        <label style={{ display: "grid", gap: 8, margin: "18px 0", maxWidth: 520 }}>Identificador da conta recebedora SyncPay<input value={syncpayRecipientId} onChange={e => setSyncpayRecipientId(e.target.value)} required maxLength={120} placeholder="Identificador fornecido pela SyncPay" style={{ width: "100%", boxSizing: "border-box", padding: 12, borderRadius: 10, border: "1px solid #3f3f46", background: "#0b0b0f", color: "#f4f4f5" }} /><span style={{ color: "#a1a1aa", fontSize: 12, lineHeight: 1.5 }}>Não informe senha, token secreto ou chave de API. A ativação depende da validação do recebedor.</span></label>
+        <button onClick={apply} disabled={busy || !syncpayRecipientId.trim()} style={{ border: 0, borderRadius: 10, padding: "13px 18px", background: "#ff3045", color: "#fff", fontWeight: 700, cursor: busy ? "wait" : "pointer", opacity: busy ? .7 : 1 }}>{busy ? "Enviando..." : "Solicitar afiliação"}</button>
       </section>}
       {affiliate && <section style={{ marginTop: 30, border: "1px solid #27272a", borderRadius: 18, padding: 24, background: "#121216" }}>
         <div style={{ display: "flex", justifyContent: "space-between", gap: 16, flexWrap: "wrap", alignItems: "center" }}>
           <h2 style={{ fontSize: 22, margin: 0 }}>Sua afiliação</h2>
           <span style={{ border: "1px solid #3f3f46", borderRadius: 999, padding: "6px 11px", color: affiliate.status === "approved" ? "#86efac" : affiliate.status === "blocked" ? "#fca5a5" : "#fde68a", fontSize: 13 }}>{affiliate.status === "approved" ? "Aprovado" : affiliate.status === "blocked" ? "Bloqueado" : "Aguardando aprovação"}</span>
         </div>
-        <div style={{ marginTop: 22, padding: 16, borderRadius: 12, background: "#1b1b22" }}>
+        <div style={{ marginTop: 22, padding: 16, borderRadius: 12, background: "#1b1b22" }}><div style={{ color: "#a1a1aa", fontSize: 13 }}>Conta recebedora SyncPay</div><strong>{affiliate.syncpay_recipient_id ? "Cadastrada" : "Pendente de cadastro"}</strong>
           <div style={{ color: "#a1a1aa", fontSize: 13 }}>Seu código</div><strong style={{ fontSize: 20, letterSpacing: ".04em" }}>{affiliate.code}</strong>
           {affiliate.status === "approved" && <p style={{ color: "#a1a1aa", fontSize: 13, marginBottom: 0 }}>Link de indicação: https://oclonedigital.xyz/r/{affiliate.code}</p>}
         </div>
