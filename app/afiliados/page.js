@@ -57,7 +57,7 @@ export default function AfiliadosPage() {
         </div>
         <div style={{ marginTop: 22, padding: 16, borderRadius: 12, background: "#1b1b22" }}>
           <div style={{ color: "#a1a1aa", fontSize: 13 }}>Seu código</div><strong style={{ fontSize: 20, letterSpacing: ".04em" }}>{affiliate.code}</strong>
-          {affiliate.status === "approved" && <p style={{ color: "#a1a1aa", fontSize: 13, marginBottom: 0 }}>Link de indicação: https://oclonedigital.xyz/?ref={affiliate.code}</p>}
+          {affiliate.status === "approved" && <p style={{ color: "#a1a1aa", fontSize: 13, marginBottom: 0 }}>Link de indicação: https://oclonedigital.xyz/r/{affiliate.code}</p>}
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(145px, 1fr))", gap: 12, marginTop: 18 }}>
           {[["Comissão", (affiliate.commission_percent || 40) + "%"], ["Cliques", data.stats?.clicks ?? 0], ["Vendas atribuídas", data.stats?.sales ?? 0], ["Comissão registrada", money(data.stats?.commission_cents)], ["Já repassado", money(data.stats?.paid_cents)]].map(([label, value]) => <div key={label} style={{ border: "1px solid #27272a", borderRadius: 12, padding: 16 }}><div style={{ color: "#a1a1aa", fontSize: 12 }}>{label}</div><div style={{ fontSize: 21, fontWeight: 700, marginTop: 8 }}>{value}</div></div>)}
