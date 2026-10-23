@@ -88,23 +88,45 @@ export default async function Home() {
         </div>
       </aside>
 
-      <nav className="mobile-nav" aria-label="Navegação mobile">
-        {navigation.map((item, index) => (
-          <a className={index === 0 ? "mobile-nav-item active" : "mobile-nav-item"} href={item.href} key={item.label}>
-            <span className={`mobile-nav-icon icon-${item.icon}`} aria-hidden="true">
-              {item.icon === "home" && <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3.2 2.8 11a1 1 0 0 0 1.3 1.5l.9-.8v7A2.3 2.3 0 0 0 7.3 21h3.1v-5.5h3.2V21h3.1a2.3 2.3 0 0 0 2.3-2.3v-7l.9.8a1 1 0 0 0 1.3-1.5L12 3.2Z"/></svg>}
-              {item.icon === "modules" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>}
-              {item.icon === "files" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H10l2 2h5.5A2.5 2.5 0 0 1 20 9.5v8a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 17.5Z"/><path d="M4 10h16"/></svg>}
-              {item.icon === "community" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H5l-2 2v-9.5A7.5 7.5 0 0 1 10.5 4H12a8 8 0 0 1 8 7.5Z"/><path d="M8 11h.01M12 11h.01M16 11h.01"/></svg>}
-              {item.icon === "search" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="10.8" cy="10.8" r="6.3"/><path d="m16 16 4.2 4.2"/></svg>}
-              {item.icon === "layers" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5M3 16l9 5 9-5"/></svg>}
-              {item.icon === "chart" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19V5M4 19h16"/><path d="m7 15 4-4 3 2 5-6"/></svg>}
-              {item.icon === "settings" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="m19.4 15 .1.1 1.1.9-1.1 1.9-1.4-.5a7.7 7.7 0 0 1-1.5.9l-.2 1.5h-2.2l-.4-1.4a7.7 7.7 0 0 1-1.8 0l-.8 1.2-2-.9.3-1.5a7.7 7.7 0 0 1-1.3-1.3l-1.5.3-.9-2 1.2-.8a7.7 7.7 0 0 1 0-1.8l-1.2-.8.9-2 1.5.3a7.7 7.7 0 0 1 1.3-1.3l-.3-1.5 2-.9.8 1.2a7.7 7.7 0 0 1 1.8 0l.4-1.4h2.2l.2 1.5a7.7 7.7 0 0 1 1.5.9l1.4-.5 1.1 1.9-1.1.9a7.7 7.7 0 0 1 0 1.8Z"/></svg>}
-            </span>
-            <span>{item.label}</span>{item.icon === "community" && <CommunityUnreadBadge memberId={member.id} mobile />}
-          </a>
-        ))}
-      </nav>
+      <details className="mobile-menu">
+        <summary className="mobile-menu-trigger" aria-label="Abrir menu de navegação">
+          <span className="mobile-menu-hamburger" aria-hidden="true"><i></i><i></i><i></i></span>
+        </summary>
+        <button className="mobile-menu-backdrop" type="button" aria-label="Fechar menu" onClick="this.parentElement.removeAttribute('open')"></button>
+        <nav className="mobile-menu-panel" aria-label="Navegação mobile">
+          <div className="mobile-menu-heading">
+            <img src="/imagens/logo-clone-digital.svg" alt="" />
+            <div><strong>O CLONE <span>DIGITAL</span></strong><small>NAVEGAÇÃO</small></div>
+            <label className="mobile-menu-close" aria-label="Fechar menu">×</label>
+          </div>
+          <div className="mobile-menu-links">
+            {navigation.map((item, index) => (
+              <a className="mobile-menu-link" href={item.href} key={item.label}>
+                <span className="mobile-nav-icon icon-${item.icon}" aria-hidden="true">
+                  {item.icon === "home" && <Icon name="home" />}
+                  {item.icon === "modules" && <Icon name="modules" />}
+                  {item.icon === "files" && <Icon name="files" />}
+                  {item.icon === "community" && <Icon name="community" />}
+                  {item.icon === "search" && <Icon name="search" />}
+                  {item.icon === "layers" && <Icon name="layers" />}
+                  {item.icon === "chart" && <Icon name="chart" />}
+                  {item.icon === "settings" && <Icon name="settings" />}
+                </span>
+                <span>{item.label}</span><span className="mobile-menu-chevron">›</span>
+              </a>
+            ))}
+            <a className="mobile-menu-link" href="/clone-awards"><span className="mobile-nav-icon"><Icon name="chart" /></span><span>Clone Awards</span><span className="mobile-menu-chevron">›</span></a>
+            <a className="mobile-menu-link" href="/comunidade"><span className="mobile-nav-icon"><Icon name="community" /></span><span>Comunidade</span><CommunityUnreadBadge memberId={member.id} mobile /><span className="mobile-menu-chevron">›</span></a>
+            <a className="mobile-menu-link" href="/ao-vivo"><span className="mobile-nav-icon"><Icon name="home" /></span><span>Ao vivo</span><span className="mobile-menu-chevron">›</span></a>
+            <a className="mobile-menu-link" href="/afiliados"><span className="mobile-nav-icon"><Icon name="modules" /></span><span>Afiliados</span><span className="mobile-menu-chevron">›</span></a>
+            <a className="mobile-menu-link" href="/configuracoes"><span className="mobile-nav-icon"><Icon name="settings" /></span><span>Configurações</span><span className="mobile-menu-chevron">›</span></a>
+          </div>
+          <div className="mobile-menu-profile">
+            <span className="mobile-menu-avatar">{member.photo_data ? <img src={member.photo_data} alt="" /> : (member.display_name || "Minha jornada").trim().slice(0,2).toUpperCase()}</span>
+            <span><strong>{member.display_name || "Minha jornada"}</strong><small>Área do aluno</small></span>
+          </div>
+        </nav>
+      </details>
 
       <section className="main-panel" id="inicio">
         <header className="topbar"><div className="breadcrumb">Área do aluno <span>/</span> <b>Visão geral</b></div><div className="top-actions"><span className="status-dot"></span><span>Plataforma em construção</span><a className="user-button" aria-label="Configurações do perfil" href="/configuracoes">{member.photo_data ? <img src={member.photo_data} alt="" /> : (member.display_name || "Minha jornada").trim().slice(0,2).toUpperCase()}</a></div></header>
