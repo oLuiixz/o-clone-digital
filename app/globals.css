@@ -1469,3 +1469,42 @@ html[data-theme="light"] .estrutura-dark-navigation button{background:#f0f2f6;co
 .community-reply-preview button{flex:0 0 auto;border:0;background:transparent;color:inherit;font-size:22px;line-height:1;cursor:pointer}
 .community-reply-quote{display:block;margin:8px 0;padding:8px 10px}
 .community-reply-quote p{margin-top:4px;white-space:pre-wrap}
+
+
+/* Ajuste de navegação mobile: cinco destinos, alvos confortáveis e área segura */
+@media (max-width: 780px) {
+  .mobile-nav {
+    width: calc(100% - 24px);
+    max-width: 440px;
+    gap: 5px;
+    padding: 6px;
+    bottom: calc(10px + env(safe-area-inset-bottom));
+  }
+  .mobile-nav-item {
+    min-height: 54px;
+    gap: 5px;
+    padding: 8px 3px;
+    font-size: 9px;
+    letter-spacing: 0;
+  }
+  .mobile-nav-icon,
+  .mobile-nav-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+  .content {
+    padding-bottom: calc(104px + env(safe-area-inset-bottom));
+  }
+}
+@media (max-width: 360px) {
+  .mobile-nav {
+    width: calc(100% - 16px);
+    gap: 2px;
+    padding: 5px;
+  }
+  .mobile-nav-item {
+    min-height: 51px;
+    font-size: 8px;
+    padding-inline: 1px;
+  }
+}
