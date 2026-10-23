@@ -24,16 +24,11 @@ const quickLinks = [
 ];
 
 const navigation = [
-  { icon: "home", label: "Visão geral", href: "#inicio" },
-  { icon: "modules", label: "Módulos e aulas", href: "#modulos" },
-  { icon: "search", label: "Pesquisa de ofertas", href: "#atalhos" },
+  { icon: "home", label: "Início", href: "#inicio" },
+  { icon: "modules", label: "Aulas", href: "#modulos" },
   { icon: "layers", label: "Ferramentas", href: "/ferramentas" },
-  { icon: "chart", label: "Clone Awards", href: "/clone-awards" },
-  { icon: "community", label: "Comunidade", href: "/comunidade" },
-  { icon: "home", label: "Ao Vivo", href: "/ao-vivo" },
-  { icon: "modules", label: "Afiliados", href: "/afiliados" },
-  { icon: "chart", label: "Meu progresso", href: "#progresso" },
-  { icon: "settings", label: "Configurações", href: "/configuracoes" },
+  { icon: "chart", label: "Progresso", href: "#progresso" },
+  { icon: "settings", label: "Perfil", href: "/configuracoes" },
 ];
 
 
@@ -56,6 +51,7 @@ function Icon({ name, size = 18 }) {
 }
 
 import ModuleProgress from "../components/ModuleProgress";
+import MobileMenu from "../components/MobileMenu";
 import MemberFeedback from "../components/MemberFeedback";
 import CommunityUnreadBadge from "../components/CommunityUnreadBadge";
 import { redirect } from "next/navigation";
@@ -93,23 +89,7 @@ export default async function Home() {
         </div>
       </aside>
 
-      <nav className="mobile-nav" aria-label="Navegação mobile">
-        {navigation.map((item, index) => (
-          <a className={index === 0 ? "mobile-nav-item active" : "mobile-nav-item"} href={item.href} key={item.label}>
-            <span className={`mobile-nav-icon icon-${item.icon}`} aria-hidden="true">
-              {item.icon === "home" && <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3.2 2.8 11a1 1 0 0 0 1.3 1.5l.9-.8v7A2.3 2.3 0 0 0 7.3 21h3.1v-5.5h3.2V21h3.1a2.3 2.3 0 0 0 2.3-2.3v-7l.9.8a1 1 0 0 0 1.3-1.5L12 3.2Z"/></svg>}
-              {item.icon === "modules" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>}
-              {item.icon === "files" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H10l2 2h5.5A2.5 2.5 0 0 1 20 9.5v8a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 17.5Z"/><path d="M4 10h16"/></svg>}
-              {item.icon === "community" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H5l-2 2v-9.5A7.5 7.5 0 0 1 10.5 4H12a8 8 0 0 1 8 7.5Z"/><path d="M8 11h.01M12 11h.01M16 11h.01"/></svg>}
-              {item.icon === "search" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="10.8" cy="10.8" r="6.3"/><path d="m16 16 4.2 4.2"/></svg>}
-              {item.icon === "layers" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5M3 16l9 5 9-5"/></svg>}
-              {item.icon === "chart" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19V5M4 19h16"/><path d="m7 15 4-4 3 2 5-6"/></svg>}
-              {item.icon === "settings" && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="m19.4 15 .1.1 1.1.9-1.1 1.9-1.4-.5a7.7 7.7 0 0 1-1.5.9l-.2 1.5h-2.2l-.4-1.4a7.7 7.7 0 0 1-1.8 0l-.8 1.2-2-.9.3-1.5a7.7 7.7 0 0 1-1.3-1.3l-1.5.3-.9-2 1.2-.8a7.7 7.7 0 0 1 0-1.8l-1.2-.8.9-2 1.5.3a7.7 7.7 0 0 1 1.3-1.3l-.3-1.5 2-.9.8 1.2a7.7 7.7 0 0 1 1.8 0l.4-1.4h2.2l.2 1.5a7.7 7.7 0 0 1 1.5.9l1.4-.5 1.1 1.9-1.1.9a7.7 7.7 0 0 1 0 1.8Z"/></svg>}
-            </span>
-            <span>{item.label}</span>{item.icon === "community" && <CommunityUnreadBadge memberId={member.id} mobile />}
-          </a>
-        ))}
-      </nav>
+      <MobileMenu member={member} />
 
       <section className="main-panel" id="inicio">
         <header className="topbar"><div className="breadcrumb">Área do aluno <span>/</span> <b>Visão geral</b></div><div className="top-actions"><span className="status-dot"></span><span>Plataforma em construção</span><a className="user-button" aria-label="Configurações do perfil" href="/configuracoes">{member.photo_data ? <img src={member.photo_data} alt="" /> : (member.display_name || "Minha jornada").trim().slice(0,2).toUpperCase()}</a></div></header>
