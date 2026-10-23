@@ -1,4 +1,4 @@
-import { authenticationOptions, jsonError } from "@/lib/passkeys";
+import { authenticationOptions, jsonError } from "../../../../lib/passkeys";
 export const runtime = "nodejs";
 export async function POST(request) {
   try { const body = await request.json(); return Response.json(await authenticationOptions(body.email)); }
