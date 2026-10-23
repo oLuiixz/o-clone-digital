@@ -51,6 +51,7 @@ function Icon({ name, size = 18 }) {
 }
 
 import ModuleProgress from "../components/ModuleProgress";
+import MobileMenu from "../components/MobileMenu";
 import MemberFeedback from "../components/MemberFeedback";
 import CommunityUnreadBadge from "../components/CommunityUnreadBadge";
 import { redirect } from "next/navigation";
@@ -88,45 +89,7 @@ export default async function Home() {
         </div>
       </aside>
 
-      <details className="mobile-menu">
-        <summary className="mobile-menu-trigger" aria-label="Abrir menu de navegação">
-          <span className="mobile-menu-hamburger" aria-hidden="true"><i></i><i></i><i></i></span>
-        </summary>
-        <button className="mobile-menu-backdrop" type="button" aria-label="Fechar menu" onClick="this.parentElement.removeAttribute('open')"></button>
-        <nav className="mobile-menu-panel" aria-label="Navegação mobile">
-          <div className="mobile-menu-heading">
-            <img src="/imagens/logo-clone-digital.svg" alt="" />
-            <div><strong>O CLONE <span>DIGITAL</span></strong><small>NAVEGAÇÃO</small></div>
-            <label className="mobile-menu-close" aria-label="Fechar menu">×</label>
-          </div>
-          <div className="mobile-menu-links">
-            {navigation.map((item, index) => (
-              <a className="mobile-menu-link" href={item.href} key={item.label}>
-                <span className="mobile-nav-icon icon-${item.icon}" aria-hidden="true">
-                  {item.icon === "home" && <Icon name="home" />}
-                  {item.icon === "modules" && <Icon name="modules" />}
-                  {item.icon === "files" && <Icon name="files" />}
-                  {item.icon === "community" && <Icon name="community" />}
-                  {item.icon === "search" && <Icon name="search" />}
-                  {item.icon === "layers" && <Icon name="layers" />}
-                  {item.icon === "chart" && <Icon name="chart" />}
-                  {item.icon === "settings" && <Icon name="settings" />}
-                </span>
-                <span>{item.label}</span><span className="mobile-menu-chevron">›</span>
-              </a>
-            ))}
-            <a className="mobile-menu-link" href="/clone-awards"><span className="mobile-nav-icon"><Icon name="chart" /></span><span>Clone Awards</span><span className="mobile-menu-chevron">›</span></a>
-            <a className="mobile-menu-link" href="/comunidade"><span className="mobile-nav-icon"><Icon name="community" /></span><span>Comunidade</span><CommunityUnreadBadge memberId={member.id} mobile /><span className="mobile-menu-chevron">›</span></a>
-            <a className="mobile-menu-link" href="/ao-vivo"><span className="mobile-nav-icon"><Icon name="home" /></span><span>Ao vivo</span><span className="mobile-menu-chevron">›</span></a>
-            <a className="mobile-menu-link" href="/afiliados"><span className="mobile-nav-icon"><Icon name="modules" /></span><span>Afiliados</span><span className="mobile-menu-chevron">›</span></a>
-            <a className="mobile-menu-link" href="/configuracoes"><span className="mobile-nav-icon"><Icon name="settings" /></span><span>Configurações</span><span className="mobile-menu-chevron">›</span></a>
-          </div>
-          <div className="mobile-menu-profile">
-            <span className="mobile-menu-avatar">{member.photo_data ? <img src={member.photo_data} alt="" /> : (member.display_name || "Minha jornada").trim().slice(0,2).toUpperCase()}</span>
-            <span><strong>{member.display_name || "Minha jornada"}</strong><small>Área do aluno</small></span>
-          </div>
-        </nav>
-      </details>
+      <MobileMenu member={member} />
 
       <section className="main-panel" id="inicio">
         <header className="topbar"><div className="breadcrumb">Área do aluno <span>/</span> <b>Visão geral</b></div><div className="top-actions"><span className="status-dot"></span><span>Plataforma em construção</span><a className="user-button" aria-label="Configurações do perfil" href="/configuracoes">{member.photo_data ? <img src={member.photo_data} alt="" /> : (member.display_name || "Minha jornada").trim().slice(0,2).toUpperCase()}</a></div></header>
