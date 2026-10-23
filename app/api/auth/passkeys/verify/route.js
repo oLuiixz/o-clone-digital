@@ -1,4 +1,4 @@
-import { verifyAuthentication, jsonError } from "../../../../lib/passkeys";
+import { verifyAuthentication, jsonError } from "../../../../../lib/passkeys";
 export const runtime = "nodejs";
 export async function POST(request) {
   try {
