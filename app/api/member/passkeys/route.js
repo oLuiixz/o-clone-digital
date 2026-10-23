@@ -1,4 +1,4 @@
-import { jsonError, listPasskeys, registrationOptions, requirePasskeyMember, verifyRegistration } from "@/lib/passkeys";
+import { jsonError, listPasskeys, registrationOptions, requirePasskeyMember, verifyRegistration } from "../../../../lib/passkeys";
 export const runtime = "nodejs";
 export async function GET() {
  try { const member = await requirePasskeyMember(); if (!member) return jsonError("Faça login para gerenciar suas chaves de acesso.", 401); return Response.json({ passkeys: await listPasskeys(member) }); }
@@ -12,6 +12,6 @@ export async function POST(request) {
  } catch (error) { console.error("Passkey registration failed", error instanceof Error ? error.message : "unknown_error"); return jsonError(error.message || "Não foi possível cadastrar a chave de acesso.", 400); }
 }
 export async function DELETE(request) {
- try { const member = await requirePasskeyMember(); if (!member) return jsonError("Faça login para gerenciar suas chaves.", 401); const { id } = await request.json(); if (!id) return jsonError("Chave inválida."); const { getDatabase } = await import("@/lib/member-auth"); const sql = getDatabase(); const rows = await sql`DELETE FROM member_passkeys WHERE id = ${id} AND account_id = ${member.id} RETURNING id`; if (!rows.length) return jsonError("Chave não encontrada.", 404); return Response.json({ ok: true }); }
+ try { const member = await requirePasskeyMember(); if (!member) return jsonError("Faça login para gerenciar suas chaves.", 401); const { id } = await request.json(); if (!id) return jsonError("Chave inválida."); const { getDatabase } = await import("../../../../lib/member-auth"); const sql = getDatabase(); const rows = await sql`DELETE FROM member_passkeys WHERE id = ${id} AND account_id = ${member.id} RETURNING id`; if (!rows.length) return jsonError("Chave não encontrada.", 404); return Response.json({ ok: true }); }
  catch { return jsonError("Não foi possível remover a chave.", 500); }
 }
