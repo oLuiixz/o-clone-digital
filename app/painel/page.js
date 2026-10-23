@@ -24,16 +24,11 @@ const quickLinks = [
 ];
 
 const navigation = [
-  { icon: "home", label: "Visão geral", href: "#inicio" },
-  { icon: "modules", label: "Módulos e aulas", href: "#modulos" },
-  { icon: "search", label: "Pesquisa de ofertas", href: "#atalhos" },
+  { icon: "home", label: "Início", href: "#inicio" },
+  { icon: "modules", label: "Aulas", href: "#modulos" },
   { icon: "layers", label: "Ferramentas", href: "/ferramentas" },
-  { icon: "chart", label: "Clone Awards", href: "/clone-awards" },
-  { icon: "community", label: "Comunidade", href: "/comunidade" },
-  { icon: "home", label: "Ao Vivo", href: "/ao-vivo" },
-  { icon: "modules", label: "Afiliados", href: "/afiliados" },
-  { icon: "chart", label: "Meu progresso", href: "#progresso" },
-  { icon: "settings", label: "Configurações", href: "/configuracoes" },
+  { icon: "chart", label: "Progresso", href: "#progresso" },
+  { icon: "settings", label: "Perfil", href: "/configuracoes" },
 ];
 
 
