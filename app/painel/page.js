@@ -92,7 +92,7 @@ export default async function Home() {
       <MobileMenu member={member} />
 
       <section className="main-panel" id="inicio">
-        <header className="topbar"><div className="breadcrumb">Área do aluno <span>/</span> <b>Visão geral</b></div><div className="top-actions"><span className="status-dot"></span><span>Plataforma em construção</span><a className="user-button" aria-label="Configurações do perfil" href="/configuracoes">{member.photo_data ? <img src={member.photo_data} alt="" /> : (member.display_name || "Minha jornada").trim().slice(0,2).toUpperCase()}</a></div></header>
+        <header className="topbar"><div className="breadcrumb">Área do aluno <span>/</span> <b>Visão geral</b></div><div className="top-actions"><span className="status-dot"></span><span>Seu espaço de trabalho</span><a className="user-button" aria-label="Configurações do perfil" href="/configuracoes">{member.photo_data ? <img src={member.photo_data} alt="" /> : (member.display_name || "Minha jornada").trim().slice(0,2).toUpperCase()}</a></div></header>
         <div className="content">
           <section className="dashboard-hero">
             <div className="dashboard-hero-glow" aria-hidden="true"></div>
@@ -132,6 +132,16 @@ export default async function Home() {
           <section className="section-block" id="atalhos">
             <div className="section-heading"><div><div className="eyebrow muted">COMECE POR AQUI</div><h2>O que você quer construir hoje?</h2></div><span className="section-note">ATALHOS DA JORNADA</span></div>
             <div className="quick-grid">{quickLinks.map((item) => <a className="quick-card" href={`/modulos/${item.slug}`} key={item.title}><div className="quick-top"><span className="quick-icon"><Icon name={item.icon} size={19} /></span><span className="arrow"><Icon name="arrow" size={16} /></span></div><span className="quick-module">{item.module}</span><h3>{item.title}</h3><p>{item.text}</p></a>)}</div>
+          </section>
+
+          <section className="section-block workspace-section" aria-labelledby="workspace-title">
+            <div className="section-heading"><div><div className="eyebrow muted">SEU ESPAÇO</div><h2 id="workspace-title">Continue conectado</h2><p>Entre direto nas áreas que fazem parte da sua rotina.</p></div><span className="section-note">ACESSO RÁPIDO</span></div>
+            <div className="quick-grid workspace-grid">
+              <a className="quick-card" href="/comunidade"><div className="quick-top"><span className="quick-icon"><Icon name="community" size={19} /></span><span className="arrow"><Icon name="arrow" size={16} /></span></div><span className="quick-module">COMUNIDADE</span><h3>Trocar experiências</h3><p>Converse com outros membros e procure orientação.</p></a>
+              <a className="quick-card" href="/ferramentas"><div className="quick-top"><span className="quick-icon"><Icon name="layers" size={19} /></span><span className="arrow"><Icon name="arrow" size={16} /></span></div><span className="quick-module">FERRAMENTAS</span><h3>Montar seu fluxo</h3><p>Acesse os recursos de apoio para executar seu projeto.</p></a>
+              <a className="quick-card" href="/configuracoes"><div className="quick-top"><span className="quick-icon"><Icon name="settings" size={19} /></span><span className="arrow"><Icon name="arrow" size={16} /></span></div><span className="quick-module">SUA CONTA</span><h3>Personalizar perfil</h3><p>Revise suas informações e preferências da plataforma.</p></a>
+              <a className="quick-card" href="/afiliados"><div className="quick-top"><span className="quick-icon"><Icon name="chart" size={19} /></span><span className="arrow"><Icon name="arrow" size={16} /></span></div><span className="quick-module">PROGRAMA DE AFILIADOS</span><h3>Indicar o O Clone</h3><p>Consulte a área de afiliação e acompanhe sua solicitação.</p></a>
+            </div>
           </section>
 
           <MemberFeedback />
