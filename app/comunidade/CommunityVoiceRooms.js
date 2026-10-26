@@ -12,7 +12,7 @@ export default function CommunityVoiceRooms() {
   const [activeRoom, setActiveRoom] = useState("");
   const [status, setStatus] = useState("");
   const [connected, setConnected] = useState(false);
-  const [mic, setMic] = useState(true);
+  const [mic, setMic] = useState(false);
   const [camera, setCamera] = useState(false);
   const [sharing, setSharing] = useState(false);
   const [participants, setParticipants] = useState([]);
@@ -85,7 +85,7 @@ export default function CommunityVoiceRooms() {
       await room.connect(data.serverUrl, data.token);
       roomRef.current = room;
       try { await room.localParticipant.setMicrophoneEnabled(true); } catch (e) { setStatus("Conectado, mas o microfone não foi liberado. Confira a permissão do navegador."); }
-      setActiveRoom(roomName); setConnected(true); setMic(true);
+      setActiveRoom(roomName); setConnected(true); setMic(Boolean(room.localParticipant.isMicrophoneEnabled));
       refreshParticipants(room);
       if (!status.startsWith("Conectado, mas")) setStatus("");
     } catch (e) {
@@ -104,8 +104,28 @@ export default function CommunityVoiceRooms() {
   }
 
   async function toggleMic() {
-    try { const next = !mic; await roomRef.current?.localParticipant.setMicrophoneEnabled(next); setMic(next); setStatus(""); }
-    catch (e) { setStatus(e?.message || "Não foi possível acessar o microfone. Confira as permissões do navegador."); }
+    const participant = roomRef.current?.localParticipant;
+    if (!participant) { setStatus("Você não está conectado à sala. Saia e entre novamente."); return; }
+    const next = !participant.isMicrophoneEnabled;
+    try {
+      await participant.setMicrophoneEnabled(next);
+      setMic(next);
+      setStatus("");
+    } catch (e) {
+      setMic(Boolean(participant.isMicrophoneEnabled));
+      const name = String(e?.name || "");
+      const message = String(e?.message || "");
+      console.error("Community microphone toggle failed", { name, message });
+      if (name === "NotAllowedError" || /notallowederror|permission denied/i.test(message)) {
+        setStatus("O navegador ou Windows bloqueou o microfone. Confira as permissões de microfone do Edge e do Windows.");
+      } else if (name === "NotFoundError" || /device not found/i.test(message)) {
+        setStatus("O microfone não foi encontrado. Confira o dispositivo selecionado no Edge.");
+      } else if (name === "NotReadableError" || /could not start audio source|device in use/i.test(message)) {
+        setStatus("O microfone está ocupado ou bloqueado por outro aplicativo. Feche apps que usam áudio e tente novamente.");
+      } else {
+        setStatus("Falha ao reativar o microfone: " + (message || name || "erro desconhecido") + ". Saia da sala e entre novamente; se persistir, envie esta mensagem.");
+      }
+    }
   }
   async function toggleCamera() {
     try {
