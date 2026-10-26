@@ -106,8 +106,8 @@ export default async function Home() {
             <div className="dashboard-hero-foot"><span>O CLONE DIGITAL <b>/</b> MEMBER SPACE</span><span>01 — SUA JORNADA</span></div>
           </section>
           <section className="dashboard-metrics" aria-label="Resumo da jornada">
-            <article className="dashboard-metric"><span className="metric-icon"><Icon name="modules" size={18} /></span><div><small>TRILHAS DISPONÍVEIS</small><strong>16 <span>módulos</span></strong><p>Conteúdo para colocar em prática</p></div><Icon name="arrow" size={16} /></article>
-            <article className="dashboard-metric"><span className="metric-icon metric-purple"><Icon name="chart" size={18} /></span><div><small>SEU PRÓXIMO PASSO</small><strong>Aprender <span>na prática</span></strong><p>Uma etapa de cada vez</p></div><Icon name="arrow" size={16} /></article>
+            <article className="dashboard-metric"><span className="metric-icon"><Icon name="modules" size={18} /></span><div><small>SUA JORNADA</small><strong>Seu <span>ritmo</span></strong><p>Avance etapa por etapa, no seu tempo</p></div><Icon name="arrow" size={16} /></article>
+            <article className="dashboard-metric"><span className="metric-icon metric-purple"><Icon name="chart" size={18} /></span><div><small>PRÓXIMA AÇÃO</small><strong>Continue <span>de onde parou</span></strong><p>Retome um conteúdo da sua jornada</p></div><Icon name="arrow" size={16} /></article>
             <a className="dashboard-metric dashboard-metric-highlight" href="/clone-awards"><span className="metric-icon metric-blue"><Icon name="layers" size={18} /></span><div><small>DESAFIOS E CONQUISTAS</small><strong>Clone Awards</strong><p>Complete desafios e acompanhe seu XP</p></div><Icon name="arrow" size={16} /></a>
           </section>
 
