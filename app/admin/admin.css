@@ -424,3 +424,42 @@ html[data-theme="light"] .admin-page .admin-heading p,html[data-theme="light"] .
 .admin-page .ca-admin-rank{display:flex;align-items:center;gap:14px}
 .admin-page .ca-admin-rank>div{flex:1;min-width:0}
 @media(max-width:700px){.admin-page .ca-admin{padding:14px}.admin-page .ca-admin-form{grid-template-columns:1fr;padding:12px}.admin-page .ca-admin-review{grid-template-columns:1fr}.admin-page .ca-admin-review button{white-space:normal}}
+
+
+/* O Clone Digital redesign v2 — align every admin route with the member experience */
+.admin-page {
+  --admin-violet: #9275ff;
+  --admin-blue: #5c9cff;
+  background-color: #080a12;
+  background-image: radial-gradient(ellipse at 8% 0%, rgba(126,100,255,.17), transparent 34%),
+    radial-gradient(ellipse at 96% 18%, rgba(61,126,237,.12), transparent 32%);
+}
+.admin-page .admin-section,
+.admin-page .admin-card,
+.admin-page .admin-table-wrap,
+.admin-page .admin-panel,
+.admin-page .admin-login {
+  border-color: rgba(169,176,220,.15);
+  box-shadow: 0 18px 55px rgba(0,0,0,.2), inset 0 1px rgba(255,255,255,.025);
+}
+.admin-page :is(button, input, select, textarea) { font: inherit; }
+.admin-page :is(input:not([type="checkbox"]):not([type="radio"]), select, textarea) {
+  max-width: 100%;
+}
+.admin-page :is(button, a, input, select, textarea):focus-visible {
+  outline: 2px solid #9275ff;
+  outline-offset: 3px;
+}
+.admin-page :is(button, .admin-button, .admin-action, a) {
+  -webkit-tap-highlight-color: transparent;
+}
+@media (max-width: 760px) {
+  .admin-page { padding-left: max(12px, env(safe-area-inset-left)); padding-right: max(12px, env(safe-area-inset-right)); }
+  .admin-page .admin-heading { align-items: stretch; flex-direction: column; gap: 18px; }
+  .admin-page .admin-stats { width: 100%; min-width: 0; grid-template-columns: repeat(3, minmax(0,1fr)); }
+  .admin-page .admin-section { padding: 16px; }
+}
+@media (max-width: 420px) {
+  .admin-page .admin-stats { grid-template-columns: 1fr; }
+  .admin-page .admin-top { align-items: flex-start; flex-direction: column; }
+}
