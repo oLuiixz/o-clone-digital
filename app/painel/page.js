@@ -94,22 +94,21 @@ export default async function Home() {
       <section className="main-panel" id="inicio">
         <header className="topbar"><div className="breadcrumb">Área do aluno <span>/</span> <b>Visão geral</b></div><div className="top-actions"><span className="status-dot"></span><span>Plataforma em construção</span><a className="user-button" aria-label="Configurações do perfil" href="/configuracoes">{member.photo_data ? <img src={member.photo_data} alt="" /> : (member.display_name || "Minha jornada").trim().slice(0,2).toUpperCase()}</a></div></header>
         <div className="content">
-          <section className="hero">
-            <img className="hero-banner-image" src="/imagens/banner.webp" alt="O Clone Digital — Encontre, analise, estruture e teste" />
-            <div className="hero-copy">
-              <div className="eyebrow"><span className="eyebrow-line"></span> SUA JORNADA COMEÇA AQUI</div>
-              <h1>Da pesquisa à<br /><em>primeira oferta.</em></h1>
-              <p>Um passo de cada vez. Aprenda a encontrar referências, entender a estrutura de uma oferta e construir seu próprio processo com método.</p>
-              <a className="primary-button" href="#modulos">Explorar módulos <span><Icon name="arrow" size={15} /></span></a>
+          <section className="dashboard-hero">
+            <div className="dashboard-hero-glow" aria-hidden="true"></div>
+            <div className="dashboard-hero-copy">
+              <span className="dashboard-kicker"><i /> SEU ESPAÇO DE EVOLUÇÃO</span>
+              <h1>Bem-vindo de volta,<br /><em>{(member.display_name || "criador").trim().split(/\s+/)[0]}.</em></h1>
+              <p>Seu próximo passo começa agora. Continue aprendendo, transforme ideias em projetos e avance no seu ritmo.</p>
+              <div className="dashboard-hero-actions"><a className="dashboard-primary" href="#modulos">Continuar minha jornada <Icon name="arrow" size={16} /></a><a className="dashboard-secondary" href="/comunidade"><Icon name="community" size={16} /> Comunidade</a></div>
             </div>
-            <div className="hero-art" aria-hidden="true">
-              <div className="orbit orbit-one"></div><div className="orbit orbit-two"></div><div className="orbit orbit-three"></div>
-              <div className="core"><span>C</span><small>ESTRUTURE</small></div>
-              <div className="floating-chip chip-top"><span>01</span> PESQUISAR</div>
-              <div className="floating-chip chip-right"><span>02</span> ANALISAR</div>
-              <div className="floating-chip chip-bottom"><span>03</span> TESTAR</div>
-            </div>
-            <div className="hero-index">OCD / 001</div>
+            <div className="dashboard-hero-visual" aria-hidden="true"><div className="dashboard-orbit orbit-a"></div><div className="dashboard-orbit orbit-b"></div><div className="dashboard-orbit orbit-c"></div><div className="dashboard-emblem"><img src="/imagens/logo-clone-digital.svg" alt="" /></div><span className="dashboard-float float-one">PESQUISAR <b>↗</b></span><span className="dashboard-float float-two">ESTRUTURAR <b>✓</b></span><span className="dashboard-float float-three">EVOLUIR <b>＋</b></span></div>
+            <div className="dashboard-hero-foot"><span>O CLONE DIGITAL <b>/</b> MEMBER SPACE</span><span>01 — SUA JORNADA</span></div>
+          </section>
+          <section className="dashboard-metrics" aria-label="Resumo da jornada">
+            <article className="dashboard-metric"><span className="metric-icon"><Icon name="modules" size={18} /></span><div><small>TRILHAS DISPONÍVEIS</small><strong>16 <span>módulos</span></strong><p>Conteúdo para colocar em prática</p></div><Icon name="arrow" size={16} /></article>
+            <article className="dashboard-metric"><span className="metric-icon metric-purple"><Icon name="chart" size={18} /></span><div><small>SEU PRÓXIMO PASSO</small><strong>Aprender <span>na prática</span></strong><p>Uma etapa de cada vez</p></div><Icon name="arrow" size={16} /></article>
+            <a className="dashboard-metric dashboard-metric-highlight" href="/clone-awards"><span className="metric-icon metric-blue"><Icon name="layers" size={18} /></span><div><small>DESAFIOS E CONQUISTAS</small><strong>Clone Awards</strong><p>Complete desafios e acompanhe seu XP</p></div><Icon name="arrow" size={16} /></a>
           </section>
 
           <section className="intro-section" aria-labelledby="intro-title">
