@@ -1545,3 +1545,11 @@ html[data-theme="light"] .estrutura-dark-navigation button{background:#f0f2f6;co
 }
 @media(max-width:360px){.mobile-menu{right:12px;bottom:calc(12px + env(safe-area-inset-bottom))}.mobile-menu-trigger{width:54px;height:54px;border-radius:15px}.mobile-menu-panel{right:8px;width:calc(100vw - 16px);padding:13px}}
 @media(prefers-reduced-motion:reduce){.mobile-menu-panel,.mobile-menu-hamburger i{animation:none!important;transition:none!important}}
+
+
+/* Comunidade: canais de voz à esquerda do chat, com tema global do membro. */
+.community-workspace{display:grid;grid-template-columns:minmax(260px,.78fr) minmax(0,1.65fr);align-items:start;gap:16px;margin-top:18px;min-width:0}
+.community-voice-column,.community-chat-column{min-width:0}
+.community-voice-column .community-voice{height:100%;margin:0}
+.community-chat-column .community-layout{margin-top:0}
+@media(max-width:900px){.community-workspace{grid-template-columns:1fr;gap:14px}}
