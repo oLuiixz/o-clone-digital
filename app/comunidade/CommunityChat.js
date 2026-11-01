@@ -23,6 +23,11 @@ export default function CommunityChat({ currentMemberId }) {
   const [replyTo, setReplyTo] = useState(null);
   const [file, setFile] = useState(null);
   const [fileData, setFileData] = useState("");
+  const [recording, setRecording] = useState(false);
+  const [recordingPreview, setRecordingPreview] = useState("");
+  const recorderRef = useRef(null);
+  const recordingChunksRef = useRef([]);
+  const recordingStreamRef = useRef(null);
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
@@ -90,6 +95,59 @@ export default function CommunityChat({ currentMemberId }) {
     } catch { setError("Não foi possível ler o arquivo."); }
   }
 
+  async function toggleRecording() {
+    if (recording) {
+      try { recorderRef.current?.stop(); } catch {}
+      setRecording(false);
+      return;
+    }
+    if (!navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === "undefined") {
+      setError("Seu navegador não oferece suporte à gravação de áudio. Você pode anexar um arquivo de áudio.");
+      return;
+    }
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      recordingStreamRef.current = stream;
+      recordingChunksRef.current = [];
+      const preferredType = ["audio/webm;codecs=opus", "audio/webm", "audio/mp4"].find(type => MediaRecorder.isTypeSupported?.(type));
+      const recorder = preferredType ? new MediaRecorder(stream, { mimeType: preferredType }) : new MediaRecorder(stream);
+      recorderRef.current = recorder;
+      recorder.ondataavailable = event => { if (event.data?.size) recordingChunksRef.current.push(event.data); };
+      recorder.onerror = () => setError("Ocorreu um erro durante a gravação. Tente novamente.");
+      recorder.onstop = () => {
+        stream.getTracks().forEach(track => track.stop());
+        recordingStreamRef.current = null;
+        const blob = new Blob(recordingChunksRef.current, { type: recorder.mimeType || "audio/webm" });
+        recordingChunksRef.current = [];
+        if (!blob.size) return;
+        if (blob.size > 1_200_000) {
+          setError("O áudio passou de 1,2 MB. Grave um áudio mais curto e tente novamente.");
+          return;
+        }
+        const type = blob.type.split(";")[0];
+        if (!["audio/webm", "audio/mp4", "audio/ogg", "audio/wav", "audio/mpeg"].includes(type)) {
+          setError("O formato de áudio gerado não é compatível neste navegador.");
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = () => {
+          const data = String(reader.result || "");
+          setFile({ name: "audio-gravado." + (type === "audio/mp4" ? "m4a" : type === "audio/ogg" ? "ogg" : type === "audio/wav" ? "wav" : type === "audio/mpeg" ? "mp3" : "webm"), type });
+          setFileData(data);
+          setRecordingPreview(data);
+          setError("");
+        };
+        reader.onerror = () => setError("Não foi possível preparar o áudio gravado.");
+        reader.readAsDataURL(blob);
+      };
+      recorder.start();
+      setRecording(true);
+      setError("");
+    } catch (e) {
+      setError(e?.name === "NotAllowedError" ? "Permita o acesso ao microfone para gravar um áudio." : "Não foi possível iniciar a gravação. Verifique o microfone e tente novamente.");
+    }
+  }
+
   async function send(event) {
     event.preventDefault();
     if ((!draft.trim() && !fileData) || sending) return;
@@ -101,7 +159,7 @@ export default function CommunityChat({ currentMemberId }) {
       const newMessage = data.message;
       setMessages(old => [...old, newMessage].slice(-150));
       lastId.current = Math.max(lastId.current, Number(newMessage.id));
-      setDraft(""); setFile(null); setFileData(""); setReplyTo(null);
+      setDraft(""); setFile(null); setFileData(""); setRecordingPreview(""); setReplyTo(null);
       if (inputRef.current) inputRef.current.value = "";
     } catch (e) { setError(e.message || "Não foi possível enviar a mensagem."); }
     finally { setSending(false); }
@@ -129,9 +187,10 @@ export default function CommunityChat({ currentMemberId }) {
     {error && <div className="community-error" role="status">{error}</div>}
     <form className="community-composer" onSubmit={send}>
       {replyTo && <div className="community-reply-preview"><div><strong>Respondendo a {replyTo.name}</strong><span>{replyTo.message}</span></div><button type="button" onClick={() => setReplyTo(null)} aria-label="Cancelar resposta">×</button></div>}
-      {file && <div className="community-file-preview"><span>{file.type.startsWith("image/") ? "Imagem" : file.type.startsWith("video/") ? "Vídeo" : "Áudio"} selecionado: {file.name}</span><button type="button" onClick={() => { setFile(null); setFileData(""); if (inputRef.current) inputRef.current.value = ""; }} aria-label="Remover anexo">×</button></div>}
+      {file && <div className="community-file-preview"><span>{recordingPreview ? "Áudio gravado pronto para enviar" : (file.type.startsWith("image/") ? "Imagem" : file.type.startsWith("video/") ? "Vídeo" : "Áudio") + " selecionado: " + file.name}</span><button type="button" onClick={() => { setFile(null); setFileData(""); setRecordingPreview(""); if (inputRef.current) inputRef.current.value = ""; }} aria-label="Remover anexo">×</button></div>}
+      {recordingPreview && <audio className="community-audio community-recording-preview" src={recordingPreview} controls preload="metadata" />}
       <textarea value={draft} onChange={e => setDraft(e.target.value)} maxLength={2000} placeholder="Escreva para a comunidade…" rows={2} aria-label="Mensagem" />
-      <div className="community-composer-bottom"><div className="community-attach-group"><label className="community-attach" title="Anexar imagem, vídeo ou áudio"><input ref={inputRef} type="file" accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,audio/mpeg,audio/mp4,audio/ogg,audio/webm,audio/wav" onChange={selectFile} /><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="m21.4 11.1-8.9 8.9a5.5 5.5 0 0 1-7.8-7.8l9.2-9.1a3.7 3.7 0 0 1 5.2 5.2l-9.2 9.1a1.9 1.9 0 0 1-2.6-2.6l8.6-8.6"/></svg><span>Anexar mídia</span></label><span className="community-size-note">Até 1,2 MB por arquivo</span></div><button className="community-send" type="submit" disabled={sending || (!draft.trim() && !fileData)}>{sending ? "Enviando…" : "Enviar"} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></button></div>
+      <div className="community-composer-bottom"><div className="community-attach-group"><button className={"community-attach community-record-button" + (recording ? " is-recording" : "")} type="button" onClick={toggleRecording} aria-label={recording ? "Finalizar gravação" : "Gravar áudio"} title={recording ? "Finalizar gravação" : "Gravar áudio"} disabled={sending}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3m-4 0h8"/></svg><span>{recording ? "Finalizar" : "Gravar áudio"}</span></button><label className="community-attach" title="Anexar imagem, vídeo ou áudio"><input ref={inputRef} type="file" accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,audio/mpeg,audio/mp4,audio/ogg,audio/webm,audio/wav" onChange={selectFile} /><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="m21.4 11.1-8.9 8.9a5.5 5.5 0 0 1-7.8-7.8l9.2-9.1a3.7 3.7 0 0 1 5.2 5.2l-9.2 9.1a1.9 1.9 0 0 1-2.6-2.6l8.6-8.6"/></svg><span>Anexar mídia</span></label><span className="community-size-note">Até 1,2 MB por arquivo</span></div><button className="community-send" type="submit" disabled={sending || recording || (!draft.trim() && !fileData)}>{sending ? "Enviando…" : "Enviar"} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></button></div>
     </form>
   </section>
   <aside className={"community-members-panel" + (membersOpen ? " is-open" : "")}>
