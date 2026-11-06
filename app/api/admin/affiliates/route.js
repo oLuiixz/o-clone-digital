@@ -12,7 +12,7 @@ export async function GET() {
   try {
     const sql = getDatabase();
     const affiliates = await sql`
-      SELECT a.id, a.code, a.status, a.commission_percent, a.created_at,
+      SELECT a.id, a.code, a.status, a.commission_percent, a.syncpay_recipient_id, a.created_at,
              m.email, m.display_name,
              (SELECT count(*)::int FROM affiliate_clicks c WHERE c.affiliate_id = a.id) AS clicks,
              (SELECT count(*)::int FROM affiliate_commissions c WHERE c.affiliate_id = a.id AND c.status <> 'reversed') AS sales,
@@ -40,7 +40,8 @@ export async function PATCH(request) {
   if (!Number.isFinite(commission) || commission < 0 || commission > 100) return NextResponse.json({ error: "Comissão deve ficar entre 0% e 100%." }, { status: 400 });
   try {
     const sql = getDatabase();
-    const before = await sql`SELECT a.status, m.id AS account_id, m.email, m.display_name FROM affiliates a JOIN member_accounts m ON m.id = a.account_id WHERE a.id = ${id} LIMIT 1`;
+    const before = await sql`SELECT a.status, a.syncpay_recipient_id, m.id AS account_id, m.email, m.display_name FROM affiliates a JOIN member_accounts m ON m.id = a.account_id WHERE a.id = ${id} LIMIT 1`;
+    if (status === "approved" && !String(before[0]?.syncpay_recipient_id || "").trim()) return NextResponse.json({ error: "Cadastre e valide o identificador recebedor SyncPay antes de aprovar este afiliado." }, { status: 409 });
     const rows = await sql`
       UPDATE affiliates SET status = ${status}, commission_percent = ${commission}, updated_at = now()
       WHERE id = ${id}

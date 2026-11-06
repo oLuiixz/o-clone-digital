@@ -24,7 +24,7 @@ export default function AffiliateCheckoutLink({ checkoutUrl }) {
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Não foi possível registrar a indicação.");
-      window.location.href = checkoutUrl;
+      window.location.href = "/checkout/afiliado";
     } catch (e) { setError(e.message || "Não foi possível registrar a indicação."); }
     finally { setBusy(false); }
   }

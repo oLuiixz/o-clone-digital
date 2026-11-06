@@ -11,7 +11,7 @@ export async function GET() {
   if (!/^[a-z0-9-]{3,40}$/.test(code)) return NextResponse.json({ hasReferral: false });
   try {
     const sql = getDatabase();
-    const rows = await sql`SELECT code FROM affiliates WHERE lower(code) = ${code} AND status = 'approved' LIMIT 1`;
+    const rows = await sql`SELECT code FROM affiliates WHERE lower(code) = ${code} AND status = 'approved' AND syncpay_recipient_id IS NOT NULL AND syncpay_recipient_id <> '' LIMIT 1`;
     return NextResponse.json({ hasReferral: rows.length > 0, code: rows[0]?.code || null });
   } catch {
     return NextResponse.json({ hasReferral: false });
@@ -29,7 +29,7 @@ export async function POST(request) {
   if (!/^[a-z0-9-]{3,40}$/.test(code)) return NextResponse.json({ error: "Link de indicação inválido." }, { status: 400 });
   try {
     const sql = getDatabase();
-    const affiliate = await sql`SELECT id FROM affiliates WHERE lower(code) = ${code} AND status = 'approved' LIMIT 1`;
+    const affiliate = await sql`SELECT id FROM affiliates WHERE lower(code) = ${code} AND status = 'approved' AND syncpay_recipient_id IS NOT NULL AND syncpay_recipient_id <> '' LIMIT 1`;
     if (!affiliate.length) return NextResponse.json({ error: "Este link de indicação não está ativo." }, { status: 400 });
     await sql`INSERT INTO affiliate_attributions (affiliate_id, customer_email, expires_at)
       VALUES (${affiliate[0].id}, ${email}, now() + interval '30 days')`;
