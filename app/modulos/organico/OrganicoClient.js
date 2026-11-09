@@ -1,6 +1,7 @@
 "use client";
 import {useEffect,useState} from "react";
-import Link from "next/link";\nimport ModuleCompletion from "../../components/ModuleCompletion";
+import Link from "next/link";
+import ModuleCompletion from "../../components/ModuleCompletion";
 import "../vibe-coding/vibe-coding.css";
 import "./lesson-layout.css";
 
