@@ -1840,3 +1840,15 @@ body{transition:background-color .18s ease,color .18s ease}
 :root[data-theme="light"] .rs-page :where(.rs-hero-copy>p,.rs-hero-tags span){color:#f0f2f6}
 :root[data-theme="light"] .vc-page :where(.vc-count b,.vc-head h2,.vc-tools h2,.vc-lesson-body h2){color:var(--text)}
 @media(prefers-reduced-motion:reduce){body{transition:none}}
+
+
+/* Correção: manter o texto do botão de suporte legível sobre a cor de destaque escolhida. */
+.help-support-link,
+.help-support-link:visited,
+.help-support-link:hover,
+.help-support-link:focus-visible {
+  color: #171b22 !important;
+  -webkit-text-fill-color: #171b22;
+  font-weight: 800;
+  text-decoration: none;
+}
