@@ -1807,3 +1807,36 @@ body{font-feature-settings:"ss01" on,"cv11" on}
     object-fit: contain;
   }
 }
+
+
+/* O Clone Digital — sistema global de temas e identidade visual.
+   Todos os módulos, páginas, ferramentas e áreas administrativas consomem estes tokens. */
+:root{
+  color-scheme:dark;--bg:#090a0c;--panel:#101216;--surface:#14171c;--surface-soft:#191d23;--surface-hover:#20252c;--card:#12151a;--line:#292e36;--border:var(--line);--text:#f3f4f6;--text-strong:#f7f8fa;--text-secondary:#a2a9b3;--muted:#858d98;--accent-dark:color-mix(in srgb,var(--accent) 78%,#000);--focus-ring:color-mix(in srgb,var(--accent) 38%,transparent);--control-bg:var(--panel);--control-text:var(--text);--control-border:var(--line);--success:#20b981;--warning:#f4b740;--danger:#ef5968;--info:#5799f7;--radius-sm:9px;--radius-md:13px;--radius-lg:18px;--radius-xl:24px;--shadow-card:0 12px 32px rgba(0,0,0,.12)
+}
+:root[data-theme="light"]{
+  color-scheme:light;--bg:#f3f5f8;--panel:#fff;--surface:#fff;--surface-soft:#f8f9fb;--surface-hover:#edf0f4;--card:#fff;--line:#dfe3e9;--border:var(--line);--text:#20242b;--text-strong:#171b22;--text-secondary:#596270;--muted:#707987;--accent-dark:color-mix(in srgb,var(--accent) 78%,#000);--focus-ring:color-mix(in srgb,var(--accent) 28%,transparent);--control-bg:#fff;--control-text:var(--text);--control-border:var(--line);--shadow-card:0 12px 32px rgba(27,35,48,.06)
+}
+html,body{background:var(--bg);color:var(--text)}
+body{transition:background-color .18s ease,color .18s ease}
+:where(button,input,select,textarea){color:var(--control-text)}
+:where(input,select,textarea){accent-color:var(--accent)}
+:where(button,a,[role="button"],input,select,textarea):focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+:where(.module-page,.estrutura-dark-page,.vc-page,.rs-page,.tools-page,.settings-page,.community-page,.admin-page){color:var(--text)}
+:where(.module-page,.vc-page,.rs-page,.tools-page,.settings-page,.community-page,.admin-page) :where(.module-content-card,.vc-card,.vc-lesson,.vc-course,.vc-course-content,.rs-curriculum,.rs-lesson-detail,.settings-card,.tool-card,.community-card,.admin-card){background-color:var(--surface);border-color:var(--line);color:var(--text)}
+:where(.module-page,.vc-page,.rs-page,.tools-page,.settings-page,.community-page,.admin-page) :where(input,select,textarea){background-color:var(--control-bg);border-color:var(--control-border);color:var(--control-text)}
+:where(.module-page,.vc-page,.rs-page,.tools-page,.settings-page,.community-page,.admin-page) :where(p,small,.muted,.module-intro,.vc-hero p,.rs-section-intro p){color:var(--text-secondary)}
+:where(.primary-button,.settings-primary,.vc-actions .vc-primary,.rs-button-primary){background:var(--accent);border-color:var(--accent)}
+:where(.module-page,.vc-page,.rs-page) :where(.module-section-eyebrow,.vc-hero small,.vc-lesson-body>small,.rs-eyebrow,.rs-kicker,.rs-section-kicker){color:var(--accent)}
+:root[data-theme="light"] :where(.estrutura-dark-page,.vc-page,.rs-page){background:var(--bg)!important;color:var(--text)!important}
+:root[data-theme="light"] .estrutura-dark-page :where(.module-hero,.module-content-card,.estrutura-dark-index,.estrutura-dark-article,.dark-resource-card){background:var(--surface)!important;border-color:var(--line)!important;color:var(--text)!important}
+:root[data-theme="light"] .estrutura-dark-page :where(h1,h2,h3,b,strong,label,.estrutura-dark-lesson){color:var(--text)}
+:root[data-theme="light"] .estrutura-dark-page :where(p,small,.module-intro,.module-breadcrumb,.estrutura-dark-lesson small){color:var(--text-secondary)}
+:root[data-theme="light"] .estrutura-dark-page input{background:var(--control-bg)!important;color:var(--control-text)!important;border-color:var(--line)!important}
+:root[data-theme="light"] .vc-page :where(.vc-art,.vc-codebar,.vc-lesson-nav,.vc-prompt>div,.vc-tool,.vc-module,.vc-search){background:var(--surface)!important;color:var(--text)!important;border-color:var(--line)!important}
+:root[data-theme="light"] .vc-page .vc-art :where(pre,b,em,small){color:var(--text-secondary)}
+:root[data-theme="light"] .rs-page :where(.rs-hero,.rs-lesson-banner){color:#fff}
+:root[data-theme="light"] .rs-page .rs-hero-shade{background:linear-gradient(90deg,rgba(7,8,13,.94) 0%,rgba(7,8,13,.78) 48%,rgba(7,8,13,.18) 100%),linear-gradient(0deg,rgba(7,8,13,.5),transparent 65%)}
+:root[data-theme="light"] .rs-page :where(.rs-hero-copy>p,.rs-hero-tags span){color:#f0f2f6}
+:root[data-theme="light"] .vc-page :where(.vc-count b,.vc-head h2,.vc-tools h2,.vc-lesson-body h2){color:var(--text)}
+@media(prefers-reduced-motion:reduce){body{transition:none}}
