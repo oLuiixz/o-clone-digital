@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getCurrentMember, getDatabase } from "../../../../../lib/member-auth";
+import { getCurrentMember, getDatabase } from "../../../../lib/member-auth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
