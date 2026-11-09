@@ -9,6 +9,8 @@ export async function POST() {
   if (!member) return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
   try {
     const sql = getDatabase();
+    const lessonRows = await sql`SELECT count(*)::int AS total FROM member_lesson_progress WHERE account_id = ${member.id} AND lesson_key LIKE 'clonagem-%' AND completed = true`;
+    if ((lessonRows[0]?.total || 0) < 21) return NextResponse.json({ error: "Conclua todas as 21 aulas antes de finalizar este módulo." }, { status: 409 });
     await sql`
       INSERT INTO member_module_progress (account_id, module_slug, completed, completed_at, updated_at)
       VALUES (${member.id}, 'clonagem-de-oferta', true, now(), now())
