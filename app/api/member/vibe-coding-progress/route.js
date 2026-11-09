@@ -24,13 +24,11 @@ export async function GET() {
 
   try {
     const sql = getDatabase();
-    const rows = await sql`
-      SELECT lesson_key
-      FROM member_lesson_progress
-      WHERE account_id = ${member.id} AND completed = true
-      ORDER BY lesson_key
-    `;
-    return NextResponse.json({ completed: rows.map((row) => row.lesson_key) }, {
+    const [rows, moduleRows] = await Promise.all([
+      sql`SELECT lesson_key FROM member_lesson_progress WHERE account_id = ${member.id} AND completed = true ORDER BY lesson_key`,
+      sql`SELECT completed FROM member_module_progress WHERE account_id = ${member.id} AND module_slug = 'vibe-coding' LIMIT 1`,
+    ]);
+    return NextResponse.json({ completed: rows.map((row) => row.lesson_key), moduleCompleted: moduleRows[0]?.completed === true }, {
       headers: { "Cache-Control": "no-store, max-age=0" },
     });
   } catch (error) {
@@ -76,22 +74,6 @@ export async function PUT(request) {
         updated_at = now()
     `;
 
-    const allLessonsCompleted = completed.length === TOTAL_LESSONS;
-    await sql`
-      INSERT INTO member_module_progress (account_id, module_slug, completed, completed_at, updated_at)
-      VALUES (
-        ${member.id},
-        'vibe-coding',
-        ${allLessonsCompleted},
-        CASE WHEN ${allLessonsCompleted} THEN now() ELSE NULL END,
-        now()
-      )
-      ON CONFLICT (account_id, module_slug) DO UPDATE SET
-        completed = EXCLUDED.completed,
-        completed_at = EXCLUDED.completed_at,
-        updated_at = now()
-    `;
-
     const persisted = await sql`
       SELECT lesson_key
       FROM member_lesson_progress
@@ -108,7 +90,6 @@ export async function PUT(request) {
       completed: persistedKeys,
       completedCount: persistedKeys.length,
       totalLessons: TOTAL_LESSONS,
-      moduleCompleted: allLessonsCompleted,
     }, { headers: { "Cache-Control": "no-store, max-age=0" } });
   } catch (error) {
     console.error("Vibe Coding progress save failed", error instanceof Error ? error.message : "unknown_error");
