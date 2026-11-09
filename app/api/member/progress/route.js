@@ -28,11 +28,25 @@ function validSlugs(value) {
     : null;
 }
 
+function logDatabaseContext(action) {
+  try {
+    const url = new URL(process.env.DATABASE_URL || "");
+    console.info("[member-progress]", {
+      action,
+      databaseHost: url.hostname,
+      databaseName: url.pathname.replace(/^\//, "").split("?")[0],
+    });
+  } catch {
+    console.error("[member-progress] DATABASE_URL ausente ou inválida", { action });
+  }
+}
+
 export async function GET() {
   const member = await getCurrentMember();
   if (!member) return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
 
   try {
+    logDatabaseContext("GET");
     const sql = getDatabase();
     const [progress, sync] = await Promise.all([
       sql`SELECT module_slug FROM member_module_progress WHERE account_id = ${member.id} AND completed = true`,
@@ -41,7 +55,7 @@ export async function GET() {
     return NextResponse.json({
       completed: progress.map((row) => row.module_slug),
       legacyImported: sync.length > 0,
-    });
+    }, { headers: { "Cache-Control": "no-store, max-age=0" } });
   } catch (error) {
     console.error("Member progress read failed", error instanceof Error ? error.message : "unknown_error");
     return NextResponse.json({ error: "Não foi possível carregar seu progresso." }, { status: 500 });
@@ -61,6 +75,7 @@ export async function PUT(request) {
   if (!slugs) return NextResponse.json({ error: "Lista de progresso inválida." }, { status: 400 });
 
   try {
+    logDatabaseContext(body.legacyImport === true ? "PUT_LEGACY" : "PUT");
     const sql = getDatabase();
 
     if (body.legacyImport === true) {
@@ -107,7 +122,27 @@ export async function PUT(request) {
         updated_at = now()
     `;
 
-    return NextResponse.json({ ok: true, completed: slugs });
+    const persisted = await sql`
+      SELECT module_slug
+      FROM member_module_progress
+      WHERE account_id = ${member.id} AND completed = true
+      ORDER BY module_slug
+    `;
+    const persistedSlugs = persisted.map((row) => row.module_slug);
+    const missing = slugs.filter((slug) => !persistedSlugs.includes(slug));
+
+    if (missing.length > 0) {
+      console.error("[member-progress] Persistência incompleta", {
+        requestedCount: slugs.length,
+        persistedCount: persistedSlugs.length,
+        missing,
+      });
+      return NextResponse.json({ error: "O banco não confirmou o salvamento do progresso. Tente novamente." }, { status: 500 });
+    }
+
+    return NextResponse.json({ ok: true, completed: persistedSlugs }, {
+      headers: { "Cache-Control": "no-store, max-age=0" },
+    });
   } catch (error) {
     console.error("Member progress save failed", error instanceof Error ? error.message : "unknown_error");
     return NextResponse.json({ error: "Não foi possível salvar seu progresso." }, { status: 500 });
