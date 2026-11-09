@@ -209,14 +209,16 @@ export default function ModuleProgress({ modules }) {
           const isMain = track.id === "estrutura-dark";
           const children = isMain ? mainModules : track.standalone ? modules.filter((module) => module.slug === track.slug) : [];
           const count = isMain ? children.length : track.standalone ? children.length : track.items.length;
-          const countLabel = isMain || track.standalone ? `${String(count).padStart(2, "0")} módulo${count === 1 ? "" : "s"}` : `${String(count).padStart(2, "0")} tópicos previstos`;
+          const hasTrackedModules = isMain || track.standalone;
+          const countLabel = hasTrackedModules ? `${String(count).padStart(2, "0")} módulo${count === 1 ? "" : "s"}` : `${String(count).padStart(2, "0")} tópicos previstos`;
           const doneCount = children.filter((module) => completed.includes(module.number)).length;
+          const progressPercent = count ? Math.round((doneCount / count) * 100) : 0;
           return <a className={`learning-track-card learning-track-compact ${track.tone === "featured" ? "learning-track-featured" : ""} ${track.tone === "special" ? "learning-track-special" : ""}`} href={isMain ? "/modulos/estrutura-dark" : track.standalone ? `/modulos/${track.slug}` : "#"} key={track.id} onClick={(event) => { if (track.comingSoon) event.preventDefault(); }}>
             <div className="learning-track-top"><span className="learning-track-number">{track.number}</span><span className="learning-track-eyebrow">{track.eyebrow}</span></div>
             <h3>{track.title}</h3>
             <p className="learning-track-description">{track.description}</p>
-            <div className="learning-track-meta"><span className="learning-track-count">{countLabel}</span>{isMain && <span className="learning-track-done">{doneCount}/{count} concluídos</span>}{track.comingSoon && <span className="learning-coming-soon">Em organização</span>}</div>
-            {isMain && <div className="learning-track-progress"><span style={{ width: (children.length ? Math.round(doneCount / children.length * 100) : 0) + "%" }} /></div>}
+            <div className="learning-track-meta"><span className="learning-track-count">{countLabel}</span>{hasTrackedModules && <span className="learning-track-done">{doneCount}/{count} concluídos</span>}{track.comingSoon && <span className="learning-coming-soon">Em organização</span>}</div>
+            {hasTrackedModules && <div className="learning-track-progress"><span style={{ width: progressPercent + "%" }} /></div>}
             <div className="learning-track-open">{track.comingSoon ? "Conteúdo em breve" : "Explorar trilha"} <span>↗</span></div>
           </a>;
         })}
