@@ -28,3 +28,13 @@
 .vc-video-cover-label b{font-size:clamp(16px,2.4vw,24px);letter-spacing:-.03em}
 .vc-video-cover-label small{color:#ffffffbd;font-size:10px;font-weight:800;letter-spacing:.14em}
 @media(max-width:620px){.vc-video-play{width:54px;height:54px}.vc-video-play svg{width:23px;height:23px}.vc-video-cover-label{max-width:88%}}
+
+/* Confirmação de conclusão: só aparece quando todas as aulas estão concluídas. */
+.vc-module-complete{display:grid;gap:12px;margin-top:24px;padding:20px;border:1px solid color-mix(in srgb,var(--accent) 34%,var(--line));border-radius:16px;background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 9%,var(--surface)),var(--surface));box-shadow:0 12px 30px rgba(0,0,0,.08)}
+.vc-module-complete:before{content:"ETAPA FINALIZADA";width:max-content;padding:5px 8px;border:1px solid color-mix(in srgb,var(--accent) 35%,var(--line));border-radius:999px;color:var(--accent);font-size:9px;font-weight:850;letter-spacing:.12em}
+.vc-module-complete button{display:inline-flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:50px;padding:13px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--accent);color:#101510;font-size:13px;font-weight:850;letter-spacing:-.01em;cursor:pointer;transition:transform .18s ease,filter .18s ease,box-shadow .18s ease}
+.vc-module-complete button:hover:not(:disabled){transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 8px 22px color-mix(in srgb,var(--accent) 24%,transparent)}
+.vc-module-complete button:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 50%,white);outline-offset:3px}
+.vc-module-complete button:disabled{opacity:.68;cursor:not-allowed}
+.vc-module-complete p{margin:0;color:var(--muted);font-size:12px;line-height:1.6}
+@media(min-width:640px){.vc-module-complete{grid-template-columns:minmax(0,1fr) auto;align-items:center}.vc-module-complete:before{grid-column:1/-1}.vc-module-complete button{width:auto;min-width:260px;grid-column:2;grid-row:2}.vc-module-complete p{grid-column:1;grid-row:2}}
