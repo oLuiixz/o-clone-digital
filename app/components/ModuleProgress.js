@@ -118,16 +118,48 @@ const tracks = [
 export default function ModuleProgress({ modules }) {
   const [completed, setCompleted] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const [remoteReady, setRemoteReady] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
+  const saveQueue = useRef(Promise.resolve());
 
   useEffect(() => {
-    try {
-      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-      const validNumbers = new Set(modules.map((module) => module.number));
-      if (Array.isArray(saved)) setCompleted([...new Set(saved.filter((number) => validNumbers.has(number)))]);
-    } catch {
-      setCompleted([]);
+    let active = true;
+    async function loadProgress() {
+      let legacyNumbers = [];
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+        const validNumbers = new Set(modules.map((module) => module.number));
+        if (Array.isArray(saved)) legacyNumbers = [...new Set(saved.filter((number) => validNumbers.has(number)))];
+      } catch {}
+      try {
+        let response = await fetch("/api/member/progress", { cache: "no-store" });
+        if (!response.ok) throw new Error("progress_load_failed");
+        let remote = await response.json();
+        if (!remote.legacyImported && legacyNumbers.length > 0) {
+          const legacySlugs = legacyNumbers.map((number) => modules.find((module) => module.number === number)?.slug).filter(Boolean);
+          const importResponse = await fetch("/api/member/progress", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ completed: legacySlugs, legacyImport: true }),
+          });
+          if (importResponse.ok) {
+            response = await fetch("/api/member/progress", { cache: "no-store" });
+            if (response.ok) remote = await response.json();
+          }
+        }
+        if (!active) return;
+        const completedNumbers = remote.completed.map((slug) => modules.find((module) => module.slug === slug)?.number).filter(Boolean);
+        setCompleted([...new Set(completedNumbers)]);
+        setRemoteReady(true);
+      } catch {
+        if (!active) return;
+        setCompleted(legacyNumbers);
+      } finally {
+        if (active) setLoaded(true);
+      }
     }
-    setLoaded(true);
+    loadProgress();
+    return () => { active = false; };
   }, [modules]);
 
   useEffect(() => {
@@ -135,10 +167,27 @@ export default function ModuleProgress({ modules }) {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(completed)); } catch {}
   }, [completed, loaded]);
 
-  function toggle(number) {
-    setCompleted((current) => current.includes(number) ? current.filter((item) => item !== number) : [...current, number]);
-  }
+  useEffect(() => {
+    if (!loaded || !remoteReady || !hasInteracted) return;
+    const slugs = completed.map((number) => modules.find((module) => module.number === number)?.slug).filter(Boolean);
+    const payload = JSON.stringify({ completed: slugs });
+    saveQueue.current = saveQueue.current
+      .catch(() => {})
+      .then(() => fetch("/api/member/progress", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: payload,
+      }))
+      .then((response) => { if (!response.ok) throw new Error("progress_save_failed"); })
+      .catch((error) => console.error("Não foi possível sincronizar o progresso.", error));
+  }, [completed, loaded, remoteReady, hasInteracted, modules]);
 
+  function toggle(number) {
+    setHasInteracted(true);
+    setCompleted((current) => current.includes(number)
+      ? current.filter((item) => item !== number)
+      : [...current, number]);
+  }
   const percent = modules.length ? Math.round((completed.length / modules.length) * 100) : 0;
   const mainModules = tracks[0].modules.map((slug) => modules.find((module) => module.slug === slug)).filter(Boolean);
   const standaloneModules = tracks.filter((track) => track.standalone).map((track) => modules.find((module) => module.slug === track.slug)).filter(Boolean);
