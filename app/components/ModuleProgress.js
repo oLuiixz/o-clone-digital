@@ -147,9 +147,9 @@ export default function ModuleProgress({ modules }) {
 
   return <>
     <section className="stats-grid" id="progresso">
-      <div className="stat-card"><span className="stat-label">SEU PROGRESSO</span><div className="stat-main">{loaded ? percent : 0}<span>%</span></div><div className="stat-foot"><span className="mini-track"><i style={{ width: (loaded ? percent : 0) + "%" }} /></span>{completed.length} de {modules.length} aulas/módulos marcados</div></div>
-      <div className="stat-card"><span className="stat-label">TRILHAS ORGANIZADAS</span><div className="stat-main">07<span className="stat-unit"> trilhas</span></div><div className="stat-foot">Escolha um caminho e avance por etapas</div></div>
-      <div className="stat-card"><span className="stat-label">ESTRUTURA DARK</span><div className="stat-main">{completedTracked}<span className="stat-unit"> / {allTrackedModules.length}</span></div><div className="stat-foot">Etapas concluídas na trilha principal e extras</div></div>
+      <div className="stat-card"><span className="stat-label">SEU PROGRESSO</span><div className="stat-main">{loaded ? percent : 0}<span>%</span></div><div className="stat-foot"><span className="mini-track"><i style={{ width: (loaded ? percent : 0) + "%" }} /></span>{completed.length} de {modules.length} módulos concluídos</div></div>
+      <div className="stat-card"><span className="stat-label">TRILHAS E ESPECIALIZAÇÕES</span><div className="stat-main">{tracks.length}<span className="stat-unit"> trilhas</span></div><div className="stat-foot">Caminhos disponíveis e conteúdos em organização</div></div>
+      <div className="stat-card"><span className="stat-label">MÓDULOS ACOMPANHADOS</span><div className="stat-main">{completedTracked}<span className="stat-unit"> / {allTrackedModules.length}</span></div><div className="stat-foot">Conclusões na trilha principal e nas especializações</div></div>
     </section>
 
     <section className="section-block modules-section organized-learning" id="modulos">
