@@ -10,7 +10,7 @@ export async function POST() {
 
   try {
     const sql = getDatabase();
-    const lessonRows = await sql`SELECT count(*)::int AS total FROM member_lesson_progress WHERE account_id = ${member.id} AND lesson_key LIKE '0-%' OR account_id = ${member.id} AND lesson_key LIKE '1-%' OR account_id = ${member.id} AND lesson_key LIKE '2-%' OR account_id = ${member.id} AND lesson_key LIKE '3-%' OR account_id = ${member.id} AND lesson_key LIKE '4-%' OR account_id = ${member.id} AND lesson_key LIKE '5-%' OR account_id = ${member.id} AND lesson_key LIKE '6-%' OR account_id = ${member.id} AND lesson_key LIKE '7-%' AND completed = true`;
+    const lessonRows = await sql`SELECT count(*)::int AS total FROM member_lesson_progress WHERE account_id = ${member.id} AND completed = true AND lesson_key ~ '^(0|1|2|3|4|5|6|7|8|9|10|11)-[0-9]+$'`;
     if ((lessonRows[0]?.total || 0) < 50) return NextResponse.json({ error: "Conclua todas as 50 aulas antes de finalizar este módulo." }, { status: 409 });
     await sql`
       INSERT INTO member_module_progress (account_id, module_slug, completed, completed_at, updated_at)
