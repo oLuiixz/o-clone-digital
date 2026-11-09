@@ -58,7 +58,14 @@ export async function PUT(request) {
     const isLive = Boolean(videoUrl);
     if (isLive && !wasLive) {
       try {
-        const members = await sql`SELECT id, email, display_name FROM member_accounts WHERE email IS NOT NULL AND email <> ''`;
+        const members = await sql`
+          SELECT DISTINCT a.id, a.email, a.display_name
+          FROM member_accounts a
+          JOIN entitlements e ON lower(e.customer_email) = lower(a.email) AND e.status = 'active'
+          JOIN orders o ON o.id = e.order_id AND o.status = 'approved'
+          JOIN products p ON p.id = e.product_id AND p.is_active = true
+          WHERE a.email IS NOT NULL AND a.email <> '' AND a.email_verified_at IS NOT NULL
+        `;
         const title = "A transmissão ao vivo começou!";
         const textBody = "A live do O Clone Digital já começou. Entre agora para acompanhar a transmissão.";
         const target = "https://oclonedigital.xyz/ao-vivo";
@@ -68,8 +75,29 @@ export async function PUT(request) {
         }
         if (process.env.VAPID_PUBLIC_KEY && process.env.VAPID_PRIVATE_KEY && process.env.VAPID_SUBJECT) {
           webpush.setVapidDetails(process.env.VAPID_SUBJECT, process.env.VAPID_PUBLIC_KEY, process.env.VAPID_PRIVATE_KEY);
-          const subs = await sql`SELECT s.endpoint, s.p256dh, s.auth FROM member_push_subscriptions s`;
-          await Promise.allSettled(subs.map(sub => webpush.sendNotification({ endpoint: sub.endpoint, keys: { p256dh: sub.p256dh, auth: sub.auth } }, JSON.stringify({ title, body: textBody, url: "/ao-vivo", tag: "live-started" }))));
+          const subs = await sql`
+            SELECT DISTINCT s.endpoint, s.p256dh, s.auth
+            FROM member_push_subscriptions s
+            JOIN member_accounts a ON a.id = s.account_id
+            JOIN entitlements e ON lower(e.customer_email) = lower(a.email) AND e.status = 'active'
+            JOIN orders o ON o.id = e.order_id AND o.status = 'approved'
+            JOIN products p ON p.id = e.product_id AND p.is_active = true
+            WHERE a.email_verified_at IS NOT NULL
+          `;
+          await Promise.allSettled(subs.map(async sub => {
+            try {
+              await webpush.sendNotification(
+                { endpoint: sub.endpoint, keys: { p256dh: sub.p256dh, auth: sub.auth } },
+                JSON.stringify({ title, body: textBody, url: "/ao-vivo", tag: "live-started" }),
+                { TTL: 3600, urgency: "high" }
+              );
+            } catch (pushError) {
+              if (pushError?.statusCode === 404 || pushError?.statusCode === 410) {
+                await sql`DELETE FROM member_push_subscriptions WHERE endpoint = ${sub.endpoint}`;
+              }
+              throw pushError;
+            }
+          }));
         }
       } catch (notifyError) {
         console.error("Live start notifications failed", notifyError instanceof Error ? notifyError.message : "unknown_error");
