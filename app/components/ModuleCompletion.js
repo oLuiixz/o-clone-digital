@@ -12,13 +12,14 @@ export default function ModuleCompletion({ slug }) {
     let active = true;
     fetch("/api/member/progress", { cache: "no-store" })
       .then(async (response) => {
-        if (!response.ok) throw new Error("Não foi possível carregar seu progresso.");
-        return response.json();
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(data.error || "Não foi possível carregar seu progresso.");
+        return data;
       })
       .then((data) => {
         if (active) setCompleted(Array.isArray(data.completed) && data.completed.includes(slug));
       })
-      .catch(() => { if (active) setError("Não foi possível consultar seu progresso. Atualize a página."); })
+      .catch((cause) => { if (active) setError(cause.message || "Não foi possível consultar seu progresso. Atualize a página."); })
       .finally(() => { if (active) setLoading(false); });
     return () => { active = false; };
   }, [slug]);
@@ -29,8 +30,8 @@ export default function ModuleCompletion({ slug }) {
     setError("");
     try {
       const currentResponse = await fetch("/api/member/progress", { cache: "no-store" });
-      if (!currentResponse.ok) throw new Error();
-      const currentData = await currentResponse.json();
+      const currentData = await currentResponse.json().catch(() => ({}));
+      if (!currentResponse.ok) throw new Error(currentData.error || "Não foi possível consultar seu progresso.");
       const current = Array.isArray(currentData.completed) ? currentData.completed : [];
       const next = current.includes(slug)
         ? current.filter((item) => item !== slug)
@@ -40,10 +41,14 @@ export default function ModuleCompletion({ slug }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ completed: next }),
       });
-      if (!saveResponse.ok) throw new Error();
-      setCompleted(next.includes(slug));
-    } catch {
-      setError("Não foi possível salvar. Tente novamente.");
+      const savedData = await saveResponse.json().catch(() => ({}));
+      if (!saveResponse.ok || savedData.ok !== true) {
+        throw new Error(savedData.error || "O servidor não confirmou o salvamento.");
+      }
+      const saved = Array.isArray(savedData.completed) ? savedData.completed : [];
+      setCompleted(saved.includes(slug));
+    } catch (cause) {
+      setError(cause.message || "Não foi possível salvar. Tente novamente.");
     } finally {
       setSaving(false);
     }
