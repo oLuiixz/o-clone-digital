@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { getDatabase, normalizeEmail } from "../../../../lib/member-auth";
-import { createAdminOpaqueToken, hashAdminValue, writeAdminSecurityEvent } from "../../../../lib/admin-auth";
-import { sendResendEmail } from "../../../../lib/resend-email";
+import { getDatabase, normalizeEmail } from "../../../../../lib/member-auth";
+import { createAdminOpaqueToken, hashAdminValue, writeAdminSecurityEvent } from "../../../../../lib/admin-auth";
+import { sendResendEmail } from "../../../../../lib/resend-email";
 export const runtime="nodejs";
 export const dynamic="force-dynamic";
 const OWNER_EMAIL="luizfernandogxp19@gmail.com";
