@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { getDatabase } from "../../../../lib/member-auth";
-import { hashAdminPassword, hashAdminValue, writeAdminSecurityEvent, writeAdminAudit } from "../../../../lib/admin-auth";
+import { getDatabase } from "../../../../../lib/member-auth";
+import { hashAdminPassword, hashAdminValue, writeAdminSecurityEvent, writeAdminAudit } from "../../../../../lib/admin-auth";
 export const runtime="nodejs";
 export const dynamic="force-dynamic";
 const OWNER_EMAIL="luizfernandogxp19@gmail.com";
