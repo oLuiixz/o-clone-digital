@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getCurrentMember } from "../../../../../lib/member-auth";
+import { getCurrentMember } from "../../../../lib/member-auth";
 import EcommerceCourseExperience from "../EcommerceCourseExperience";
 import { ecommerceCourseModules } from "../course-data";
 
