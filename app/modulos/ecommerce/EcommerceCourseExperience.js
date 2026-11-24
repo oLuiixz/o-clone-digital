@@ -8,8 +8,13 @@ const DSERS_URL = "https://www.dsers.com/partner/2125193142631202816?origin=subs
 const STORAGE_KEY = "oclone-ecommerce-lessons-v1";
 
 function inline(text, keyPrefix) {
+  // Corrige links que vieram exportados com Markdown aninhado/escapado do DOCX.
+  const normalizedText = text.replace(
+    /\*\*\[([^\]]+)\]\s*\\?\(\s*\[(https?:\/\/[^\]]+)\]\(https?:\/\/[^)]+\)\s*\\?\)\*\*/g,
+    "[$1]($2)"
+  );
   const pattern = /(\[[^\]]+\]\(https?:\/\/[^)]+\)|\*\*[^*]+\*\*|`[^`]+`)/g;
-  return text.split(pattern).filter(Boolean).map((part, index) => {
+  return normalizedText.split(pattern).filter(Boolean).map((part, index) => {
     const key = keyPrefix + "-" + index;
     const link = part.match(/^\[([^\]]+)\]\((https?:\/\/[^)]+)\)$/);
     if (link) return <a key={key} href={link[2]} target="_blank" rel="noreferrer">{link[1]}</a>;
