@@ -79,7 +79,9 @@ function renderMarkdown(markdown, prefix) {
 function parseModule(module) {
   const lines = module.markdown.split(/\r?\n/);
   const firstHeading = lines.findIndex((line) => line.startsWith("## "));
-  const introLines = lines.slice(1, firstHeading < 0 ? lines.length : firstHeading).filter((line) => !/^\s*\*.*\*\s*$/.test(line));
+  const prefaceLines = lines.slice(1, firstHeading < 0 ? lines.length : firstHeading);
+  const tagline = prefaceLines.find((line) => /^\s*\*.*\*\s*$/.test(line))?.trim().replace(/^\*\s*|\s*\*$/g, "") || "";
+  const introLines = prefaceLines.filter((line) => !/^\s*\*.*\*\s*$/.test(line));
   const intro = introLines.join("\n").trim();
   const sections = [];
   let current = null;
