@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import ModuleCompletion from "../../../components/ModuleCompletion";
+import ModuleCompletion from "../../components/ModuleCompletion";
 
 const SHOPIFY_URL = "https://shopify.pxf.io/yqXkRD";
 const DSERS_URL = "https://www.dsers.com/partner/2125193142631202816?origin=subscription";
