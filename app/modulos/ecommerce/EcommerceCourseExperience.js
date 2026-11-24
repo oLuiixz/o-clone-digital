@@ -9,10 +9,16 @@ const STORAGE_KEY = "oclone-ecommerce-lessons-v1";
 
 function inline(text, keyPrefix) {
   // Corrige links que vieram exportados com Markdown aninhado/escapado do DOCX.
-  const normalizedText = text.replace(
-    /\*\*\[([^\]]+)\]\s*\\?\(\s*\[(https?:\/\/[^\]]+)\]\(https?:\/\/[^)]+\)\s*\\?\)\*\*/g,
-    "[$1]($2)"
-  );
+  const normalizedText = text
+    // Remove escapes inserted by DOCX/Markdown exporters.
+    .replace(/\\([\[\]()])/g, "$1")
+    // Normalize bold links before tokenizing so the link is never swallowed by **bold**.
+    .replace(/\*\*\s*(\[[^\]]+\]\(https?:\/\/[^)]+\))\s*\*\*/g, "$1")
+    // Also accept the nested-link format exported by some document editors.
+    .replace(
+      /\[([^\]]+)\]\s*\\?\(\s*\[(https?:\/\/[^\]]+)\]\(https?:\/\/[^)]+\)\s*\\?\)/g,
+      "[$1]($2)"
+    );
   const pattern = /(\[[^\]]+\]\(https?:\/\/[^)]+\)|\*\*[^*]+\*\*|`[^`]+`)/g;
   return normalizedText.split(pattern).filter(Boolean).map((part, index) => {
     const key = keyPrefix + "-" + index;
