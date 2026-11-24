@@ -92,7 +92,7 @@ function parseModule(module) {
     }
   }
   if (current) sections.push(current);
-  return { ...module, intro, lessons: sections };
+  return { ...module, subtitle: module.subtitle || tagline, intro, lessons: sections };
 }
 
 export default function EcommerceCourseExperience({ modules }) {
